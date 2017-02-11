@@ -5,6 +5,30 @@ class ScrapesController < ApplicationController
   # GET /scrapes.json
   def index
     @scrapes = Scrape.all
+    #SET STUFF UP
+    require 'open-uri'
+    online_url_for_scrape = 'http://www.parkrun.com/results/consolidatedclub/?clubNum=1537'
+    local_url_for_scrape =  'http://localhost:8000/results_Consolidated_parkrun.html'
+
+    if Rails.env.development?
+      scrape_index_source = local_url_for_scrape
+    else
+      scrape_index_source = online_url_for_scrape
+    end
+
+    # START TO GET THE INDEX PAGE
+    doc = Nokogiri::HTML(open(scrape_index_source))
+    
+
+
+
+
+
+
+
+
+
+
   end
 
   # GET /scrapes/1
