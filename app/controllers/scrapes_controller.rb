@@ -18,15 +18,36 @@ class ScrapesController < ApplicationController
 
     # START TO GET THE INDEX PAGE
     doc = Nokogiri::HTML(open(scrape_index_source))
-    
+    nok_links_for_scraping = doc.xpath('//a[contains(text(),"View full results")]')
+    @links_for_scraping = []
+    nok_links_for_scraping.each do |link|
+      puts "**** and the scrape link is #{link.attributes['href'].value}"
+      @links_for_scraping.push(link.attributes['href'].value)
+    end
+
+    # GET THE DATA FROM THE INDIVIDUAL LINKS
+    @data = []
+    @links_for_scraping.each do | slink |
+      run_identifier = slink[slink.index('results_')+8 .. slink.index('_parkrun_')-1 ]
+      slink_doc = Nokogiri::HTML(open(slink))
+      slink_doc.xpath('//tr').each do |row|
+        row.xpath('//td').each do |cell|
+          puts "cell info: #{cell.children.text}"
+        end
+      end
+      # binding.pry
 
 
+      data_set = [
+        {"parkrunner" => "Joe Blogs", "position" => "67", }, {}
+      ]
+      @data.push({run_identifier => data_set}, 'other_data' => 'like number of men etc')
+    end
 
+#  slink_doc.xpath('//tr')[0].xpath('//td')[0]
 
-
-
-
-
+    binding.pry
+    eelsfeastbuckets
 
 
   end
