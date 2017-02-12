@@ -1,0 +1,22 @@
+<%= form_for(run) do |f| %>
+  <% if run.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(run.errors.count, "error") %> prohibited this run from being saved:</h2>
+
+      <ul>
+      <% run.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :run_identifier %>
+    <%= f.text_field :run_identifier %>
+  </div>
+
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

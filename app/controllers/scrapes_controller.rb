@@ -1,5 +1,6 @@
 class ScrapesController < ApplicationController
   #before_action :set_scrape, only: [:show, :edit, :update, :destroy]
+  before_action :clear_all_results_data,  :clear_all_runs_data
 
   # GET /scrapes
   # GET /scrapes.json
@@ -28,42 +29,28 @@ class ScrapesController < ApplicationController
     # GET THE DATA FROM THE INDIVIDUAL LINKS
     @data = []
     @links_for_scraping.each do | slink |
-      run_identifier = slink[slink.index('results_')+8 .. slink.index('_parkrun_')-1 ]
+      run_identifier = Run.create(run_identifier: slink[slink.index('results_')+8 .. slink.index('_parkrun_')-1 ])
       slink_doc = Nokogiri::HTML(open(slink))
-      data_set = []
       slink_doc.xpath('//tr').each do |row|
         if row.children.length > 8  && row.children[0].children.text != '' && row.children[1].children.text != 'parkrunner'
-          row_data = { "pos"        => row.children[0].children.text,
-                       "parkrunner" => row.children[1].children.text,
-                       "time"       => row.children[2].children.text,
-                       "age_cat"    => row.children[3].children.text,
-                       "age_grade"  => row.children[4].children.text,
-                       "gender"     => row.children[5].children.text,
-                       "gender_pos" => row.children[6].children.text,
-                       "club"       => row.children[7].children.text,
-                       "note"       => row.children[8].children.text,
-                       "total"      => row.children[9].children.text}
-            data_set.push(row_data)
+            result = Result.create(
+              pos: row.children[0].children.text,
+              parkrunner: row.children[1].children.text,
+              time: row.children[2].children.text,
+              age_cat: row.children[3].children.text,
+              age_grade: row.children[4].children.text,
+              gender: row.children[5].children.text,
+              gender_pos: row.children[6].children.text,
+              club: row.children[7].children.text,
+              note: row.children[8].children.text,
+              total: row.children[9].children.text,
+              run_id: run_identifier.id
+              )
          end 
       end
-      # here is the place to do the sorting etc.
-      data_set.sort! {|x,y| y['age_grade'] <=> x['age_grade'] }
-      # then assign age grade position order
-      data_set.each_with_index do |data_row, index|
-        data_row['age_grade_pos']=1+index
-      end
-      # then sort back into order by position
-      data_set.sort! {|x,y| x['pos'].to_i <=> y['pos'].to_i }
-
-
-
-      @data.push({'run_identifier' => run_identifier, 'data' => data_set})
     end
 
-#  slink_doc.xpath('//tr')[0].xpath('//td')[0]
-
-
-
+    redirect_to :results
   end
 
   # GET /scrapes/1
@@ -122,6 +109,21 @@ class ScrapesController < ApplicationController
 
   private
     # Use callbacks to share common setup or constraints between actions.
+
+    def clear_all_results_data
+      @results = Result.all
+      if @results.any?
+        @results.each { |result| result.destroy }
+      end
+    end
+
+    def clear_all_runs_data
+      @runs = Run.all
+      if @runs.any?
+        @runs.each { |run| run.destroy }
+      end
+    end
+
     def set_scrape
       @scrape = Scrape.find(params[:id])
     end

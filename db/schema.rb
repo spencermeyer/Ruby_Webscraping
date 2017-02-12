@@ -10,7 +10,29 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170211132906) do
+ActiveRecord::Schema.define(version: 20170212101116) do
+
+  create_table "results", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.integer  "pos"
+    t.string   "parkrunner"
+    t.string   "time"
+    t.string   "age_cat"
+    t.string   "age_grade"
+    t.string   "gender"
+    t.string   "gender_pos"
+    t.string   "club"
+    t.string   "note"
+    t.integer  "total"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.integer  "run_id"
+  end
+
+  create_table "runs", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.string   "run_identifier"
+    t.datetime "created_at",     null: false
+    t.datetime "updated_at",     null: false
+  end
 
   create_table "scrapes", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string   "nullfield"
