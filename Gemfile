@@ -1,5 +1,11 @@
 source 'https://rubygems.org'
 
+# Heroku is telling me 
+#  You have not declared a Ruby version in your Gemfile.
+#        To set your Ruby version add this line to your Gemfile:
+#        ruby '2.2.6'
+#        # See https://devcenter.heroku.com/articles/ruby-versions for more information.
+
 # git_source(:github) do |repo_name|
 #   repo_name = "#{repo_name}/#{repo_name}" unless repo_name.include?("/")
 #   "https://github.com/#{repo_name}.git"
@@ -9,7 +15,8 @@ source 'https://rubygems.org'
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '~> 5.0.1'
 # Use mysql as the database for Active Record
-gem 'mysql2', '>= 0.3.18', '< 0.5'
+# gem 'mysql2', '>= 0.3.18', '< 0.5'
+gem 'pg' #  Heroku really wants pg not mysql :(
 # Use Puma as the app server
 gem 'puma', '~> 3.0'
 # Use SCSS for stylesheets
