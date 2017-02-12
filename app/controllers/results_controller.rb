@@ -4,7 +4,8 @@ class ResultsController < ApplicationController
   # GET /results
   # GET /results.json
   def index
-    @results = Result.all
+    @results = Result.eastleigh.all
+    @runs = Run.all
   end
 
   # GET /results/1

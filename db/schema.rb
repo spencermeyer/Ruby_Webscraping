@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170212101116) do
+ActiveRecord::Schema.define(version: 20170212114118) do
 
   create_table "results", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.integer  "pos"
@@ -23,9 +23,11 @@ ActiveRecord::Schema.define(version: 20170212101116) do
     t.string   "club"
     t.string   "note"
     t.integer  "total"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at",         null: false
+    t.datetime "updated_at",         null: false
     t.integer  "run_id"
+    t.integer  "age_grade_position"
+    t.integer  "age_cat_position"
   end
 
   create_table "runs", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|

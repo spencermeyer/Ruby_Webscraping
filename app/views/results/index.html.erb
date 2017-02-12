@@ -1,15 +1,33 @@
 <p id="notice"><%= notice %></p>
 
-<h1>Results</h1>
+<h1>"ParkScraper on Rails" - Results</h1>
+<h2>A timesaver for collecting all parkrun results.</h2>
+<h2>This week there were results from:<h2>
+<% @runs.each do |run| %>
+  <table>
+    <thead>
+    </thead>
+    <tbody>
+      <tr>
+      <td><%= run.run_identifier %></td>
+      </tr>
+    </tbody>
+  </table>
+<% end %>
+
+<!-- the above table seems to have made the below table go bold ? -->
 
 <table>
   <thead>
     <tr>
+      <th>Parkrun</th>
       <th>Pos</th>
       <th>Parkrunner</th>
       <th>Time</th>
       <th>Age cat</th>
+      <th>Age cat Pos</th>
       <th>Age grade</th>
+      <th>AgeGradePos</th>
       <th>Gender</th>
       <th>Gender pos</th>
       <th>Club</th>
@@ -22,19 +40,19 @@
   <tbody>
     <% @results.each do |result| %>
       <tr>
+        <td><%= @runs.where(id: result.run_id).first.run_identifier  %></td>
         <td><%= result.pos %></td>
         <td><%= result.parkrunner %></td>
         <td><%= result.time %></td>
         <td><%= result.age_cat %></td>
+        <td><%= result.age_cat_position %></td>        
         <td><%= result.age_grade %></td>
+        <td><%= result.age_grade_position %></td>       
         <td><%= result.gender %></td>
         <td><%= result.gender_pos %></td>
         <td><%= result.club %></td>
         <td><%= result.note %></td>
         <td><%= result.total %></td>
-        <td><%= link_to 'Show', result %></td>
-        <td><%= link_to 'Edit', edit_result_path(result) %></td>
-        <td><%= link_to 'Destroy', result, method: :delete, data: { confirm: 'Are you sure?' } %></td>
       </tr>
     <% end %>
   </tbody>
@@ -42,4 +60,3 @@
 
 <br>
 
-<%= link_to 'New Result', new_result_path %>

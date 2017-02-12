@@ -1,6 +1,6 @@
 class ScrapesController < ApplicationController
   #before_action :set_scrape, only: [:show, :edit, :update, :destroy]
-  before_action :clear_all_results_data,  :clear_all_runs_data
+  before_action :clear_all_data
 
   # GET /scrapes
   # GET /scrapes.json
@@ -50,6 +50,30 @@ class ScrapesController < ApplicationController
       end
     end
 
+    # now would be a good time to assign age grade positions.
+    @runs = Run.all
+    @runs.each do |run|
+      puts "ok lets sort run #{run.run_identifier}"
+      @results_for_sorting = Result.where(run_id: run.id).order('age_grade DESC')
+      @results_for_sorting.each_with_index do |res, index|
+        #puts "SORTED: #{res.age_grade}, #{res.parkrunner}, #{res.pos}, #{res.run_id}, #{index+1}"
+        res.age_grade_position = index+1
+        res.save
+      end
+    end
+    # and now we assign positions within an age category
+    @runs.each do |run|
+      cats=[]
+      Result.all.each { |res| cats.push(res.age_cat) }
+      cats=cats.uniq
+      cats.each do |catz|
+        @results_for_sorting_by_age_cat = Result.where(run_id: run.id, age_cat: catz).order('time ASC')
+        @results_for_sorting_by_age_cat.each_with_index do |res, index|
+          res.age_cat_position = index +1
+          res.save
+        end
+      end
+    end
     redirect_to :results
   end
 
@@ -110,17 +134,14 @@ class ScrapesController < ApplicationController
   private
     # Use callbacks to share common setup or constraints between actions.
 
-    def clear_all_results_data
-      @results = Result.all
-      if @results.any?
-        @results.each { |result| result.destroy }
-      end
-    end
-
-    def clear_all_runs_data
+    def clear_all_data
       @runs = Run.all
       if @runs.any?
         @runs.each { |run| run.destroy }
+      end
+      @results = Result.all
+      if @results.any?
+        @results.each { |result| result.destroy }
       end
     end
 
