@@ -46,7 +46,8 @@ class ScrapesController < ApplicationController
               club: row.children[7].children.text,
               note: row.children[8].children.text,
               total: row.children[9].children.text,
-              run_id: run_identifier.id
+              run_id: run_identifier.id,
+              athlete_number: row.try(:get_runner_number_from_text) || nil
               )
          end 
       end
@@ -77,6 +78,13 @@ class ScrapesController < ApplicationController
       end
     end
     redirect_to :results
+  end
+
+  def get_runner_number_from_text(inputrow)
+    runnerstring = inputrow.children[1].children.text
+    athletestring = inputrow.children[1].children[0].attributes['href'].try(:value)
+    athlete_number = athletestring[athletestring.index('ber=')+4, athletestring.length].to_i
+    return athlete_number
   end
 
   # GET /scrapes/1
