@@ -18,7 +18,9 @@ class ScrapesController < ApplicationController
     end
 
     # START TO GET THE INDEX PAGE
-    doc = Nokogiri::HTML(open(scrape_index_source))
+    #headers={ :accept => '*/*', :referer => 'https://www.google.co.uk/', :user-agent => 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/56.0.2924.87 Safari/537.36' }
+    browser = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/56.0.2924.87 Safari/537.36'
+    doc = Nokogiri::HTML(open(scrape_index_source), browser)
     nok_links_for_scraping = doc.xpath('//a[contains(text(),"View full results")]')
     @links_for_scraping = []
     nok_links_for_scraping.each do |link|
