@@ -4,7 +4,8 @@ class ResultsController < ApplicationController
   # GET /results
   # GET /results.json
   def index
-    @results = Result.eastleigh.all.order(pos: :asc)
+    #@results = Result.eastleigh.all.order(pos: :asc)
+    @results = Result.eastleigh.all.order(run_id: :asc, pos: :asc)
     @runs = Run.all
   end
 

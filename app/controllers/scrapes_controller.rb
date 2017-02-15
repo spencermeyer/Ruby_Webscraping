@@ -8,22 +8,24 @@ class ScrapesController < ApplicationController
     #@scrapes = Scrape.all
     #SET STUFF UP
     require 'open-uri'
+    require 'mechanize'
     online_url_for_scrape = 'http://www.parkrun.com/results/consolidatedclub/?clubNum=1537'
-    local_url_for_scrape =  'http://localhost:8000/results_Consolidated_parkrun.html'
+    local_url_for_scrape =  'http://localhost:4567/results_Consolidated_parkrun.html'
 
     if Rails.env.development?
-      scrape_index_source = local_url_for_scrape
+     scrape_index_source = local_url_for_scrape
     else
       scrape_index_source = online_url_for_scrape
     end
 
     # START TO GET THE INDEX PAGE
-    #headers={ :accept => '*/*', :referer => 'https://www.google.co.uk/', :user-agent => 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/56.0.2924.87 Safari/537.36' }
     browser = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/56.0.2924.87 Safari/537.36'
-    doc = Nokogiri::HTML(open(scrape_index_source), browser)
-    nok_links_for_scraping = doc.xpath('//a[contains(text(),"View full results")]')
+    agent=Mechanize.new
+    agent.user_agent_alias = "Mac Safari"
+    doc = agent.get(scrape_index_source)
+    mech_links_for_scraping = doc.xpath('//a[contains(text(),"View full results")]')
     @links_for_scraping = []
-    nok_links_for_scraping.each do |link|
+    mech_links_for_scraping.each do |link|
       puts "**** and the scrape link is #{link.attributes['href'].value}"
       @links_for_scraping.push(link.attributes['href'].value)
     end
@@ -31,8 +33,20 @@ class ScrapesController < ApplicationController
     # GET THE DATA FROM THE INDIVIDUAL LINKS
     @data = []
     @links_for_scraping.each do | slink |
-      run_identifier = Run.create(run_identifier: slink[slink.index('results_')+8 .. slink.index('_parkrun_')-1 ])
-      slink_doc = Nokogiri::HTML(open(slink))
+      # 'live mode, it gets this far then has nil'
+      # because 
+      # http://www.parkrun.org.uk/eastleigh/results/weeklyresults/?runSeqNumber=347
+      # http://localhost:8000/results%20_%20Eastleigh%20parkrun.html
+      # http://www.parkrun.us/rooseveltislanddc/results/weeklyresults/?runSeqNumber=23
+      # 
+      if Rails.env.development?
+        run_identifier = Run.create(run_identifier: slink[slink.index('4567')+5 .. slink.index('/results')-1])
+      else
+        run_identifier = Run.create(run_identifier: slink[slink.index('//') .. slink.index('/results')-1] )
+      end
+      agent = Mechanize.new
+      agent.user_agent_alias = "Mac Safari"
+      slink_doc = agent.get(slink)
       slink_doc.xpath('//tr').each do |row|
         if row.children.length > 8  && row.children[0].children.text != '' && row.children[1].children.text != 'parkrunner'
             result = Result.create(
