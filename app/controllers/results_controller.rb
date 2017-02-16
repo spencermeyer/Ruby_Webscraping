@@ -4,8 +4,16 @@ class ResultsController < ApplicationController
   # GET /results
   # GET /results.json
   def index
-    #@results = Result.eastleigh.all.order(pos: :asc)
-    @results = Result.eastleigh.all.order(run_id: :asc, pos: :asc)
+    #binding.pry
+    if params[:order] == 'pos'
+      @results = Result.eastleigh.all.order(run_id: :asc, pos: :asc)
+    elsif params[:order] == 'age'
+      @results = Result.eastleigh.all.order(run_id: :asc, age_grade_position: :desc)
+    elsif params[:order] == 'a12'
+      @results = Result.eastleigh.top12s.all.order(run_id: :asc, age_grade_position: :desc)
+    else
+      @results = Result.eastleigh.all.order(run_id: :asc, pos: :asc)
+    end
     @runs = Run.all
   end
 

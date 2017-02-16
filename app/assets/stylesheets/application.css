@@ -16,6 +16,9 @@
  th {
    background-color: #cccccc
  }
+ t/*d .results {
+  float: left;
+ }*/
  td, th {
    width: 10%;
    text-align: center;
