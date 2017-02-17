@@ -36,7 +36,7 @@ class ScrapesController < ApplicationController
         run_identifier = Run.create(run_identifier: slink[slink.index('4567')+5 .. slink.index('/results')-1])
       else
         run_identifier = slink[slink.index('parkrun') .. slink.index('/results')-1]
-        run_identifier = run_identifier[slink.index('/')+1..slink.length]
+        run_identifier = run_identifier[run_identifier.index('/')+1..run_identifier.length]
         run_identifier = Run.create(run_identifier: run_identifier)
       end
       agent = Mechanize.new
