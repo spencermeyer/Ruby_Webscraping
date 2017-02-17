@@ -26,23 +26,18 @@ class ScrapesController < ApplicationController
     mech_links_for_scraping = doc.xpath('//a[contains(text(),"View full results")]')
     @links_for_scraping = []
     mech_links_for_scraping.each do |link|
-      puts "**** and the scrape link is #{link.attributes['href'].value}"
       @links_for_scraping.push(link.attributes['href'].value)
     end
 
     # GET THE DATA FROM THE INDIVIDUAL LINKS
     @data = []
     @links_for_scraping.each do | slink |
-      # 'live mode, it gets this far then has nil'
-      # because 
-      # http://www.parkrun.org.uk/eastleigh/results/weeklyresults/?runSeqNumber=347
-      # http://localhost:8000/results%20_%20Eastleigh%20parkrun.html
-      # http://www.parkrun.us/rooseveltislanddc/results/weeklyresults/?runSeqNumber=23
-      # 
       if Rails.env.development?
         run_identifier = Run.create(run_identifier: slink[slink.index('4567')+5 .. slink.index('/results')-1])
       else
-        run_identifier = Run.create(run_identifier: slink[slink.index('//') .. slink.index('/results')-1] )
+        run_identifier = slink[slink.index('parkrun') .. slink.index('/results')-1]
+        run_identifier = run_identifier[slink.index('/')+1..slink.length]
+        run_identifier = Run.create(run_identifier: run_identifier)
       end
       agent = Mechanize.new
       agent.user_agent_alias = "Mac Safari"
