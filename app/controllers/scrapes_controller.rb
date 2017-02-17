@@ -34,10 +34,12 @@ class ScrapesController < ApplicationController
     @links_for_scraping.each do | slink |
       if Rails.env.development?
         run_identifier = Run.create(run_identifier: slink[slink.index('4567')+5 .. slink.index('/results')-1])
+        Rails.logger.debug "Development The Link is: #{run_identifier} "
       else
         run_identifier = slink[slink.index('parkrun') .. slink.index('/results')-1]
         run_identifier = run_identifier[run_identifier.index('/')+1..run_identifier.length]
         run_identifier = Run.create(run_identifier: run_identifier)
+        Rails.logger.debug "Production The Link is: #{run_identifier} "
       end
       agent = Mechanize.new
       agent.user_agent_alias = "Mac Safari"
