@@ -34,33 +34,40 @@ class ScrapesController < ApplicationController
     @links_for_scraping.each do | slink |
       if Rails.env.development?
         run_identifier = Run.create(run_identifier: slink[slink.index('4567')+5 .. slink.index('/results')-1])
-        Rails.logger.debug "Development The Link is: #{run_identifier} "
+        Rails.logger.debug "Development The Link is: #{run_identifier.run_identifier} "
       else
         run_identifier = slink[slink.index('parkrun') .. slink.index('/results')-1]
         run_identifier = run_identifier[run_identifier.index('/')+1..run_identifier.length]
         run_identifier = Run.create(run_identifier: run_identifier)
-        Rails.logger.debug "Production The Link is: #{run_identifier} "
+        Rails.logger.debug "Production The Link is: #{run_identifier.run_identifier} "
       end
       agent = Mechanize.new
       agent.user_agent_alias = "Mac Safari"
       slink_doc = agent.get(slink)
       slink_doc.xpath('//tr').each do |row|
-        if row.children.length > 8  && row.children[0].children.text != '' && row.children[1].children.text != 'parkrunner'
+        if row.children.length > 8  && row.children[0].children.text != '' && (!row.children[1].children.text.include? 'parkrunner')
             result = Result.create(
-              pos: row.children[0].children.text,
-              parkrunner: row.children[1].children.text,
-              time: row.children[2].children.text,
-              age_cat: row.children[3].children.text,
-              age_grade: row.children[4].children.text,
-              gender: row.children[5].children.text,
-              gender_pos: row.children[6].children.text,
-              club: row.children[7].children.text,
-              note: row.children[8].children.text,
-              total: row.children[9].children.text,
-              run_id: run_identifier.id,
-              athlete_number: row.try(:get_runner_number_from_text) || nil
+              pos:            row.children[0].children.text,
+              parkrunner:     row.children[1].children.text,
+              time:           row.children[2].children.text,
+              age_cat:        row.children[3].children.text,
+              age_grade:      row.children[4].children.text,
+              gender:         row.children[5].children.text,
+              gender_pos:     row.children[6].children.text,
+              club:           row.children[7].children.text,
+              note:           row.children[8].children.text,
+              total:          row.children[9].children.text,
+              run_id:         run_identifier.id,
+              athlete_number: get_runner_number_from_text(row) || nil
               )
-         end 
+            if ([49, 99, 199, 249].include? result.total) && (run_identifier.run_identifier.include? 'astleigh')
+              milestone = Milestone.find_or_create_by(result.attributes.except('id'))
+            elsif  [9].include? result.total && (result.age_cat.include? 'J')
+              milestone=Milestone.find_or_create_by(result.attributes.except('id'))
+            end
+            # find out if we need to clear the milestones.
+
+        end 
       end
     end
 
@@ -93,9 +100,13 @@ class ScrapesController < ApplicationController
 
   def get_runner_number_from_text(inputrow)
     runnerstring = inputrow.children[1].children.text
-    athletestring = inputrow.children[1].children[0].attributes['href'].try(:value)
-    athlete_number = athletestring[athletestring.index('ber=')+4, athletestring.length].to_i
-    return athlete_number
+    if (runnerstring.include? 'Unknown')
+      return nil
+    else
+      athletestring = inputrow.children[1].children[0].attributes['href'].try(:value)
+      athlete_number = athletestring[athletestring.index('ber=')+4, athletestring.length].to_i
+      return athlete_number
+    end
   end
 
   # GET /scrapes/1
@@ -164,6 +175,8 @@ class ScrapesController < ApplicationController
       if @results.any?
         @results.each { |result| result.destroy }
       end
+      # @milestone = Milestone.all
+      # @milestone.each {|ms| ms.destroy}
     end
 
     def set_scrape

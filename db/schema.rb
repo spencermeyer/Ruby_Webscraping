@@ -10,10 +10,30 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170213211356) do
+ActiveRecord::Schema.define(version: 20170218132854) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "milestones", force: :cascade do |t|
+    t.integer  "pos"
+    t.string   "parkrunner"
+    t.string   "time"
+    t.string   "age_cat"
+    t.string   "age_grade"
+    t.string   "gender"
+    t.string   "gender_pos"
+    t.string   "club"
+    t.string   "note"
+    t.integer  "total"
+    t.integer  "run_id"
+    t.integer  "age_grade_position"
+    t.integer  "age_cat_position"
+    t.string   "athlete_number"
+    t.string   "integer"
+    t.datetime "created_at",         null: false
+    t.datetime "updated_at",         null: false
+  end
 
   create_table "results", force: :cascade do |t|
     t.integer  "pos"

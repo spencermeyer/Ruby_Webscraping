@@ -14,7 +14,8 @@
       <th>Parkrun</th>
       <th>Count</th>
       <th>Eastleigh Runners</th>
-      <th></th>
+      <th>Eastleigh Men</th>
+      <th>Eastleigh Women</th>
     </thead>
     <tbody>
 <% @runs.each do |run| %>
@@ -22,7 +23,8 @@
         <td colspan = "1" class="results"><%= run.run_identifier %></td>
         <td colspan = "1" class="results"><%= Result.where(run_id: run.id).count  %></td>
         <td colspan = "1" class="results"><%= Result.where(run_id: run.id).eastleigh.count %></td>
-        <td colspan = "1" class="results"></td>
+        <td colspan = "1" class="results"><%= Result.where(run_id: run.id, gender: 'M').eastleigh.count %></td>
+        <td colspan = "1" class="results"><%= Result.where(run_id: run.id, gender: 'F').eastleigh.count %></td>
       </tr>
  <% end %>     
     </tbody>
@@ -53,20 +55,24 @@
 
   <tbody>
     <% @results.each do |result| %>
+      <% note_class = (result.note == 'New PB!')? 'newpb' : 'note' %>
+      <% age_class  = (result.age_grade.to_f > 70)? 'fast-age' : 'not-fast-age'%>
+      <% age_cat_class = (result.age_cat_position == 1)? 'first-in-age-cat' : 'normal-age-cat' %>
+      <% milestone_run_class = ([50, 100, 150, 200, 250].include? result.total)? 'milestone-run' : 'not-milestone' %>
       <tr>
         <td><%= @runs.where(id: result.run_id).first.run_identifier  %></td>
         <td><%= result.pos %></td>
         <td><%= result.parkrunner %></td>
         <td><%= result.time %></td>
         <td><%= result.age_cat %></td>
-        <td><%= result.age_cat_position %></td>        
-        <td><%= result.age_grade %></td>
+        <td class="<%= age_cat_class%>"><%= result.age_cat_position %></td>        
+        <td class="<%=age_class%>"><%= result.age_grade %></td>
         <td><%= result.age_grade_position %></td>       
         <td><%= result.gender %></td>
         <td><%= result.gender_pos %></td>
         <td><%= result.club %></td>
-        <td><%= result.note %></td>
-        <td><%= result.total %></td>
+        <td class= "<%=note_class%>"><%= result.note %></td>
+        <td class="<%= milestone_run_class%>"><%= result.total %></td>
       </tr>
     <% end %>
   </tbody>

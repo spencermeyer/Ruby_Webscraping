@@ -1,0 +1,2 @@
+json.extract! milestone, :id, :pos, :parkrunner, :time, :age_cat, :age_grade, :gender, :gender_pos, :club, :note, :total, :run_id, :age_grade_position, :age_cat_position, :athlete_number, :integer, :created_at, :updated_at
+json.url milestone_url(milestone, format: :json)
