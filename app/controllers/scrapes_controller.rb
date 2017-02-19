@@ -31,7 +31,7 @@ class ScrapesController < ApplicationController
 
     # GET THE DATA FROM THE INDIVIDUAL LINKS
     @data = []
-    @links_for_scraping.each do | slink |
+    @links_for_scraping.each do | slink |    #This is the scrape for each individual link******
       if Rails.env.development?
         run_identifier = Run.create(run_identifier: slink[slink.index('4567')+5 .. slink.index('/results')-1])
         Rails.logger.debug "Development The Link is: #{run_identifier.run_identifier} "
@@ -44,7 +44,7 @@ class ScrapesController < ApplicationController
       agent = Mechanize.new
       agent.user_agent_alias = "Mac Safari"
       slink_doc = agent.get(slink)
-      slink_doc.xpath('//tr').each do |row|
+      slink_doc.xpath('//tr').each do |row|  # this is the loop for individual rows of data.
         if row.children.length > 8  && row.children[0].children.text != '' && (!row.children[1].children.text.include? 'parkrunner')
             result = Result.create(
               pos:            row.children[0].children.text,
@@ -66,10 +66,9 @@ class ScrapesController < ApplicationController
               milestone=Milestone.find_or_create_by(result.attributes.except('id'))
             end
             # find out if we need to clear the milestones.
-
-        end 
-      end
-    end
+        end   # here ends each row operation
+      end # here ends the slink each
+    end  # here ends each link for scraping
 
     # now would be a good time to assign age grade positions.
     @runs = Run.all
