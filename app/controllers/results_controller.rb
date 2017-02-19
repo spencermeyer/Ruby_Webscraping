@@ -8,9 +8,9 @@ class ResultsController < ApplicationController
     if params[:order] == 'pos'
       @results = Result.eastleigh.all.order(run_id: :asc, pos: :asc)
     elsif params[:order] == 'age'
-      @results = Result.eastleigh.all.order(run_id: :asc, age_grade_position: :desc)
+      @results = Result.eastleigh.all.order(run_id: :asc, age_grade_position: :asc)
     elsif params[:order] == 'a12'
-      @results = Result.eastleigh.top12s.all.order(run_id: :asc, age_grade_position: :desc)
+      @results = Result.eastleigh.top12s.all.order(run_id: :asc, age_grade_position: :asc)
     else
       @results = Result.eastleigh.all.order(run_id: :asc, pos: :asc)
     end
