@@ -4,7 +4,7 @@ class ResultsController < ApplicationController
   # GET /results
   # GET /results.json
   def index
-    #binding.pry
+    Rails.logger.info "AWOOGA Here the results controller index action"
     if params[:order] == 'pos'
       @results = Result.eastleigh.all.order(run_id: :asc, pos: :asc)
     elsif params[:order] == 'age'
