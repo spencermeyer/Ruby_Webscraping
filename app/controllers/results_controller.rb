@@ -1,5 +1,5 @@
 class ResultsController < ApplicationController
-  before_action :set_result, only: [:show, :edit, :update, :destroy]
+  # before_action :set_result, only: [:show, :edit, :update, :destroy]
 
   # GET /results
   # GET /results.json
