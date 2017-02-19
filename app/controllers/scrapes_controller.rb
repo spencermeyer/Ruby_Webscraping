@@ -79,7 +79,7 @@ class ScrapesController < ApplicationController
     # now would be a good time to assign age grade positions.
     @runs = Run.all
     @runs.each do |run|
-      Rails.logger.debug "ok lets assign AGE GRADES sort run #{run.run_identifier}"
+      Rails.logger.info "ok lets assign AGE GRADES sort run #{run.run_identifier}"
       @results_for_sorting = Result.where(run_id: run.id).order('age_grade DESC')
       @results_for_sorting.each_with_index do |res, index|
         #puts "SORTED: #{res.age_grade}, #{res.parkrunner}, #{res.pos}, #{res.run_id}, #{index+1}"
@@ -89,7 +89,7 @@ class ScrapesController < ApplicationController
     end
     # and now we assign positions within an age category
     @runs.each do |run|
-      Rails.logger.debug "ok lets assign AGE CAT POS for run #{run.run_identifier}"
+      Rails.logger.info "ok lets assign AGE CAT POS for run #{run.run_identifier}"
       cats=[]
       Result.all.each { |res| cats.push(res.age_cat) }
       cats=cats.uniq
@@ -101,6 +101,7 @@ class ScrapesController < ApplicationController
         end
       end
     end
+    Rails.logger.info "AWOOGA about to redirect"
     redirect_to :results
   end
 
