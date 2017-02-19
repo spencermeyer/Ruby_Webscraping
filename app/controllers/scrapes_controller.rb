@@ -65,7 +65,7 @@ class ScrapesController < ApplicationController
             elsif  [9].include? result.total && (result.age_cat.include? 'J')
               milestone=Milestone.find_or_create_by(result.attributes.except('id'))
             elsif ([10, 50, 100, 200, 250].include? result.total)
-              result_to_clear = Milestone.find_by athlete_number: result.athlete_number
+              result_to_clear = Milestone.find_by athlete_number: result.athlete_number if Milestone.exists?(:athlete_number => result.athlete_number)
               if(result_to_clear)
                 result_to_clear.destroy
               end
