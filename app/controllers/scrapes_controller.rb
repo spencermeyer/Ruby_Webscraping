@@ -166,14 +166,10 @@ class ScrapesController < ApplicationController
     # Use callbacks to share common setup or constraints between actions.
 
     def clear_all_data
-      @runs = Run.all
-      if @runs.any?
-        @runs.each { |run| run.destroy }
-      end
-      @results = Result.all
-      if @results.any?
-        @results.each { |result| result.destroy }
-      end
+      Run.destroy_all
+      ActiveRecord::Base.connection.execute("TRUNCATE runs RESTART IDENTITY")
+      Result.destroy_all
+      ActiveRecord::Base.connection.execute("TRUNCATE results RESTART IDENTITY")
       # @milestone = Milestone.all
       # @milestone.each {|ms| ms.destroy}
     end
