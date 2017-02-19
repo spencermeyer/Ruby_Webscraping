@@ -1,4 +1,5 @@
 source 'http://rubygems.org'
+ruby '2.4.0'
 
 # Heroku is telling me 
 #  You have not declared a Ruby version in your Gemfile.
