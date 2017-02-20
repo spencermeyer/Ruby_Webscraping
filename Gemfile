@@ -1,18 +1,6 @@
 source 'http://rubygems.org'
 ruby '2.4.0'
 
-# Heroku is telling me 
-#  You have not declared a Ruby version in your Gemfile.
-#        To set your Ruby version add this line to your Gemfile:
-#        ruby '2.2.6'
-#        # See https://devcenter.heroku.com/articles/ruby-versions for more information.
-
-# git_source(:github) do |repo_name|
-#   repo_name = "#{repo_name}/#{repo_name}" unless repo_name.include?("/")
-#   "https://github.com/#{repo_name}.git"
-# end
-gem 'rails_12factor'
-# gets better logs
 gem 'mechanize'
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '~> 5.0.1'
