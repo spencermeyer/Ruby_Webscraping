@@ -101,7 +101,6 @@ class ScrapesController < ApplicationController
       end
     end
     Rails.logger.info "AWOOGA about to redirect"
-    sleep 2
     redirect_to :results
   end
 
