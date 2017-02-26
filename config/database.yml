@@ -20,6 +20,7 @@ default: &default
 development:
   <<: *default
   database: rubyscrape_development
+  host: localhost
 
 # Warning: The database defined as "test" will be erased and
 # re-generated from your development database when you run "rake".
@@ -46,9 +47,9 @@ test:
 #
 #   production:
 #     url: <%= ENV['DATABASE_URL'] %>
-#
+#  change the below   was username: rubyscrape
 production:
   <<: *default
   database: rubyscrape_production
-  username: rubyscrape
+  username: deploy
   password: <%= ENV['RUBYSCRAPE_DATABASE_PASSWORD'] %>
