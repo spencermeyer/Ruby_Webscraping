@@ -1,11 +1,13 @@
 # config valid only for current version of Capistrano
 lock "3.7.2"
 
-server '46.101.39.233', port: 3000, roles: [:web, :app, :db], primary: true
+#server '46.101.39.233', port: 3000, roles: [:web, :app, :db], primary: true
+server '46.101.39.233', roles: [:web, :app, :db], primary: true
 
 set :repo_url, "git@github.com:spencermeyer/Ruby_Webscraping.git"
 set :application, "Rubyscrape"
-set :user, 'deploy'
+#set :user, 'deploy'
+set :user, 'root'
 
 set :puma_threads,    [4, 16]
 set :puma_workers,    0
