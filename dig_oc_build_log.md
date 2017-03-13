@@ -43,6 +43,8 @@ start installing rvm etc
 `rvm requirements`
 `rvm install 2.4.0`
 
+**** to do *** now begin step 4 installing Rails and Bundler.
+
 
 
 
