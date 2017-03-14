@@ -43,9 +43,20 @@ start installing rvm etc
 `rvm requirements`
 `rvm install 2.4.0`
 
-**** to do *** now begin step 4 installing Rails and Bundler.
+`gem install rails -V 5.0.1 -V --no-ri --no-rdoc`
+`gem install bundler -V --no-ri --no-rdoc`
+
+
+`ssh-keygen -t rsa`  and add to github ssh keys.
+
+**** to do *** now begin step 6 deploy it!
+port number ?
 
 
 
 
+
+
+set up swap
+https://www.digitalocean.com/community/tutorials/how-to-add-swap-on-ubuntu-14-04
 
