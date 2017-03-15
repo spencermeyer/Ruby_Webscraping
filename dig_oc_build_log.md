@@ -5,7 +5,8 @@ https://www.digitalocean.com/community/tutorials/initial-server-setup-with-ubunt
 then this:
 https://www.digitalocean.com/community/tutorials/deploying-a-rails-app-on-ubuntu-14-04-with-capistrano-nginx-and-puma
 
-
+*set up swap
+https://www.digitalocean.com/community/tutorials/how-to-add-swap-on-ubuntu-14-04
 
 
 add a user 'deploy'
@@ -29,10 +30,6 @@ https://www.digitalocean.com/community/tutorials/how-to-use-postgresql-with-your
 `sudo apt-get install postgresql postgresql-contrib libpq-dev`
 `sudo -u postgres createuser -s pguser`
 
-				psql: FATAL:  role "deploy" does not exist  **************** to do 
-
-
-
 start installing rvm etc
 ------------------------
 `gpg --keyserver hkp://keys.gnupg.net --recv-keys 409B6B1796C275462A1703113804BB82D39DC0E3`
@@ -49,14 +46,23 @@ start installing rvm etc
 
 `ssh-keygen -t rsa`  and add to github ssh keys.
 
+swap
+----
+sudo mkswap swapfile
+sudo chmod 600 swapfile
+sudo swapon -s
+sudo swapon swapfile
+free -m
+edit /etc/fstab   to make use of swapfile permanent.
+
 **** to do *** now begin step 6 deploy it!
 port number ?
 
 
 
 
+To Do
+-----
 
-
-set up swap
-https://www.digitalocean.com/community/tutorials/how-to-add-swap-on-ubuntu-14-04
-
+*Optimise as per the conclusion in the guide.
+* think about swapiness.
