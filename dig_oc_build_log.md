@@ -66,3 +66,16 @@ To Do
 
 *Optimise as per the conclusion in the guide.
 * think about swapiness.
+
+Deploy
+------
+
+trouble with lib v8 (stack says brew install v8, ok but what to do on DO?)
+
+
+
+
+
+
+
+
