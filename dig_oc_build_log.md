@@ -30,6 +30,12 @@ https://www.digitalocean.com/community/tutorials/how-to-use-postgresql-with-your
 `sudo apt-get install postgresql postgresql-contrib libpq-dev`
 `sudo -u postgres createuser -s pguser`
 
+---------------------------
+capistrano problems with js runtime.  Installing node-js fixed this.
+sudo apt-get install nodejs
+
+
+
 start installing rvm etc
 ------------------------
 `gpg --keyserver hkp://keys.gnupg.net --recv-keys 409B6B1796C275462A1703113804BB82D39DC0E3`
@@ -70,20 +76,6 @@ To Do
 Deploy
 ------
 
-trouble with lib v8 (stack says brew install v8, ok but what to do on DO?)
-
-capistrano won't complete without a JS runtime.
-this is provided by (for example) the rubyracer.  Works fine locally.
-TRR won't install wihtout V8.
-can't get V8 to install.
-
-
-Bundler could not find compatible versions for gem "libv8":
-  In Gemfile:
-    libv8 (>= 4.5.95.5, ~> 4.5)
-
-    therubyracer (~> 0.12.3) was resolved to 0.12.3, which depends on
-      libv8 (~> 3.16.14.15)
 
 
 
