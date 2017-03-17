@@ -17,9 +17,9 @@ gem 'uglifier'
 gem 'coffee-rails', '~> 4.2'
 # See https://github.com/rails/execjs#readme for more supported runtimes
 # gem 'therubyracer', platforms: :ruby
+# gem 'libv8', '~> 4.5', '>= 4.5.95.5'  # this the latest.
+# gem 'therubyracer', '~> 0.12.3'
 
-gem 'execjs'
-# it just wants a js runtime.
 
 # Use jquery as the JavaScript library
 gem 'jquery-rails'
