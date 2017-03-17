@@ -29,6 +29,8 @@ https://www.digitalocean.com/community/tutorials/how-to-use-postgresql-with-your
 
 `sudo apt-get install postgresql postgresql-contrib libpq-dev`
 `sudo -u postgres createuser -s pguser`
+also go into console (`psql`) and \l lists databases, \du displays users.
+
 
 ---------------------------
 capistrano problems with js runtime.  Installing node-js fixed this.
@@ -70,14 +72,20 @@ port number ?
 To Do
 -----
 
+* set up <%= ENV['WWW_DATABASE_PASSWORD'] %>
+
 *Optimise as per the conclusion in the guide.
 * think about swapiness.
+
+
 
 Deploy
 ------
 
+database "rubyscrape_production" does not exist
 
 
+<%= ENV['WWW_DATABASE_PASSWORD'] %>
 
 
 
