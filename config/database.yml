@@ -53,4 +53,4 @@ production:
   host: ''
   database: rubyscrape_production
   username: deploy
-  password: <%= ENV['RUBYSCRAPE_DATABASE_PASSWORD'] %>
+  password: 'password'
