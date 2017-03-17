@@ -50,7 +50,7 @@ test:
 #  change the below   was username: rubyscrape
 production:
   <<: *default
-  host: ''
+  host: localhost
   database: rubyscrape_production
-  username: deploy
-  password: 'password'
+  username: pguser
+  password: <%= ENV['RUBYSCRAPE_DATABASE_PASSWORD'] %>
