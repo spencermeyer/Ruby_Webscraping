@@ -53,5 +53,4 @@ production:
   host: localhost
   database: rubyscrape_production
   username: pguser
-  password: password
-  #password: <%= ENV['RUBYSCRAPE_DATABASE_PASSWORD'] %>
+  password: <%= ENV['RUBYSCRAPE_DATABASE_PASSWORD'] %>
