@@ -84,7 +84,6 @@ Deploy
 
 database "rubyscrape_production" does not exist
 
-
 <%= ENV['WWW_DATABASE_PASSWORD'] %>
 
 
