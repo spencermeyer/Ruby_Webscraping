@@ -72,8 +72,6 @@ port number ?
 To Do
 -----
 
-* set up <%= ENV['WWW_DATABASE_PASSWORD'] %>
-
 *Optimise as per the conclusion in the guide.
 * think about swapiness.
 
@@ -81,8 +79,6 @@ To Do
 
 Deploy
 ------
-
-database "rubyscrape_production" does not exist
 
 <%= ENV['WWW_DATABASE_PASSWORD'] %>
 
