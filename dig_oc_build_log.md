@@ -67,8 +67,6 @@ edit /etc/fstab   to make use of swapfile permanent.
 port number ?
 
 
-
-
 To Do
 -----
 
@@ -82,6 +80,7 @@ Deploy
 
 <%= ENV['WWW_DATABASE_PASSWORD'] %>
 
+try the solution here:  http://railsguides.net/how-to-define-environment-variables-in-rails/
 
 
 

@@ -50,8 +50,6 @@ test:
 #  change the below   was username: rubyscrape
 production:
   <<: *default
-  host: localhost
   database: rubyscrape_production
   username: pguser
-  socket: /var/run/postgresql
   password: <%= ENV['RUBYSCRAPE_DATABASE_PASSWORD'] %>
