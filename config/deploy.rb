@@ -40,6 +40,7 @@ before 'deploy:assets:precompile', :symlink_config_files
 desc "Link shared files"
 task :symlink_config_files do
   puts "AND THE SHARED PATH IS:  #{shared_path}"
+  puts "AND THIS IS THE release_path: #{release_path}"
   symlinks = {
     "#{shared_path}/config/database.yml" => "#{release_path}/config/database.yml",
     "#{shared_path}/config/local_env.yml" => "#{release_path}/config/local_env.yml"
