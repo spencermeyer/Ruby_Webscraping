@@ -35,8 +35,6 @@ set :puma_init_active_record, true  # Change to false when not using ActiveRecor
 # set :log_level,     :debug
 set :keep_releases, 5
 
-
-require "bundler/capistrano"
 # the following is a trial
 before 'deploy:assets:precompile', :symlink_config_files
 desc "Link shared files"
