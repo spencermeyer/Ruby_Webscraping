@@ -39,13 +39,14 @@ set :keep_releases, 5
 before 'deploy:assets:precompile', :symlink_config_files
 desc "Link shared files"
 task :symlink_config_files do
+  puts "AND THE SHARED PATH IS:  #{shared_path}"
   symlinks = {
     "#{shared_path}/config/database.yml" => "#{release_path}/config/database.yml",
     "#{shared_path}/config/local_env.yml" => "#{release_path}/config/local_env.yml"
   }
   run symlinks.map{|from, to| "ln -nfs #{from} #{to}"}.join(" && ")
 end
-
+puts "THIS IS AFTER THE SYMLINKING"
 
 namespace :puma do
   desc 'Create Directories for Puma Pids and Socket'
