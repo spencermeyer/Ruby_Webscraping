@@ -86,7 +86,18 @@ didn;t work because the symlink didn't work:
 so:
 hardcode the password in bitbucket.  (temporary solution)
 
+deploy:migrating
+      01 ~/.rvm/bin/rvm default do bundle exec rake db:migrate
+      01 /home/deploy/apps/Rubyscrape/shared/bundle/ruby/2.4.0/gems/activesupport-5.0.1/lib/active_support/xml_mini.rb:51: warning: constant ::Fixnum is deprecated
+      01
+      01 /home/deploy/apps/Rubyscrape/shared/bundle/ruby/2.4.0/gems/activesupport-5.0.1/lib/active_support/xml_mini.rb:52: warning: constant ::Bignum is deprecated
+      01 /home/deploy/apps/Rubyscrape/shared/bundle/ruby/2.4.0/gems/activesupport-5.0.1/lib/active_support/core_ext/numeric/conversions.rb:138: warning: constant ::Fixnum is …
+      01
+      01 rake aborted!
+      01 PG::ConnectionBad: FATAL:  Peer authentication failed for user "pguser"
 
+
+      
 
 
 
