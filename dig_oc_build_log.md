@@ -67,6 +67,12 @@ edit /etc/fstab   to make use of swapfile permanent.
 port number ?
 
 
+Symlink the nginx conf
+----------------------
+sudo ln -nfs "/home/deploy/apps/Rubyscrape/current/config/nginx.conf" "/etc/nginx/sites-enabled/Rubyscrape"
+
+
+
 To Do
 -----
 
