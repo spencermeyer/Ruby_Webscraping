@@ -52,4 +52,4 @@ production:
   <<: *default
   database: rubyscrape_production
   username: pguser
-  password: scraper
+  password: <%= ENV['RUBYSCRAPE_DATABASE_PASSWORD'] %>

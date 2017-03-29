@@ -4,7 +4,9 @@ lock "3.7.2"
 #server '46.101.39.233', port: 3000, roles: [:web, :app, :db], primary: true
 server '46.101.17.87', roles: [:web, :app, :db], primary: true
 
-set :repo_url, "git@github.com:spencermeyer/Ruby_Webscraping.git"
+#set :repo_url, "git@github.com:spencermeyer/Ruby_Webscraping.git"
+set :repo_url, "git@bitbucket.org:spendiver/rubyscrapeinsecure.git"
+
 set :application, "Rubyscrape"
 set :user, 'deploy'
 #set :user, 'root'
@@ -35,21 +37,21 @@ set :puma_init_active_record, true  # Change to false when not using ActiveRecor
 # set :log_level,     :debug
 set :keep_releases, 5
 
-# the following is a trial
-before 'deploy:assets:precompile', :symlink_config_files
-desc "Link shared files"
-task :symlink_config_files do
-  puts "AND THE SHARED PATH IS:  #{shared_path}"
-  puts "AND THIS IS THE release_path: #{release_path}"
-  symlinks = {
-    "#{shared_path}/config/database.yml" => "#{release_path}/config/database.yml",
-    "#{shared_path}/config/local_env.yml" => "#{release_path}/config/local_env.yml"
-  }
-  puts "and the symlinks are: #{symlinks}"
-  #run symlinks.map{|from, to| "ln -nfs #{from} #{to}"}.join(" && ")
-  exec symlinks.map{|from, to| "ln -nfs #{from} #{to}"}.join(" && ")
-end
-puts "THIS IS AFTER THE SYMLINKING"
+# # the following is a trial
+# before 'deploy:assets:precompile', :symlink_config_files
+# desc "Link shared files"
+# task :symlink_config_files do
+#   puts "AND THE SHARED PATH IS:  #{shared_path}"
+#   puts "AND THIS IS THE release_path: #{release_path}"
+#   symlinks = {
+#     "#{shared_path}/config/database.yml" => "#{release_path}/config/database.yml",
+#     "#{shared_path}/config/local_env.yml" => "#{release_path}/config/local_env.yml"
+#   }
+#   puts "and the symlinks are: #{symlinks}"
+#   #run symlinks.map{|from, to| "ln -nfs #{from} #{to}"}.join(" && ")
+#   exec symlinks.map{|from, to| "ln -nfs #{from} #{to}"}.join(" && ")
+# end
+# puts "THIS IS AFTER THE SYMLINKING"
 
 namespace :puma do
   desc 'Create Directories for Puma Pids and Socket'

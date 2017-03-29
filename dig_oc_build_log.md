@@ -82,6 +82,9 @@ Deploy
 
 try the solution here:  http://railsguides.net/how-to-define-environment-variables-in-rails/
 
+didn;t work because the symlink didn't work:
+so:
+hardcode the password in bitbucket.  (temporary solution)
 
 
 
