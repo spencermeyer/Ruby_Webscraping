@@ -63,14 +63,10 @@ sudo swapon swapfile
 free -m
 edit /etc/fstab   to make use of swapfile permanent.
 
-**** to do *** now begin step 6 deploy it!
-port number ?
-
 
 Symlink the nginx conf
 ----------------------
 sudo ln -nfs "/home/deploy/apps/Rubyscrape/current/config/nginx.conf" "/etc/nginx/sites-enabled/Rubyscrape"
-
 
 
 To Do
@@ -78,15 +74,11 @@ To Do
 
 *Optimise as per the conclusion in the guide.
 * think about swapiness.
-
-
+<%= ENV['WWW_DATABASE_PASSWORD'] %>
 
 Deploy
-------
-
-This site is hosted at:  parkcollectoronrails.co.uk
-
-<%= ENV['WWW_DATABASE_PASSWORD'] %>
+------ 
+This site is hosted at:  parkcollectoronrails.co.uk   (46.101.17.87)
 
 try the solution here:  http://railsguides.net/how-to-define-environment-variables-in-rails/
 
@@ -94,8 +86,10 @@ didn;t work because the symlink didn't work:
 so:
 hardcode the password in bitbucket.  (temporary solution)
 
-** so now at least capistrano works.
-nginx is working bit not redirecting.
+here is how to test:  `nginx -t`
+
+problem:  won't show in frame (namesco prob? cos it works by ip address).
+problem: timeout
 
 
 
