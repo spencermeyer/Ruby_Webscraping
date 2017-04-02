@@ -1,7 +1,7 @@
 Rails.application.configure do
   # Settings specified here will take precedence over those in config/application.rb.
   config.action_dispatch.default_headers = {
-    'X-Frame-Options' => 'ALLOW-FROM http://http://parkcollectoronrails.co.uk/'
+    'X-Frame-Options' => 'ALLOW-FROM http://parkcollectoronrails.co.uk/'
   }
 
   # Code is not reloaded between requests.
