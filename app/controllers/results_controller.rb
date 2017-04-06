@@ -4,6 +4,7 @@ class ResultsController < ApplicationController
   # GET /results
   # GET /results.json
   def index
+    record_vistor_information
     Rails.logger.info "AWOOGA Here the results controller index action"
     if params[:order] == 'pos'
       @results = Result.eastleigh.all.order(run_id: :asc, pos: :asc)
@@ -80,5 +81,13 @@ class ResultsController < ApplicationController
     # Never trust parameters from the scary internet, only allow the white list through.
     def result_params
       params.require(:result).permit(:pos, :parkrunner, :time, :age_cat, :age_grade, :gender, :gender_pos, :club, :note, :total)
+    end
+
+    # record vistor information
+    def record_vistor_information
+      if request.ip && request.user_agent
+        visit=Visit.new(ip_address: request.ip, browser: request.user_agent)
+        visit.save
+      end
     end
 end

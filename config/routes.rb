@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  # resources :visits
   # resources :runs
   # resources :scrapes
   resources :milestones
