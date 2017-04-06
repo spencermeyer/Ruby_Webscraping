@@ -20,7 +20,6 @@ gem 'coffee-rails', '~> 4.2'
 # gem 'libv8', '~> 4.5', '>= 4.5.95.5'  # this the latest.
 # gem 'therubyracer', '~> 0.12.3'
 
-
 # Use jquery as the JavaScript library
 gem 'jquery-rails'
 # Turbolinks makes navigating your web application faster. Read more: https://github.com/turbolinks/turbolinks
