@@ -1,5 +1,8 @@
 Rails.application.routes.draw do
+  devise_for :users
+  resources :users
   # resources :visits
+  get 'visits', to: 'visits#index'
   # resources :runs
   # resources :scrapes
   resources :milestones

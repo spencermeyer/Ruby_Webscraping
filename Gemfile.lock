@@ -41,6 +41,7 @@ GEM
     airbrussh (1.1.2)
       sshkit (>= 1.6.1, != 1.7.0)
     arel (7.1.4)
+    bcrypt (3.1.11)
     builder (3.2.3)
     byebug (9.0.6)
     capistrano (3.7.2)
@@ -72,6 +73,12 @@ GEM
     coffee-script-source (1.12.2)
     concurrent-ruby (1.0.5)
     debug_inspector (0.0.2)
+    devise (4.2.1)
+      bcrypt (~> 3.0)
+      orm_adapter (~> 0.1)
+      railties (>= 4.1.0, < 5.1)
+      responders
+      warden (~> 1.2.3)
     diff-lcs (1.3)
     domain_name (0.5.20161129)
       unf (>= 0.0.5, < 1.0.0)
@@ -122,6 +129,7 @@ GEM
     nokogiri (1.7.0.1)
       mini_portile2 (~> 2.1.0)
     ntlm-http (0.1.1)
+    orm_adapter (0.5.0)
     pg (0.20.0)
     pry (0.10.4)
       coderay (~> 1.1.0)
@@ -158,6 +166,8 @@ GEM
     rb-fsevent (0.9.8)
     rb-inotify (0.9.8)
       ffi (>= 0.5.0)
+    responders (2.3.0)
+      railties (>= 4.2.0, < 5.1)
     rspec-core (3.5.4)
       rspec-support (~> 3.5.0)
     rspec-expectations (3.5.0)
@@ -211,6 +221,8 @@ GEM
     unf (0.1.4)
       unf_ext
     unf_ext (0.0.7.2)
+    warden (1.2.7)
+      rack (>= 1.0)
     web-console (3.4.0)
       actionview (>= 5.0)
       activemodel (>= 5.0)
@@ -232,6 +244,7 @@ DEPENDENCIES
   capistrano-rvm
   capistrano3-puma
   coffee-rails (~> 4.2)
+  devise
   jbuilder (~> 2.5)
   jquery-rails
   listen (~> 3.0.5)

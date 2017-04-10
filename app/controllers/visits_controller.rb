@@ -1,10 +1,14 @@
 class VisitsController < ApplicationController
   before_action :set_visit, only: [:show, :edit, :update, :destroy]
+  before_action :authenticate_user!
+  before_action :user_is_admin?
 
   # GET /visits
   # GET /visits.json
   def index
-    @visits = Visit.all
+    #if current_user.admin?
+      @visits = Visit.all
+    #end
   end
 
   # GET /visits/1
@@ -70,5 +74,9 @@ class VisitsController < ApplicationController
     # Never trust parameters from the scary internet, only allow the white list through.
     def visit_params
       params.require(:visit).permit(:ip_address, :browser)
+    end
+
+    def user_is_admin?
+      redirect_to root_path unless current_user.admin?
     end
 end
