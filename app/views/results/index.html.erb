@@ -15,6 +15,8 @@
     <thead>
       <th class="table-header">Parkrun</th>
       <th class="table-header">Total Runners for Parkrun</th>
+      <th class="table-header">Total Male Runners for Parkrun</th>      
+      <th class="table-header">Total Female Runners for Parkrun</th>
       <th class="table-header">Eastleigh Runners</th>
       <th class="table-header">Eastleigh Men</th>
       <th class="table-header">Eastleigh Women</th>
@@ -24,6 +26,8 @@
       <tr>
         <td colspan = "1" class="results"><%= run.run_identifier %></td>
         <td colspan = "1" class="results"><%= Result.where(run_id: run.id).count  %></td>
+        <td colspan = "1" class="results"><%= Result.where(run_id: run.id, gender: 'M').count  %></td>        
+        <td colspan = "1" class="results"><%= Result.where(run_id: run.id, gender: 'F').count  %></td>
         <td colspan = "1" class="results"><%= Result.where(run_id: run.id).eastleigh.count %></td>
         <td colspan = "1" class="results"><%= Result.where(run_id: run.id, gender: 'M').eastleigh.count %></td>
         <td colspan = "1" class="results"><%= Result.where(run_id: run.id, gender: 'F').eastleigh.count %></td>
