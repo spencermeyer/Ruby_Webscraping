@@ -7,7 +7,7 @@ class VisitsController < ApplicationController
   # GET /visits.json
   def index
     #if current_user.admin?
-      @visits = Visit.all
+      @visits = Visit.all.order(created_at: :desc)
     #end
   end
 
