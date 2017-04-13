@@ -8,19 +8,22 @@
 <table class="table-bordered tabled-condensed">
   <thead>
     <tr>
-      <th colspan ="1" class="table-header">DateTime</th>
-      <th colspan ="1" class="table-header">Ip address</th>
-      <th colspan ="8" class="table-header">Browser</th>
-      <!-- <th class="table-header"></th> -->
+      <th class="col-md-3 table-header">DateTime</th>
+      <th class="col-md-1 table-header">Ip address</th>
+      <th class="col-md-2 table-header">Browser</th>
+      <th class="col-md-4 table-header">Version</th>
+      <th class="col-md-4 table-header">Platform</th>
     </tr>
   </thead>
 
   <tbody>
     <% @visits.each do |visit| %>
       <tr>
-        <td class="col-md-1"><%= visit.created_at %></td>
+        <td class="col-md-3"><%= visit.created_at.strftime("%A").to_s + ' ' + visit.created_at.to_s %></td>
         <td class="col-md-1"><%= visit.ip_address %></td>
-        <td class="col-md-4" ><%= visit.browser %></td>
+        <td class="col-md-2" ><%= UserAgent.parse(visit.browser).browser %></td>
+        <td class="col-md-4" ><%= UserAgent.parse(visit.browser).version %></td>
+        <td class="col-md-4" ><%= UserAgent.parse(visit.browser).platform %></td>
       </tr>
     <% end %>
   </tbody>
