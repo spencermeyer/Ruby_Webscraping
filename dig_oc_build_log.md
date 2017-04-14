@@ -8,7 +8,6 @@ https://www.digitalocean.com/community/tutorials/deploying-a-rails-app-on-ubuntu
 *set up swap
 https://www.digitalocean.com/community/tutorials/how-to-add-swap-on-ubuntu-14-04
 
-
 add a user 'deploy'
 `adduser deploy`
 

@@ -9,47 +9,26 @@ I'm using 'mechanize' as my scraping gem:  I started using Nokogiri but I found 
 
 I started using Postgressql because MySQL was not accepted by Heroku, however due to problems with Heroku, I started hosting this on a cloud computer and just continues using Postgres.
 
-I initially tried Heroku to host this.  However the app times out because it has a lot to do before the view can be displayed - particularly a lot of http which are costly and unavoidable.  I was not able to alter the http timeout on Heroku so I went to hosting this on a Digital Ocean Droplet, which obviously alllows me to alter the timeout - and lets me learn about Capistrano, nginx, and all the ohther stuff that things like Heroku just do for you.
-
+I initially tried Heroku to host this.  However the app times out because it has a lot to do before the view can be displayed - particularly a lot of http which are costly and unavoidable.  I was not able to alter the http timeout on Heroku so I went to hosting this on a Digital Ocean Droplet, which obviously alllows me to alter the timeout - and lets me learn about Capistrano, nginx, and all the ohther stuff that things like Heroku just does for you.
 
 Deployment.
 -----------
 I've written a separate document for my Digital Ocean machine build log, it took a long time to get this right.
 To deply subsequent code, it is simply:
 		`cap production deploy`
+which is really convenient.
 
 Things to do next.
 ------------------
--make it pick up passwords from environmental variables.
--lots more styling.
--sort out the milestones entering duplicate entries.
--make it more robust for http fails.
--make an admin login.
--make it send emails for upcoming milestones.
--make a cron job for scraping so that the results are all ready for the user to see.
+*lots more styling.
+*make it more robust for http fails.
+*make an admin login.
+*make it send emails for upcoming milestones.
+*make a cron job for scraping so that the results are all ready for the user to see.
 
-
-This README would normally document whatever steps are necessary to get the
-application up and running.
-
-Things you may want to cover:
-
-* Ruby version
-
-* System dependencies
-
-* Configuration
-
-* Database creation
-
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-
-
-
+Tech Stack
+----------
+Capistrano 3 for deployment
+Puma runs rails
+Ruby 2.4.4  :)
+posgresql
