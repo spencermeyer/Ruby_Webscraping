@@ -68,6 +68,11 @@ Symlink the nginx conf
 ----------------------
 sudo ln -nfs "/home/deploy/apps/Rubyscrape/current/config/nginx.conf" "/etc/nginx/sites-enabled/Rubyscrape"
 
+in apps/Rubyscrape/shared/config   put the config files and add a capistrano task to  symlink them
+https://www.varvet.com/blog/handle-secret-credentials-in-ruby-on-rails/
+http://www.freelancingdigest.com/articles/capistrano-variables/
+
+
 
 To Do
 -----

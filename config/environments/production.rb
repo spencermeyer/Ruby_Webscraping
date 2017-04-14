@@ -3,7 +3,7 @@ Rails.application.configure do
   config.action_dispatch.default_headers = {
     'X-Frame-Options' => 'ALLOW-FROM http://parkcollectoronrails.co.uk/'
   }
-  config.secret_key_base = ENV["SECRET_KEY_BASE"]  # this is a trial it should be in config/secrets
+
   # Code is not reloaded between requests.
   config.cache_classes = true
 

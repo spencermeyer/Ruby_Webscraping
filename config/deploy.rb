@@ -38,20 +38,16 @@ set :puma_init_active_record, true  # Change to false when not using ActiveRecor
 set :keep_releases, 5
 
 # # the following is a trial
-# before 'deploy:assets:precompile', :symlink_config_files
-# desc "Link shared files"
-# task :symlink_config_files do
-#   puts "AND THE SHARED PATH IS:  #{shared_path}"
-#   puts "AND THIS IS THE release_path: #{release_path}"
-#   symlinks = {
-#     "#{shared_path}/config/database.yml" => "#{release_path}/config/database.yml",
-#     "#{shared_path}/config/local_env.yml" => "#{release_path}/config/local_env.yml"
-#   }
-#   puts "and the symlinks are: #{symlinks}"
-#   #run symlinks.map{|from, to| "ln -nfs #{from} #{to}"}.join(" && ")
-#   exec symlinks.map{|from, to| "ln -nfs #{from} #{to}"}.join(" && ")
-# end
-# puts "THIS IS AFTER THE SYMLINKING"
+# see https://www.varvet.com/blog/handle-secret-credentials-in-ruby-on-rails/
+namespace :config do
+  desc "Symlink application config files."
+  task :symlink do
+    on roles(:app) do
+      execute "ln -sf {#{shared_path},#{release_path}}/config/secrets.yml"
+    end
+  end
+end
+after "deploy", "config:symlink"
 
 namespace :puma do
   desc 'Create Directories for Puma Pids and Socket'
