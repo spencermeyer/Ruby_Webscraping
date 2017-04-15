@@ -1,5 +1,5 @@
 $(document).ready(function(){
-  console.log('AWOOGA');
+  // console.log('AWOOGA2');
   // master = window.parent.document;
   // head = master.getElementsByTagName("head")[0];
   // favicon = master.createElement("link");
