@@ -22,7 +22,6 @@ Things to do next.
 ------------------
 *lots more styling.
 *make it more robust for http fails.
-*make an admin login.
 *make it send emails for upcoming milestones.
 *make a cron job for scraping so that the results are all ready for the user to see.
 
