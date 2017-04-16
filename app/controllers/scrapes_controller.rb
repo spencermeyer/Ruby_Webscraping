@@ -60,11 +60,11 @@ class ScrapesController < ApplicationController
               run_id:         run_identifier.id,
               athlete_number: get_runner_number_from_text(row) || nil
               )
-            if ([49, 99, 199, 249].include? result.total) && (run_identifier.run_identifier.include? 'astleigh')
+            if ([49, 99, 149, 199, 249, 299, 349, 399, 449, 499, 549, 599, 649].include? result.total) && (run_identifier.run_identifier.include? 'astleigh')
               milestone = Milestone.find_or_create_by(result.attributes.except('id', 'created_at', 'updated_at'))
             elsif  [9].include? result.total && (result.age_cat.include? 'J')
               milestone=Milestone.find_or_create_by(result.attributes.except('id', 'created_at', 'updated_at'))
-            elsif ([10, 50, 100, 200, 250].include? result.total)
+            elsif ([10, 50, 100, 200, 250, 300, 350, 400, 450, 500, 550, 600, 650].include? result.total)
               result_to_clear = Milestone.find_by athlete_number: result.athlete_number if Milestone.exists?(:athlete_number => result.athlete_number)
               if(result_to_clear)
                 result_to_clear.destroy
