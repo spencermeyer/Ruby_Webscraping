@@ -40,6 +40,9 @@ GEM
       tzinfo (~> 1.1)
     airbrussh (1.1.2)
       sshkit (>= 1.6.1, != 1.7.0)
+    annotate (2.6.5)
+      activerecord (>= 2.3.0)
+      rake (>= 0.8.7)
     arel (7.1.4)
     bcrypt (3.1.11)
     builder (3.2.3)
@@ -135,6 +138,8 @@ GEM
       coderay (~> 1.1.0)
       method_source (~> 0.8.1)
       slop (~> 3.4)
+    pry-rails (0.3.6)
+      pry (>= 0.10.4)
     puma (3.8.2)
     rack (2.0.1)
     rack-test (0.6.3)
@@ -238,6 +243,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  annotate
   byebug
   capistrano
   capistrano-bundler
@@ -252,6 +258,7 @@ DEPENDENCIES
   mechanize
   pg
   pry
+  pry-rails
   puma (~> 3.0)
   rails (~> 5.0.1)
   rspec-rails
@@ -268,4 +275,4 @@ RUBY VERSION
    ruby 2.4.0p0
 
 BUNDLED WITH
-   1.14.3
+   1.14.6

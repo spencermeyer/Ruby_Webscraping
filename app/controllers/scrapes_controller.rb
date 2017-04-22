@@ -70,7 +70,6 @@ class ScrapesController < ApplicationController
                 result_to_clear.destroy
               end
             end
-
         end   # here ends each row operation
       end # here ends the slink each
     end  # here ends each link for scraping
@@ -177,8 +176,6 @@ class ScrapesController < ApplicationController
       ActiveRecord::Base.connection.execute("TRUNCATE runs RESTART IDENTITY")
       Result.destroy_all
       ActiveRecord::Base.connection.execute("TRUNCATE results RESTART IDENTITY")
-      # @milestone = Milestone.all
-      # @milestone.each {|ms| ms.destroy}
     end
 
     def set_scrape

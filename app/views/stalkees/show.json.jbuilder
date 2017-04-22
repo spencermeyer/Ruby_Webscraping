@@ -1,0 +1,1 @@
+json.partial! "stalkees/stalkee", stalkee: @stalkee

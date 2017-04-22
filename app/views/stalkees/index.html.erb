@@ -1,0 +1,32 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Stalkees</h1>
+<h2>New stalker feature !</h2>
+<p>These runners will also be included in the results processing of this site.</p>
+
+<table>
+  <thead>
+    <tr>
+      <th class="table-header">Person to be stalked</th>
+      <th class="table-header">Goto Link</th>
+      <th class="table-header">Edit Link</th>
+      <th class="table-header">Delete Link</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @stalkees.each do |stalkee| %>
+      <tr>
+        <td><%= stalkee.parkrunner %></td>
+        <td><%= link_to 'Show', stalkee %></td>
+        <td><%= link_to 'Edit', edit_stalkee_path(stalkee) %></td>
+        <td><%= link_to 'Destroy', stalkee, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+<%= link_to 'New Stalkee', new_stalkee_path %>
+<br>
+<%= link_to 'Home', results_path %>

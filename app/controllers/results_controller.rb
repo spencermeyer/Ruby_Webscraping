@@ -5,15 +5,14 @@ class ResultsController < ApplicationController
   # GET /results.json
   def index
     record_vistor_information
-    Rails.logger.info "AWOOGA Here the results controller index action"
     if params[:order] == 'pos'
-      @results = Result.eastleigh.all.order(run_id: :asc, pos: :asc)
+      @results = Result.eastleigh_and_stalkees.all.order(run_id: :asc, pos: :asc)
     elsif params[:order] == 'age'
-      @results = Result.eastleigh.all.order(run_id: :asc, age_grade_position: :asc)
+      @results = Result.eastleigh_and_stalkees.all.order(run_id: :asc, age_grade_position: :asc)
     elsif params[:order] == 'a12'
-      @results = Result.eastleigh.top12s.all.order(run_id: :asc, age_grade_position: :asc)
+      @results = Result.eastleigh_and_stalkees.top12s.all.order(run_id: :asc, age_grade_position: :asc)
     else
-      @results = Result.eastleigh.all.order(run_id: :asc, pos: :asc)
+      @results = Result.eastleigh_and_stalkees.all.order(run_id: :asc, pos: :asc)
     end
     @runs = Run.all
   end
@@ -36,7 +35,6 @@ class ResultsController < ApplicationController
   # POST /results.json
   def create
     @result = Result.new(result_params)
-
     respond_to do |format|
       if @result.save
         format.html { redirect_to @result, notice: 'Result was successfully created.' }

@@ -14,20 +14,20 @@ I initially tried Heroku to host this.  However the app times out because it has
 Deployment.
 -----------
 I've written a separate document for my Digital Ocean machine build log, it took a long time to get this right.
-To deply subsequent code, it is simply:
+To deploy subsequent code, it is simply:
 		`cap production deploy`
 which is really convenient.
 
 Things to do next.
 ------------------
-*lots more styling.
-*make it more robust for http fails.
-*make it send emails for upcoming milestones.
-*make a cron job for scraping so that the results are all ready for the user to see.
+* lots more styling.
+* make it more robust for http fails.
+* make it send emails for upcoming milestones.
+* make a cron job for scraping so that the results are all ready for the user to see.
 
 Tech Stack
 ----------
-Capistrano 3 for deployment
-Puma runs rails
-Ruby 2.4.4  :)
-posgresql
+* Capistrano 3 for deployment
+* Puma runs rails
+* Ruby 2.4.4  :)
+* posgresql

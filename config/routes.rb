@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  resources :stalkees
   devise_for :users
   resources :users
   # resources :visits

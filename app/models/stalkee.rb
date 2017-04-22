@@ -1,12 +1,12 @@
 # == Schema Information
 #
-# Table name: scrapes
+# Table name: stalkees
 #
 #  id         :integer          not null, primary key
-#  nullfield  :string
+#  parkrunner :string
 #  created_at :datetime         not null
 #  updated_at :datetime         not null
 #
 
-class Scrape < ApplicationRecord
+class Stalkee < ApplicationRecord
 end
