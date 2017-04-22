@@ -1,5 +1,7 @@
 class StalkeesController < ApplicationController
   before_action :set_stalkee, only: [:show, :edit, :update, :destroy]
+  before_action :authenticate_user!
+  before_action :user_is_admin?
 
   # GET /stalkees
   # GET /stalkees.json
