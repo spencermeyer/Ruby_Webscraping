@@ -64,6 +64,10 @@ class StalkeesController < ApplicationController
   end
 
   private
+    def user_is_admin?
+      redirect_to root_path unless current_user.admin?
+    end
+
     # Use callbacks to share common setup or constraints between actions.
     def set_stalkee
       @stalkee = Stalkee.find(params[:id])
