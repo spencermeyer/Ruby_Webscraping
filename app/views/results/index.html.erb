@@ -12,7 +12,9 @@
 <button><%= link_to "Upcoming Milestones", controller: 'milestones', action: 'index', :class=>'btn' %></button>
 <button><%= link_to "Log In", new_user_session_path, :class=>'btn' %></button>
 <button><%= link_to "Sign Up", controller: 'users', action: 'new', :class=>'btn' %></button>
-
+<% if user.admin? %>
+  <button><%= link_to "Stalker Feature", controller: 'stalkees', action: 'index', :class=>'btn' %></button>
+<% end %>
 
 <h2>This week there were results from:<h2>
 
