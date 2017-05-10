@@ -5,7 +5,7 @@
 <h1>"ParkScraper on Rails" - Results</h1>
 <h2>A timesaver for collecting all parkrun results.</h2>
 <h3>Data collected at: <%= @runs.last.created_at %> </h3>
-<% if @runs.last.created_at < Time.now - 6 %>
+<% if @runs.last.created_at < Time.now - 6.days %>
   <h2 class="age-data-warning">Data is old, refresh it!</h2>
 <% end %>
 <button><%= link_to "Update", controller: 'scrapes', action: 'index', :class=>'btn', :title=>'foo' %></button>
