@@ -5,19 +5,25 @@
 <h1>"ParkScraper on Rails" - Results</h1>
 <h2>A timesaver for collecting all parkrun results.</h2>
 <h3>Data collected at: <%= @runs.last.created_at %> </h3>
+<% if @runs.last.created_at < Time.now - 6 %>
+  <h2 class="age-data-warning">Data is old, refresh it!</h2>
+<% end %>
 <button><%= link_to "Update", controller: 'scrapes', action: 'index', :class=>'btn', :title=>'foo' %></button>
 <button><%= link_to "Order By Age Grade", controller: 'results', action: 'index', :class=>'btn', :title=>'foo', :order => 'age' %></button>
 <button><%= link_to "Order By Age Grade - Top 12s Only", controller: 'results', action: 'index', :class=>'btn', :title=>'foo', :order => 'a12' %></button>
 <button><%= link_to "Order By Position", controller: 'results', action: 'index', :class=>'btn', :title=>'foo', :order => 'pos' %></button>
 <button><%= link_to "Upcoming Milestones", controller: 'milestones', action: 'index', :class=>'btn' %></button>
-<button><%= link_to "Log In", new_user_session_path, :class=>'btn' %></button>
-<button><%= link_to "Sign Up", controller: 'users', action: 'new', :class=>'btn' %></button>
+<% if user_signed_in?  %>
+  <button><%= link_to "Log Out", destroy_user_session_path, :class=>'btn' %></button>
+<% else %>
+  <button><%= link_to "Log In", new_user_session_path, :class=>'btn' %></button>
+  <button><%= link_to "Sign Up", controller: 'users', action: 'new', :class=>'btn' %></button>
+<% end %>
 <% if current_user.admin? %>
   <button><%= link_to "Stalker Feature", controller: 'stalkees', action: 'index', :class=>'btn' %></button>
 <% end %>
 
 <h2>This week there were results from:<h2>
-
   <table class="table table-bordered table-hover">
     <thead>
       <th class="table-header">Parkrun</th>

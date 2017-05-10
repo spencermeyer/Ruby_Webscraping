@@ -65,3 +65,7 @@
 .user-greeting{
    text-align: right;
 }
+.age-data-warning{
+   color: red;
+   background-color: pink;
+}
