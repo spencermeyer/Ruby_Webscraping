@@ -21,6 +21,7 @@ gem 'coffee-rails', '~> 4.2'
 # gem 'therubyracer', '~> 0.12.3'
 gem 'devise'
 gem 'useragent'
+gem 'newrelic_rpm'
 
 # Use jquery as the JavaScript library
 gem 'jquery-rails'
