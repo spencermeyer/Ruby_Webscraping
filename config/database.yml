@@ -47,9 +47,9 @@ test:
 #
 #   production:
 #     url: <%= ENV['DATABASE_URL'] %>
-#  change the below   was username: rubyscrape
+#
 production:
   <<: *default
   database: rubyscrape_production
   username: deploy
-  password: scraper
+  password: <%= ENV['PRODUCTION_DATABASE_PASSWORD'] %>
