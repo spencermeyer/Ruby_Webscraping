@@ -1,5 +1,6 @@
 class MilestonesController < ApplicationController
   before_action :set_milestone, only: [:show, :edit, :update, :destroy]
+  before_action :user_is_admin?
 
   # GET /milestones
   # GET /milestones.json
@@ -63,6 +64,11 @@ class MilestonesController < ApplicationController
 
   private
     # Use callbacks to share common setup or constraints between actions.
+
+    def user_is_admin?
+      redirect_to root_path unless current_user && current_user.admin?
+    end
+
     def set_milestone
       @milestone = Milestone.find(params[:id])
     end
