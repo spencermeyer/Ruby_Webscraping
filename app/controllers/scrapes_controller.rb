@@ -33,12 +33,12 @@ class ScrapesController < ApplicationController
     @data = []
     @links_for_scraping.each do | slink |    #This is the scrape for each individual link******
       if Rails.env.development?
-        run_identifier = Run.create(run_identifier: slink[slink.index('4567')+5 .. slink.index('/results')-1])
+        run_identifier = Run.find_or_create_by(run_identifier: slink[slink.index('4567')+5 .. slink.index('/results')-1])
         Rails.logger.info "Development The Link is: #{run_identifier.run_identifier} "
       else
         run_identifier = slink[slink.index('parkrun') .. slink.index('/results')-1]
         run_identifier = run_identifier[run_identifier.index('/')+1..run_identifier.length]
-        run_identifier = Run.create(run_identifier: run_identifier)
+        run_identifier = Run.find_or_create_by(run_identifier: run_identifier)
         Rails.logger.info "Production The Link is: #{run_identifier.run_identifier} "
       end
       agent = Mechanize.new
@@ -173,8 +173,8 @@ class ScrapesController < ApplicationController
     # Use callbacks to share common setup or constraints between actions.
 
     def clear_all_data
-      Run.destroy_all
-      ActiveRecord::Base.connection.execute("TRUNCATE runs RESTART IDENTITY")
+      #Run.destroy_all
+      #ActiveRecord::Base.connection.execute("TRUNCATE runs RESTART IDENTITY")
       Result.destroy_all
       ActiveRecord::Base.connection.execute("TRUNCATE results RESTART IDENTITY")
     end
