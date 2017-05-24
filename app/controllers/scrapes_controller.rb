@@ -67,7 +67,7 @@ class ScrapesController < ApplicationController
             elsif ([10, 50, 100, 200, 250, 300, 350, 400, 450, 500, 550, 600, 650].include? result.total)
               result_to_clear = Milestone.find_by athlete_number: result.athlete_number if Milestone.exists?(:athlete_number => result.athlete_number)
               if(result_to_clear)
-                Rails.logger.debug "AWOOGA destroying milestone, #{result_to_clear}"
+                Rails.logger.debug "AWOOGA destroying milestone, #{result_to_clear.parkrunner}"
                 result_to_clear.destroy
               end
             end
