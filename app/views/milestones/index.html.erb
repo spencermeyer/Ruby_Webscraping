@@ -19,6 +19,7 @@
       <th class="table-header">Total</th>
       <th class="table-header">Run ID</th>
       <th class="table-header">Athlete number</th>
+      <th class="table-header">Athlete number</th>
       <th class="table-header">Athlete Parkrun Link</th>
       <th class="table-header"colspan="3">Delete</th>
     </tr>
@@ -36,7 +37,8 @@
         <td><%= milestone.club %></td>
         <td><%= milestone.note %></td>
         <td><%= milestone.total %></td>
-        <td><%= Run.where(id: milestone.run_id).first.run_identifier %></td>
+        <td><%= Run.try(:where, :id => milestone.run_id).first.run_identifier %></td>
+        <td><%= milestone.athlete_number %></td>
         <td><%= milestone.athlete_number %></td>
         <td><%= link_to 'ParkRun', athlete_online_route(milestone.athlete_number), target: :_blank %></td>
         <td><%= link_to 'Destroy', milestone, method: :delete, data: { confirm: 'Are you sure?' } %></td>
