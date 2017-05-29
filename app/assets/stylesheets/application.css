@@ -21,7 +21,7 @@
    text-align: center;
    font-size: x-small;
  }
- th #gender, td #gender{
+ th #gender, td #gender {
    width: 6%;
  }
  .newpb {
@@ -35,10 +35,10 @@
  .first-in-age {
    background-color: #00ff00; 
  }
- .first-in-age-cat{
+ .first-in-age-cat {
    background-color: #ccff33;
  }
- .first-in-gender{
+ .first-in-gender {
    background-color: #b3ecff;
  }
  .intro-links {
@@ -50,22 +50,26 @@
  .new {
    color: red;
  }
- .gender-pos-win{
+ .gender-pos-win {
    background-color: #00ff00;
  }
  .milestone-run {
    background-color: #99ccff;
  }
- #milestones{
+ #milestones {
    max-width: 90%;
  }
- .table-header{
+ .table-header {
    text-align: center;
  }
-.user-greeting{
+.user-greeting {
    text-align: right;
 }
-.age-data-warning{
+.age-data-warning {
    color: red;
    background-color: pink;
+}
+.high_pos_finisher,
+.high_age_pos_finisher {
+   background-color: #cc66ff;
 }
