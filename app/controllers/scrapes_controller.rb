@@ -62,6 +62,7 @@ class ScrapesController < ApplicationController
               )
             if ([49, 99, 149, 199, 249, 299, 349, 399, 449, 499, 549, 599, 649].include? result.total) && (run_identifier.run_identifier.include? 'astleigh')
               milestone = Milestone.find_or_create_by(result.attributes.except('id', 'created_at', 'updated_at'))
+              Rails.logger.info "AWOOGA should create milestone, #{result.parkrunner}"
             elsif  [9].include? result.total && (result.age_cat.include? 'J')
               milestone=Milestone.find_or_create_by(result.attributes.except('id', 'created_at', 'updated_at'))
             elsif ([10, 50, 100, 200, 250, 300, 350, 400, 450, 500, 550, 600, 650].include? result.total)
