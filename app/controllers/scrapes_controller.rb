@@ -60,7 +60,7 @@ class ScrapesController < ApplicationController
               run_id:         run_identifier.id,
               athlete_number: get_runner_number_from_text(row) || nil
               )
-            if ([49, 99, 149, 199, 249, 299, 349, 399, 449, 499, 549, 599, 649].include? result.total) && (run_identifier.run_identifier.include? 'astleigh')
+            if ([49, 99, 149, 199, 249, 299, 349, 399, 449, 499, 549, 599, 649].include? result.total) && (run_identifier.run_identifier.include? 'astleigh' || result.club.include? 'astleigh')
               milestone = Milestone.find_or_create_by(result.attributes.except('id', 'created_at', 'updated_at'))
               Rails.logger.info "AWOOGA should create milestone, #{result.parkrunner}"
             elsif  [9].include? result.total && (result.age_cat.include? 'J')
