@@ -69,7 +69,12 @@
    color: red;
    background-color: pink;
 }
-.high_pos_finisher,
 .high_age_pos_finisher {
    background-color: #cc66ff;
 }
+.high_pos_finisher{
+   background-color: #eeccff
+}
+
+
+

@@ -78,7 +78,7 @@
 
   <tbody>
     <% @results.each do |result| %>
-      <% high_pos_finisher = (result.pos < 13)? 'high_pos_finisher' : 'normal_pos_finisher' %>
+      <% high_pos_finisher = (result.pos < 2)? 'high_pos_finisher' : 'normal_pos_finisher' %>
       <% high_age_pos_finisher = (result.age_grade_position < 13)? 'high_age_pos_finisher' : 'normal_age_pos_finisher' %>
       <% note_class = (result.note == 'New PB!')? 'newpb' : 'note' %>
       <% age_class  = (result.age_grade.to_f > 70)? 'fast-age' : 'not-fast-age'%>
