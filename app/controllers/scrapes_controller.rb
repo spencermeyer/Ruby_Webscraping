@@ -102,7 +102,7 @@ class ScrapesController < ApplicationController
       end
     end
     Rails.logger.info "AWOOGA about to redirect"
-    redirect_to :results
+    redirect_to :results unless request.nil?
   end
 
   def get_runner_number_from_text(inputrow)
