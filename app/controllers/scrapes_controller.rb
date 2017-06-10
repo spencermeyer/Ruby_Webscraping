@@ -5,7 +5,7 @@ class ScrapesController < ApplicationController
   # GET /scrapes
   # GET /scrapes.json
   def index
-    #@scrapes = Scrape.all
+    Rails.logger.debug "AWOOGA start scrape at #{Time.now}"
     #SET STUFF UP
     require 'open-uri'
     require 'mechanize'
