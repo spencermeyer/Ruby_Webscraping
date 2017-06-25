@@ -7,9 +7,11 @@ The scraping is done in two stages: 1) there is an index site where the list of 
 
 I'm using 'mechanize' as my scraping gem:  I started using Nokogiri but I found that I could not set headers to defeat anti-scraping measures using this, and found that mechanize just works.
 
-I started using Postgressql because MySQL was not accepted by Heroku, however due to problems with Heroku, I started hosting this on a cloud computer and just continues using Postgres.
+I started using Postgressql because MySQL was not accepted by Heroku, however due to problems with Heroku, I started hosting this on a cloud computer and just continued using Postgres.
 
 I initially tried Heroku to host this.  However the app times out because it has a lot to do before the view can be displayed - particularly a lot of http which are costly and unavoidable.  I was not able to alter the http timeout on Heroku so I went to hosting this on a Digital Ocean Droplet, which obviously alllows me to alter the timeout - and lets me learn about Capistrano, nginx, and all the ohther stuff that things like Heroku just does for you.
+
+For testing, I set up a Sinatra server (hosted in a different Git repository) to serve up test assets in development and test modes, and I'm using the 'vcr' gem to replay it in test mode.
 
 Deployment.
 -----------

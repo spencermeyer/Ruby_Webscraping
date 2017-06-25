@@ -43,6 +43,8 @@ group :development, :test do
   gem 'byebug', platform: :mri
   gem 'pry-rails'
   gem 'annotate'
+  gem 'vcr'
+  gem 'webmock'
 end
 
 group :development do

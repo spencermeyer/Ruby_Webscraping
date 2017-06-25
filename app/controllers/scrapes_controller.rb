@@ -12,7 +12,7 @@ class ScrapesController < ApplicationController
     online_url_for_scrape = 'http://www.parkrun.com/results/consolidatedclub/?clubNum=1537'
     local_url_for_scrape =  'http://localhost:4567/results_Consolidated_parkrun.html'
 
-    if Rails.env.development?
+    if (Rails.env.development? | Rails.env.test?)
      scrape_index_source = local_url_for_scrape
     else
       scrape_index_source = online_url_for_scrape
@@ -32,7 +32,7 @@ class ScrapesController < ApplicationController
     # GET THE DATA FROM THE INDIVIDUAL LINKS
     @data = []
     @links_for_scraping.each do | slink |    #This is the scrape for each individual link******
-      if Rails.env.development?
+      if (Rails.env.development? | Rails.env.test?)
         run_identifier = Run.find_or_create_by(run_identifier: slink[slink.index('4567')+5 .. slink.index('/results')-1])
         Rails.logger.info "Development The Link is: #{run_identifier.run_identifier} "
       else
@@ -101,6 +101,7 @@ class ScrapesController < ApplicationController
         end
       end
     end
+    Rails.logger.info "AWOOGA finished scraping at #{Time.now}"
     Rails.logger.info "AWOOGA about to redirect"
     redirect_to :results unless request.nil?
   end
@@ -174,7 +175,7 @@ class ScrapesController < ApplicationController
     # Use callbacks to share common setup or constraints between actions.
     def clear_all_data
       #ActiveRecord::Base.connection.execute("TRUNCATE runs RESTART IDENTITY")
-      Run.last.touch(:updated_at)
+      Run.last.touch(:updated_at) unless !Run.any?
       Result.destroy_all
       ActiveRecord::Base.connection.execute("TRUNCATE results RESTART IDENTITY")
     end
