@@ -15,7 +15,7 @@ Deployment.
 -----------
 I've written a separate document for my Digital Ocean machine build log, it took a long time to get this right.
 To deploy subsequent code, it is simply:
-		`cap production deploy`
+	`cap production deploy`
 which is really convenient.
 
 Things to do next.
@@ -28,6 +28,7 @@ Things to do next.
 Tech Stack
 ----------
 * Capistrano 3 for deployment
-* Puma runs rails
+* Puma runs rails 5
 * Ruby 2.4.4  :)
 * posgresql
+* nginx

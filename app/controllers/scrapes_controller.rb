@@ -172,9 +172,7 @@ class ScrapesController < ApplicationController
 
   private
     # Use callbacks to share common setup or constraints between actions.
-
     def clear_all_data
-      #Run.destroy_all
       #ActiveRecord::Base.connection.execute("TRUNCATE runs RESTART IDENTITY")
       Run.last.touch(:updated_at)
       Result.destroy_all
