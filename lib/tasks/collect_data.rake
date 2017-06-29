@@ -9,7 +9,7 @@ namespace :collect_data do
   desc "CleanRunData"
   task clean: :environment do
     Run.all.each do |run|
-      run.destroy! unless Result.where(run_id: run.id).any?
+      run.destroy! unless (Result.where(run_id: run.id).any? || Milestone.where(run_id: run.id).any?)
     end
   end
 end
