@@ -40,7 +40,7 @@
     </thead>
     <tbody>
 <% @runs.each do |run| %>
-  <% show_results = (Result.where(run_id: run.id).eastleigh.count<1)? 'no_show_no_results' :  'normal_show' %>
+  <% if(Result.where(run_id: run.id).eastleigh.count > 0)   %>
       <tr>
         <td colspan = "1" class="results"><%= run.run_identifier %></td>
         <td colspan = "1" class="results"><%= Result.where(run_id: run.id).count  %></td>
@@ -50,7 +50,8 @@
         <td colspan = "1" class="results"><%= Result.where(run_id: run.id, gender: 'M').eastleigh.count %></td>
         <td colspan = "1" class="results"><%= Result.where(run_id: run.id, gender: 'F').eastleigh.count %></td>
       </tr>
- <% end %>
+  <% end %>    
+<% end %>
       <tr>
         <td>TOTALS</td><td><%= Result.count %></td><td><%= Result.eastleigh.count %></td><td><%= Result.where(gender: 'M').eastleigh.count %></td><td><%= Result.where(gender: 'F').eastleigh.count %></td>
       </tr>
