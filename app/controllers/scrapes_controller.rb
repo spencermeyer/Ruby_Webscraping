@@ -112,8 +112,12 @@ class ScrapesController < ApplicationController
       return nil
     else
       athletestring = inputrow.children[1].children[0].attributes['href'].try(:value)
-      athlete_number = athletestring[athletestring.index('ber=')+4, athletestring.length].to_i
-      return athlete_number
+      if(athletestring)
+        athlete_number = athletestring[athletestring.index('ber=')+4, athletestring.length].to_i
+        return athlete_number
+      else
+        return 'no_number'
+      end
     end
   end
 
