@@ -27,7 +27,6 @@ class ScrapesController < ApplicationController
     @links_for_scraping = []
     mech_links_for_scraping.each do |link|
       @links_for_scraping.push(link.attributes['href'].value)
-      @links_for_scraping.first.destroy
     end
 
     # GET THE DATA FROM THE INDIVIDUAL LINKS
