@@ -5,8 +5,10 @@
 <h1>"ParkScraper on Rails" - Results</h1>
 <h2>A timesaver for collecting all parkrun results.</h2>
 <h3>Data collected at: <%= @results.last.updated_at unless @results.last.nil?  %> </h3>
-<% if @results.last.updated_at < Time.now - 6.days %>
-  <h2 class="age-data-warning">Data is old, refresh it!</h2>
+<% if @results.last %>
+  <% if @results.last.updated_at < Time.now - 6.days %>
+    <h2 class="age-data-warning">Data is old, refresh it!</h2>
+  <% end %>
 <% end %>
 <button id='update', class='btn-info' ><%= link_to "Update", controller: 'scrapes', action: 'index', class: 'btn', id: 'update-link' %></button>
 <button><%= link_to "Order By Age Grade", controller: 'results', action: 'index', :class=>'btn', :title=>'foo', :order => 'age' %></button>
