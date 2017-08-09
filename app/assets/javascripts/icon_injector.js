@@ -1,5 +1,4 @@
 $(document).ready(function(){
-  console.log('AWOOGA3');
   master = window.parent.document;
   head = master.getElementsByTagName("head")[0];
   favicon = master.createElement("link");
