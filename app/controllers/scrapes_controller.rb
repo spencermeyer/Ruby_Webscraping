@@ -1,6 +1,8 @@
 class ScrapesController < ApplicationController
   #before_action :set_scrape, only: [:show, :edit, :update, :destroy]
+  include ScrapesHelper
   before_action :clear_all_data
+  after_action :add_clear_old_runs_to_resque
 
   # GET /scrapes
   # GET /scrapes.json
@@ -182,6 +184,10 @@ class ScrapesController < ApplicationController
       Run.last.touch(:updated_at) unless !Run.any?
       Result.destroy_all
       ActiveRecord::Base.connection.execute("TRUNCATE results RESTART IDENTITY")
+    end
+
+    def add_clear_old_runs_to_resque
+      Resque.enqueue(UnusedRuns)
     end
 
     def set_scrape

@@ -72,6 +72,40 @@ https://www.varvet.com/blog/handle-secret-credentials-in-ruby-on-rails/
 http://www.freelancingdigest.com/articles/capistrano-variables/
 
 
+install redis
+-------------
+steps are here: https://www.digitalocean.com/community/tutorials/how-to-install-and-configure-redis-on-ubuntu-16-04
+sudo apt-get install build-essential tcl
+cd /tmp
+curl -O http://download.redis.io/redis-stable.tar.gz
+tar xzvf redis-stable.tar.gz
+cd redis-stable
+make
+make test
+sudo make install
+sudo mkdir /etc/redis
+sudo cp /tmp/redis-stable/redis.conf /etc/redis
+- then change the redis.conf to the settings given in the difital ocean guide.
+/etc/systemd/system/redis.service     and add the setting given in the guide
+sudo adduser --system --group --no-create-home redis
+sudo mkdir /var/lib/redis
+sudo chown redis:redis /var/lib/redis
+sudo chmod 770 /var/lib/redis
+sudo systemctl enable redis
+
+install ssl certificate
+-----------------------
+based on this:  https://www.digitalocean.com/community/tutorials/how-to-create-an-ssl-certificate-on-nginx-for-ubuntu-14-04
+
+mkdir /etc/nginx/ssl
+sudo openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout /etc/nginx/ssl/nginx.key -out /etc/nginx/ssl/nginx.crt
+
+THIS IS NOT WORKING MUST GET THIS WORKING...
+
+Set up IP Tables
+----------------
+https://www.digitalocean.com/community/tutorials/how-to-set-up-a-firewall-using-iptables-on-ubuntu-14-04
+MUST DO MORE OF THIS, SEE THE VISITS!
 
 To Do
 -----
@@ -79,6 +113,9 @@ To Do
 *Optimise as per the conclusion in the guide.
 * think about swapiness.
 <%= ENV['WWW_DATABASE_PASSWORD'] %>
+
+
+rake task to clear out old visits
 
 Deploy
 ------ 
@@ -92,10 +129,6 @@ hardcode the password in bitbucket.  (temporary solution)
 
 here is how to test:  `nginx -t`
 
-problem:  won't show in frame (namesco prob? cos it works by ip address).
 problem: timeout
-
-
-
 
 

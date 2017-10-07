@@ -22,6 +22,8 @@ gem 'coffee-rails', '~> 4.2'
 gem 'devise'
 gem 'useragent'
 gem 'newrelic_rpm'
+gem 'resque'
+gem 'will_paginate'
 
 # Use jquery as the JavaScript library
 gem 'jquery-rails'
@@ -45,6 +47,8 @@ group :development, :test do
   gem 'annotate'
   gem 'vcr'
   gem 'webmock'
+  gem 'factory_girl_rails'
+  gem 'awesome_print'
 end
 
 group :development do

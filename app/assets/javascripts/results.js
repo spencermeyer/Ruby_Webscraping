@@ -1,6 +1,5 @@
 document.addEventListener("turbolinks:load", function() {
-  //$('#update-logged-out').tooltip();
-
+  
 
   $('#update').click(function(event){
     // event.preventDefault();  //only for testing
@@ -17,13 +16,12 @@ document.addEventListener("turbolinks:load", function() {
     alert('You must be logged in as an admin to update the results :(  ');
   });
   $('#update-logged-out').hover(function(event){
-    // console.log('Hover detected');
+    console.log('Hover detected');
     // Select a specified element
     // $('#myTooltip').tooltip();
     // $('#update-logged-out').tooltip(); 
   });
 
-
-
+  $('[data-toggle="tooltip"]').tooltip()
 
 });

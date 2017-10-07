@@ -13,7 +13,7 @@
 <% if current_user && current_user.admin? %>
   <button id='update', class='btn-info' ><%= link_to "Update", controller: 'scrapes', action: 'index', class: 'btn', id: 'update-link' %></button>
 <% else %>
-  <button id='update-logged-out', class='btn', href="#", data-toggle="tooltip" title="Hooray!" ><%= link_to "Update", class: 'btn', id: 'update-link' %></button>
+  <button id='update-logged-out', class='btn', data-toggle="tooltip" title="Hooray!" data-placement="right" ><%= link_to "Update", class: 'btn', id: 'update-link' %></button>
 <% end %>
 
 <button><%= link_to "Order By Age Grade", controller: 'results', action: 'index', :class=>'btn', :title=>'foo', :order => 'age' %></button>
