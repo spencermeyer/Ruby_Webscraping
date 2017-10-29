@@ -85,7 +85,7 @@ make test
 sudo make install
 sudo mkdir /etc/redis
 sudo cp /tmp/redis-stable/redis.conf /etc/redis
-- then change the redis.conf to the settings given in the difital ocean guide.
+- then change the redis.conf to the settings given in the digital ocean guide.
 /etc/systemd/system/redis.service     and add the setting given in the guide
 sudo adduser --system --group --no-create-home redis
 sudo mkdir /var/lib/redis
@@ -105,17 +105,38 @@ THIS IS NOT WORKING MUST GET THIS WORKING...
 Set up IP Tables
 ----------------
 https://www.digitalocean.com/community/tutorials/how-to-set-up-a-firewall-using-iptables-on-ubuntu-14-04
+https://www.howtogeek.com/177621/the-beginners-guide-to-iptables-the-linux-firewall/
+then do:  `sudo /sbin/iptables-save`
 MUST DO MORE OF THIS, SEE THE VISITS!
+
+Use nginx to block some requests
+--------------------------------
+in the server block of nginx.conf:
+        if ($http_user_agent ~ (masscan|Foo|Wget|Bacon|sysscan) ) {
+         return 403;
+        }
+nice  :)
+
 
 To Do
 -----
-
 *Optimise as per the conclusion in the guide.
 * think about swapiness.
-<%= ENV['WWW_DATABASE_PASSWORD'] %>
+* Resque jobs are not being carried out, find out why.
+* write a job for clearing out old visits data.
+* rake task to clear out old visits
+
+* use resqueue to kill runs where there are no data for. (get it working, at the moment the job just sits in resque)
+* make emails
+
+* use nginx to kill dodgy visits:
+* https://www.cyberciti.biz/faq/unix-linux-appleosx-bsd-nginx-block-user-agent/
+
+convert to environmental variables
+- mailgun key
 
 
-rake task to clear out old visits
+*** FIX TIMES OVER ONE HOUR PROBLEM.
 
 Deploy
 ------ 

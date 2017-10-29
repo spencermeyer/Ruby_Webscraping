@@ -11,4 +11,12 @@ FactoryGirl.define  do
     total 123
     athlete_number 654321
   end
+
+  trait :seventy_minutes
+    time: '1:10:00'
+  end
+
+  trait :seventy_five_minutes
+    time: '1:15:00'
+  end
 end

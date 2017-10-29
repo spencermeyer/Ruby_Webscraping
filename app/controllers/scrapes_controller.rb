@@ -48,10 +48,11 @@ class ScrapesController < ApplicationController
       slink_doc = agent.get(slink)
       slink_doc.xpath('//tr').each do |row|  # this is the loop for individual rows of data.
         if row.children.length > 8  && row.children[0].children.text != '' && (!row.children[1].children.text.include? 'parkrunner')
+            time_in_seconds = row.children[2].children.text.split(':')[-1].to_i + row.children[2].children.text.split(':')[-2].to_i*60  + row.children[2].children.text.split(':')[-3].to_i*3600
             result = Result.create(
               pos:            row.children[0].children.text,
               parkrunner:     row.children[1].children.text,
-              time:           row.children[2].children.text,
+              time:           time_in_seconds,
               age_cat:        row.children[3].children.text,
               age_grade:      row.children[4].children.text,
               gender:         row.children[5].children.text,

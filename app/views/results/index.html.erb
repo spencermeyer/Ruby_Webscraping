@@ -100,7 +100,7 @@
           <td><%= @runs.where(id: result.run_id).first.run_identifier  %></td>
           <td class="<%= high_pos_finisher %>"><%= result.pos %></td>
           <td><%= result.parkrunner %></td>
-          <td><%= result.time %></td>
+          <td><%= convert_integer_time_to_hours_mins_seconds(result.time) %></td>
           <td><%= result.age_cat %></td>
           <td class="<%= age_cat_class %>"><%= result.age_cat_position %></td>        
           <td class="<%= age_class %>"><%= result.age_grade %></td>
