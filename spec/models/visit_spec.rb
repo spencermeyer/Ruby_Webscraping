@@ -12,5 +12,7 @@
 require 'rails_helper'
 
 RSpec.describe Visit, type: :model do
-  pending "add some examples to (or delete) #{__FILE__}"
+  skip 'no visit model tests yet' do
+    pending "add some examples to (or delete) #{__FILE__}"
+  end
 end

@@ -12,10 +12,13 @@ RSpec.describe ScrapesController, type: :controller do
 
   describe "GET #scrape" do
     it "scrapes the test website using vcr and generates results" do
-      VCR.use_cassette('scrape', record: :new_episodes) do  #record: :new_episodes :all :none
+      VCR.use_cassette('scrape', record: :none) do  #record: :new_episodes :all :none
         get :index
         expect(Result.count).to eq(3266)
         expect(Milestone.count).to eq(4)
+        eastleigh_run=Run.where('run_identifier':'eastleigh').first
+        expect(Result.where({'age_cat':'VW50-54', 'club':'Eastleigh RC', run_id: eastleigh_run.id}).last.parkrunner).to eq('Alison MEARS')
+        expect(Result.where('parkrunner': 'Alison MEARS').first.age_cat_position).to eq(13)
       end
     end
   end

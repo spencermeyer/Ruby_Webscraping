@@ -11,5 +11,7 @@ require 'rails_helper'
 #   end
 # end
 RSpec.describe MilestonesHelper, type: :helper do
-  pending "add some examples to (or delete) #{__FILE__}"
+  skip 'Nothing to test in this helper' do
+    pending "add some examples to (or delete) #{__FILE__}"
+  end
 end

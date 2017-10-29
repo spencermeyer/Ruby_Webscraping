@@ -11,5 +11,7 @@ require 'rails_helper'
 #   end
 # end
 RSpec.describe VisitsHelper, type: :helper do
-  pending "add some examples to (or delete) #{__FILE__}"
+  skip 'nothing to test in the visits helper' do
+    pending "add some examples to (or delete) #{__FILE__}"
+  end
 end
