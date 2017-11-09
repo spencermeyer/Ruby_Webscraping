@@ -62,6 +62,9 @@ sudo swapon swapfile
 free -m
 edit /etc/fstab   to make use of swapfile permanent.
 
+Set up Environment variables:
+-----------------------------
+Put them in .bashrc
 
 Symlink the nginx conf
 ----------------------
@@ -136,7 +139,6 @@ convert to environmental variables
 - mailgun key
 
 
-*** FIX TIMES OVER ONE HOUR PROBLEM.
 
 Deploy
 ------ 
