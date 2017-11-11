@@ -144,14 +144,25 @@ Deploy
 ------ 
 This site is hosted at:  parkcollectoronrails.co.uk   (46.101.17.87)
 
-try the solution here:  http://railsguides.net/how-to-define-environment-variables-in-rails/
 
-didn;t work because the symlink didn't work:
-so:
-hardcode the password in bitbucket.  (temporary solution)
 
-here is how to test:  `nginx -t`
+Nginx Config and Troubleshooting
+................................
 
-problem: timeout
+Worked fine after I installed the ssl certificates, but not in ssl mode.
+
+
+
+https://blog.serverdensity.com/troubleshoot-nginx/
+sudo nginx -t                   - this passes OK.
+sudo service nginx configtest   - this passes ok
+sudo service nginx status       - looks ok ?
+
+sudo nginx -T    ***************  :)
+
+
+put the ssl certs into /etc/nginx/nginx.conf.  didnt break anything.
+
+
 
 
