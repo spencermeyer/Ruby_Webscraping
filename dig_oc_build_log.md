@@ -100,6 +100,10 @@ install ssl certificate
 -----------------------
 based on this:  https://www.digitalocean.com/community/tutorials/how-to-create-an-ssl-certificate-on-nginx-for-ubuntu-14-04
 
+here's one using let's encrypt:
+https://www.digitalocean.com/community/tutorials/how-to-secure-nginx-with-let-s-encrypt-on-ubuntu-14-04
+
+
 mkdir /etc/nginx/ssl
 sudo openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout /etc/nginx/ssl/nginx.key -out /etc/nginx/ssl/nginx.crt
 
@@ -123,8 +127,7 @@ nice  :)
 
 To Do
 -----
-*Optimise as per the conclusion in the guide.
-* think about swapiness.
+* Optimise as per the conclusion in the guide.
 * Resque jobs are not being carried out, find out why.
 * write a job for clearing out old visits data.
 * rake task to clear out old visits
@@ -151,17 +154,19 @@ Nginx Config and Troubleshooting
 
 Worked fine after I installed the ssl certificates, but not in ssl mode.
 
-
-
 https://blog.serverdensity.com/troubleshoot-nginx/
 sudo nginx -t                   - this passes OK.
 sudo service nginx configtest   - this passes ok
 sudo service nginx status       - looks ok ?
-
 sudo nginx -T    ***************  :)
-
+curl -i https://127.0.0.1/nginx_status   at last an error that makes sense.
 
 put the ssl certs into /etc/nginx/nginx.conf.  didnt break anything.
+
+good stuff here:  https://stackoverflow.com/questions/8768946/
+
+https://t37.net/a-poodle-proof-bulletproof-nginx-ssl-configuration.html
+
 
 
 
