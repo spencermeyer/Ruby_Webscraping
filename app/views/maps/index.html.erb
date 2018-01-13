@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Map</title>
+</head>
+<body>
+  <h3>Here is a map of the route.</h3>
+  <div id="googleMap" style="width:75%;height:600px;"></div>
+
+  <span class='glyphicon glyphicon-download-alt' style="margin-top: 10px; margin-left: 20px" aria-hidden=true>
+    <a href="download.txt"  download>DOWNLOAD IT GPX</a>
+  </span>
+<!--   to do    put the api key into a config, pull it out an pump it through...  :)      --> 
+
+  <script>
+    function myMap() {
+      var mapProp= {
+          center:new google.maps.LatLng(50.968017,-1.374912),
+          zoom:16,
+      };
+      var map=new google.maps.Map(document.getElementById("googleMap"),mapProp);
+      var runPathCoordinates = [
+        { lat: 50.969625,lng: -1.376516 },
+        { lat: 50.967645,lng: -1.376516 },
+        { lat: 50.967645,lng: -1.374874 }
+      ];
+      var flightPath = new google.maps.Polyline({
+        path: runPathCoordinates,
+        geodesic: true,
+        strokeColor: '#ff9900',
+        strokeOpacity: 1.0,
+        strokeWeight: 6
+      });
+      flightPath.setMap(map);
+    }
+
+  </script>
+  <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBenxa7U_dMan0gT-qsu4GeyhfqdcaSYrU&callback=myMap"></script>
+</body>
+</html>
