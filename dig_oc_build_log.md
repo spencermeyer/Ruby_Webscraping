@@ -170,7 +170,7 @@ https://t37.net/a-poodle-proof-bulletproof-nginx-ssl-configuration.html
 Upgrading Nokogiri
 ..................
 gem install pkg-config -v "~> 1.1"
-
+sudo apt-get install libxslt-dev
 
 
 
