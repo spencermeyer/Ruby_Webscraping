@@ -48,11 +48,7 @@ class ScrapesController < ApplicationController
 
       begin
         slink_doc = agent.get(slink)
-      rescue
-        Rails.logger.log "An error occurred"
-      end
 
-      if response.code == '200'
         slink_doc.xpath('//tr').each do |row|  # this is the loop for individual rows of data.
           if row.children.length > 8  && row.children[0].children.text != '' && (!row.children[1].children.text.include? 'parkrunner')
               time_in_seconds = row.children[2].children.text.split(':')[-1].to_i + row.children[2].children.text.split(':')[-2].to_i*60  + row.children[2].children.text.split(':')[-3].to_i*3600
@@ -84,7 +80,9 @@ class ScrapesController < ApplicationController
               end
           end   # here ends each row operation
         end # here ends the slink each
-      end  # here we only do this if the response code is 200
+      rescue
+        Rails.logger.log "An error occurred"
+      end  # rescue block
     end  # here ends each link for scraping
 
     # now would be a good time to assign age grade positions.
