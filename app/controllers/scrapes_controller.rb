@@ -45,7 +45,12 @@ class ScrapesController < ApplicationController
       end
       agent = Mechanize.new
       agent.user_agent_alias = "Mac Safari"
-      slink_doc = agent.get(slink)
+
+      begin
+        slink_doc = agent.get(slink)
+      rescue
+        Rails.logger.log "An error occurred"
+      end
 
       if response.code == '200'
         slink_doc.xpath('//tr').each do |row|  # this is the loop for individual rows of data.
@@ -79,7 +84,7 @@ class ScrapesController < ApplicationController
               end
           end   # here ends each row operation
         end # here ends the slink each
-      end
+      end  # here we only do this if the response code is 200
     end  # here ends each link for scraping
 
     # now would be a good time to assign age grade positions.
