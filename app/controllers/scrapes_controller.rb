@@ -81,7 +81,7 @@ class ScrapesController < ApplicationController
           end   # here ends each row operation
         end # here ends the slink each
       rescue StandardError => e
-        Rails.logger.log "A scraping error occurred, #{e}"
+        #Rails.logger.log "A scraping error occurred, #{e}"
       end  # rescue block
     end  # here ends each link for scraping
 
