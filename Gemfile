@@ -4,7 +4,7 @@ ruby '2.4.0'
 gem 'mechanize'
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'pkg-config'   # might help nokogiri install.
-gem 'nokogiri', '~> 1.8', '>= 1.8.1'
+gem 'nokogiri'  # mechanize was resolved to 2.7.5, which depends on nokogiri (= 1.8.1)
 gem 'rails', '~> 5.0.1'
 # Use mysql as the database for Active Record
 # gem 'mysql2', '>= 0.3.18', '< 0.5'

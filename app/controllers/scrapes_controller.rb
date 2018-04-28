@@ -11,6 +11,7 @@ class ScrapesController < ApplicationController
     #SET STUFF UP
     require 'open-uri'
     require 'mechanize'
+
     online_url_for_scrape = 'http://www.parkrun.com/results/consolidatedclub/?clubNum=1537'
     local_url_for_scrape =  'http://localhost:4567/results_Consolidated_parkrun.html'
 
@@ -21,9 +22,8 @@ class ScrapesController < ApplicationController
     end
 
     # START TO GET THE INDEX PAGE
-    browser = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/56.0.2924.87 Safari/537.36'
-    agent=Mechanize.new
-    agent.user_agent_alias = "Mac Safari"
+    agent = Mechanize.new
+    agent.user_agent_alias = OtherBrowsers::ALIASES[5] #"Mac Safari"
     doc = agent.get(scrape_index_source)
     mech_links_for_scraping = doc.xpath('//a[contains(text(),"View full results")]')
     @links_for_scraping = []

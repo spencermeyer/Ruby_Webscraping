@@ -7,4 +7,25 @@ module ScrapesHelper
       end
     end
   end
+
+  class OtherBrowsers
+    ALIASES = 
+      [
+        'Linux Firefox',
+        'Linux Konqueror',
+        'Linux Mozilla',
+        'Mac Firefox',
+        'Mac Mozilla',
+        'Mac Safari',
+        'Mac Safari',
+        'Windows IE 7',
+        'Windows IE 8',
+        'Windows IE 9',
+        'Windows IE 10',
+        'Windows IE 11',
+        'Windows Edge',
+        'Windows Mozilla',
+        'Windows Firefox',
+      ]
+  end
 end

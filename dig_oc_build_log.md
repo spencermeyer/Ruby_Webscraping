@@ -5,15 +5,13 @@ https://www.digitalocean.com/community/tutorials/initial-server-setup-with-ubunt
 then this:
 https://www.digitalocean.com/community/tutorials/deploying-a-rails-app-on-ubuntu-14-04-with-capistrano-nginx-and-puma
 
-*set up swap
+set up swap
+...........
 https://www.digitalocean.com/community/tutorials/how-to-add-swap-on-ubuntu-14-04
-
 add a user 'deploy'
 `adduser deploy`
-
 grant sudo access to deploy
 `gpasswd -a deploy sudo`
-
 make `.ssh/authorized_keys`
 `chmod 600 authorized_keys`
 
@@ -34,7 +32,6 @@ also go into console (`psql`) and \l lists databases, \du displays users.
 ---------------------------
 capistrano problems with js runtime.  Installing node-js fixed this.
 sudo apt-get install nodejs
-
 
 
 start installing rvm etc
@@ -167,10 +164,9 @@ good stuff here:  https://stackoverflow.com/questions/8768946/
 
 https://t37.net/a-poodle-proof-bulletproof-nginx-ssl-configuration.html
 
-Upgrading Nokogiri
-..................
-gem install pkg-config -v "~> 1.1"
-sudo apt-get install libxslt-dev
+hostname
+park-collector-rails
+
 
 
 
