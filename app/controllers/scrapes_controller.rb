@@ -189,7 +189,7 @@ class ScrapesController < ApplicationController
     def clear_all_data
       #ActiveRecord::Base.connection.execute("TRUNCATE runs RESTART IDENTITY")
       Run.last.touch(:updated_at) unless !Run.any?
-      Result.destroy_all
+      Result.delete_all
       ActiveRecord::Base.connection.execute("TRUNCATE results RESTART IDENTITY")
     end
 
