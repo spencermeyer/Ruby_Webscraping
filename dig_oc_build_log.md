@@ -167,6 +167,21 @@ https://t37.net/a-poodle-proof-bulletproof-nginx-ssl-configuration.html
 hostname
 park-collector-rails
 
+Let's Try Certbot
+-----------------
+Because I've been over and over the nginx config and there can't be anything wrong with it :(
+
+https://certbot.eff.org/lets-encrypt/ubuntutrusty-nginx
+
+
+
+
+
+
+
+
+
+
 
 
 
