@@ -121,6 +121,9 @@ in the server block of nginx.conf:
         }
 nice  :)
 
+Install sendmail - for monitoring
+---------------------------------
+sudo apt-get install sendmail
 
 To Do
 -----
@@ -172,6 +175,17 @@ Let's Try Certbot
 Because I've been over and over the nginx config and there can't be anything wrong with it :(
 
 https://certbot.eff.org/lets-encrypt/ubuntutrusty-nginx
+
+
+sudo apt-get install software-properties-common
+sudo add-apt-repository ppa:certbot/certbot
+sudo apt-get update
+sudo apt-get install python-certbot-nginx
+
+This failed.  I think its because the certbot tried to go to parkcollectoronrails.co.uk for something.
+
+
+
 
 
 
