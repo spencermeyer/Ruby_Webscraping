@@ -25,7 +25,7 @@ class ScrapesController < ApplicationController
     Rails.logger.debug "Scraping in mode #{Rails.env}"
     Rails.logger.debug "Source is #{scrape_index_source}"
     agent = Mechanize.new
-    agent.user_agent_alias = OtherBrowsers::ALIASES[5] #"Mac Safari"
+    agent.user_agent_alias = OtherBrowsers::ALIASES[11] #"Windows 11"
     doc = agent.get(scrape_index_source)
     Rails.logger.debug "Response code from index is #{doc.code}"
     mech_links_for_scraping = doc.xpath('//a[contains(text(),"View full results")]')
