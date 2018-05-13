@@ -22,6 +22,7 @@ class ScrapesController < ApplicationController
     end
 
     # START TO GET THE INDEX PAGE
+    Rails.logger.debug "Scraping in mode #{Rails.env}"
     agent = Mechanize.new
     agent.user_agent_alias = OtherBrowsers::ALIASES[5] #"Mac Safari"
     doc = agent.get(scrape_index_source)
