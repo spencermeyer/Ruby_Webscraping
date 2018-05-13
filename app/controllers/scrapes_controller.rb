@@ -23,9 +23,11 @@ class ScrapesController < ApplicationController
 
     # START TO GET THE INDEX PAGE
     Rails.logger.debug "Scraping in mode #{Rails.env}"
+    Rails.logger.debug "Source is #{scrape_index_source}"
     agent = Mechanize.new
     agent.user_agent_alias = OtherBrowsers::ALIASES[5] #"Mac Safari"
     doc = agent.get(scrape_index_source)
+    Rails.logger.debug "Response code from index is #{doc.code}"
     mech_links_for_scraping = doc.xpath('//a[contains(text(),"View full results")]')
     @links_for_scraping = []
     mech_links_for_scraping.each do |link|
