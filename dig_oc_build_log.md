@@ -122,7 +122,7 @@ in the server block of nginx.conf:
 nice  :)
 
 Install sendmail - for monitoring
----------------------------------
+--------------------------------- 
 sudo apt-get install sendmail
 
 To Do
@@ -184,18 +184,24 @@ sudo apt-get install python-certbot-nginx
 
 This failed.  I think its because the certbot tried to go to parkcollectoronrails.co.uk for something.
 
+This actually worked:
+sudo certbot certonly --manual --preferred-challenges dns
+it requires a dns txt entry which I entered in at namesco config.
+
+Apparently all working.  But https just hangs.
+
+TCP Dump
+--------
+sudo tcpdump -i eth0 port 443     # here port 80 captures and port 443 does not.  : it's not nginx its the machine ?
+
+BUT when I go to the machine directly via the ip address on port 443 tcp dump logs stuff on port 443.
 
 
 
 
+  
 
-
-
-
-
-
-
-
+   
 
 
 
