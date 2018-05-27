@@ -3,6 +3,7 @@ namespace :collect_data do
   task scrape: :environment do
     app = ActionDispatch::Integration::Session.new(Rails.application)
     Rails.logger.info "RakeTaskCollectData awooga"
+    ScrapesController.new.clear_all_data
     ScrapesController.new.index
   end
 
