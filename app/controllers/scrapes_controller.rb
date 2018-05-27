@@ -32,8 +32,8 @@ class ScrapesController < ApplicationController
       Rails.logger.debug "Error in scraping source, #{e}"
     end
     
-    Rails.logger.debug "Response code from scrapes index source is #{doc.code}"
-    mech_links_for_scraping = doc.xpath('//a[contains(text(),"View full results")]')
+    mech_links_for_scraping = doc.xpath('//a[contains(text(),"View full results")]') unless !doc
+    mech_links_for_scraping ||= []  # in case its failed.
     @links_for_scraping = []
     mech_links_for_scraping.each do |link|
       @links_for_scraping.push(link.attributes['href'].value)
