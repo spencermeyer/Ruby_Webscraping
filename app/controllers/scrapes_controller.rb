@@ -26,12 +26,14 @@ class ScrapesController < ApplicationController
     Rails.logger.debug "Source is #{scrape_index_source}"
     agent = Mechanize.new
     agent.user_agent_alias = OtherBrowsers::ALIASES.sample  #use a random alias :)
+
     begin
       doc = agent.get(scrape_index_source)
     rescue StandardError => e
       Rails.logger.debug "Error in scraping source, #{e}"
+      Rails.logger.debug "Error in scraping source #{response.code}"
     end
-    
+
     mech_links_for_scraping = doc.xpath('//a[contains(text(),"View full results")]') unless !doc
     mech_links_for_scraping ||= []  # in case its failed.
     @links_for_scraping = []
@@ -41,7 +43,7 @@ class ScrapesController < ApplicationController
 
     # GET THE DATA FROM THE INDIVIDUAL LINKS
     @data = []
-    @links_for_scraping.each do | slink |    #This is the scrape for each individual link******
+    @links_for_scraping.each do | slink |   #This is the scrape for each individual link
       if (Rails.env.development? | Rails.env.test?)
         run_identifier = Run.find_or_create_by(run_identifier: slink[slink.index('4567')+5 .. slink.index('/results')-1])
         Rails.logger.info "Development The Link is: #{run_identifier.run_identifier} "
@@ -93,7 +95,7 @@ class ScrapesController < ApplicationController
     end  # here ends each link for scraping
 
     # now would be a good time to assign age grade positions.
-    @runs = Run.all
+    @runs = Run.all   # change this to curret runs only   TODO
     @runs.each do |run|
       Rails.logger.info "ok lets assign AGE GRADES sort run #{run.run_identifier}"
       @results_for_sorting = Result.where(run_id: run.id).order('age_grade DESC')
