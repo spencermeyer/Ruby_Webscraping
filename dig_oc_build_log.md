@@ -196,12 +196,3 @@ sudo tcpdump -i eth0 port 443     # here port 80 captures and port 443 does not.
 
 BUT when I go to the machine directly via the ip address on port 443 tcp dump logs stuff on port 443.
 
-
-
-
-  
-
-   
-
-
-

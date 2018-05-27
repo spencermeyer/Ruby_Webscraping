@@ -56,10 +56,9 @@ class ScrapesController < ApplicationController
       agent = Mechanize.new
       agent.user_agent_alias = "Mac Safari"
 
-      slink_doc = agent.get(slink)
-
+      begin
+        slink_doc = agent.get(slink)
         slink_doc.xpath('//tr').each do |row|  # this is the loop for individual rows of data.
-
           begin
             if row.children.length > 8  && row.children[0].children.text != '' && (!row.children[1].children.text.include? 'parkrunner')
                 time_in_seconds = row.children[2].children.text.split(':')[-1].to_i + row.children[2].children.text.split(':')[-2].to_i*60  + row.children[2].children.text.split(':')[-3].to_i*3600
@@ -92,6 +91,9 @@ class ScrapesController < ApplicationController
             Rails.logger.log "An individual scraping error occurred, #{e}, Run Was: #{run_identifier.id}"
           end # rescue block
         end # here ends the slink each
+      rescue StandardError => e
+        Rails.logger.debug "Failed one scrape, #{e}"
+      end
     end  # here ends each link for scraping
 
     # now would be a good time to assign age grade positions.
