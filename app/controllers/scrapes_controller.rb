@@ -1,11 +1,10 @@
 class ScrapesController < ApplicationController
   #before_action :set_scrape, only: [:show, :edit, :update, :destroy]
   include ScrapesHelper
+
   before_action :clear_all_data
   after_action :add_clear_old_runs_to_resque
 
-  # GET /scrapes
-  # GET /scrapes.json
   def index
     Rails.logger.info "AWOOGA start scrape at #{Time.now}"
     #SET STUFF UP
@@ -44,58 +43,8 @@ class ScrapesController < ApplicationController
     # GET THE DATA FROM THE INDIVIDUAL LINKS
     @data = []
     @links_for_scraping.each do | slink |   #This is the scrape for each individual link
-      if (Rails.env.development? | Rails.env.test?)
-        run_identifier = Run.find_or_create_by(run_identifier: slink[slink.index('4567')+5 .. slink.index('/results')-1])
-        Rails.logger.info "Development The Link is: #{run_identifier.run_identifier} "
-      else
-        run_identifier = slink[slink.index('parkrun') .. slink.index('/results')-1]
-        run_identifier = run_identifier[run_identifier.index('/')+1..run_identifier.length]
-        run_identifier = Run.find_or_create_by(run_identifier: run_identifier)
-        Rails.logger.info "Production The Link is: #{run_identifier.run_identifier} "
-      end
-      agent = Mechanize.new
-      agent.user_agent_alias = "Mac Safari"
-
-      begin
-        slink_doc = agent.get(slink)
-        slink_doc.xpath('//tr').each do |row|  # this is the loop for individual rows of data.
-          begin
-            if row.children.length > 8  && row.children[0].children.text != '' && (!row.children[1].children.text.include? 'parkrunner')
-                time_in_seconds = row.children[2].children.text.split(':')[-1].to_i + row.children[2].children.text.split(':')[-2].to_i*60  + row.children[2].children.text.split(':')[-3].to_i*3600
-                result = Result.create(
-                  pos:            row.children[0].children.text,
-                  parkrunner:     row.children[1].children.text,
-                  time:           time_in_seconds,
-                  age_cat:        row.children[3].children.text,
-                  age_grade:      row.children[4].children.text,
-                  gender:         row.children[5].children.text,
-                  gender_pos:     row.children[6].children.text,
-                  club:           row.children[7].children.text,
-                  note:           row.children[8].children.text,
-                  total:          row.children[9].children.text,
-                  run_id:         run_identifier.id,
-                  athlete_number: get_runner_number_from_text(row) || nil
-                  )
-                if ([49, 99, 149, 199, 249, 299, 349, 399, 449, 499, 549, 599, 649].include? result.total) && (run_identifier.run_identifier.include? 'astleigh' or result.club.include? 'astleigh')
-                  milestone = Milestone.find_or_create_by(result.attributes.except('id', 'created_at', 'updated_at'))
-                elsif  [9].include? result.total && (result.age_cat.include? 'J')
-                  milestone=Milestone.find_or_create_by(result.attributes.except('id', 'created_at', 'updated_at'))
-                elsif ([10, 50, 100, 200, 250, 300, 350, 400, 450, 500, 550, 600, 650].include? result.total)
-                  result_to_clear = Milestone.find_by athlete_number: result.athlete_number if Milestone.exists?(:athlete_number => result.athlete_number)
-                  if(result_to_clear)
-                    result_to_clear.destroy
-                  end
-                end
-            end   # here ends each row operation
-          rescue StandardError => e
-            Rails.logger.log "An individual scraping error occurred, #{e}, Run Was: #{run_identifier.id}"
-          end # rescue block
-        end # here ends the slink each
-      rescue StandardError => e
-        Rails.logger.debug "Failed one scrape, #{e}"
-        run = Run.find(run_identifier); run.metadata['comment']='Failed to get data'; run.save!
-      end
-    end  # here ends each link for scraping
+      LineProcessor.new(slink, OtherBrowsers::ALIASES.sample).perform
+    end
 
     # now would be a good time to assign age grade positions.
     @runs = Run.all   # change this to curret runs only   TODO
@@ -127,77 +76,7 @@ class ScrapesController < ApplicationController
     redirect_to :results unless request.nil?
   end
 
-  def get_runner_number_from_text(inputrow)
-    runnerstring = inputrow.children[1].children.text
-    if (runnerstring.include? 'Unknown')
-      return nil
-    else
-      athletestring = inputrow.children[1].children[0].attributes['href'].try(:value)
-      if(athletestring)
-        athlete_number = athletestring[athletestring.index('ber=')+4, athletestring.length].to_i
-        return athlete_number
-      else
-        return 'no_number'
-      end
-    end
-  end
-
-  # GET /scrapes/1
-  # GET /scrapes/1.json
-  def show
-  end
-
-  # GET /scrapes/new
-  def new
-    @scrape = Scrape.new
-  end
-
-  # GET /scrapes/1/edit
-  def edit
-  end
-
-  # POST /scrapes
-  # POST /scrapes.json
-  def create
-    @scrape = Scrape.new(scrape_params)
-
-    respond_to do |format|
-      if @scrape.save
-        format.html { redirect_to @scrape, notice: 'Scrape was successfully created.' }
-        format.json { render :show, status: :created, location: @scrape }
-      else
-        format.html { render :new }
-        format.json { render json: @scrape.errors, status: :unprocessable_entity }
-      end
-    end
-  end
-
-  # PATCH/PUT /scrapes/1
-  # PATCH/PUT /scrapes/1.json
-  def update
-    respond_to do |format|
-      if @scrape.update(scrape_params)
-        format.html { redirect_to @scrape, notice: 'Scrape was successfully updated.' }
-        format.json { render :show, status: :ok, location: @scrape }
-      else
-        format.html { render :edit }
-        format.json { render json: @scrape.errors, status: :unprocessable_entity }
-      end
-    end
-  end
-
-  # DELETE /scrapes/1
-  # DELETE /scrapes/1.json
-  def destroy
-    @scrape.destroy
-    respond_to do |format|
-      format.html { redirect_to scrapes_url, notice: 'Scrape was successfully destroyed.' }
-      format.json { head :no_content }
-    end
-  end
-
   private
-    # Use callbacks to share common setup or constraints between actions.
     def clear_all_data
       Rails.logger.debug "CLEARING ALL DATA"
       Run.last.touch(:updated_at) unless !Run.any?

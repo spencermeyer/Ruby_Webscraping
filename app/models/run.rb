@@ -16,7 +16,7 @@ class Run < ApplicationRecord
     metadata['comment']
   end
 
-  def comment=(arg)
+  def set_comment(arg)
     metadata['comment'] = arg
   end
 end
