@@ -147,6 +147,16 @@ Deploy
 ------ 
 This site is hosted at:  parkcollectoronrails.co.uk   (46.101.17.87)
 
+Cronjobs
+--------
+10 06 * * 7 cd /home/deploy/apps/Rubyscrape/current;RAILS_ENV=production /home/deploy/.rvm/rubies/ruby-2.4.0/bin/rake collect_data:scrape;cd ~;echo $(date),'data_refresh'>>cronlog.log
+10 05 * * 7 cd /home/deploy/apps/Rubyscrape/current;RAILS_ENV=production /home/deploy/.rvm/rubies/ruby-2.4.0/bin/rake collect_data:scrape;cd ~;echo $(date),'data_refresh'>>cronlog.log
+10 20 * * 6 cd /home/deploy/apps/Rubyscrape/current;Rails_ENV=production /home/deploy..rv./rubies/ruby-2.4.0/bin/rake collect_data:clean; echo $(date),'cleaning' >> cronlog.log
+
+
+
+
+
 
 
 Nginx Config and Troubleshooting

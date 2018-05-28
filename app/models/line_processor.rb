@@ -59,6 +59,7 @@ class LineProcessor
       rescue StandardError => e
         Rails.logger.debug "Failed one scrape, #{e}"
         run = Run.find(run_identifier); run.metadata['comment']='Failed to get data'; run.save!
+        Alerter.perform(run_identifier.run_identifier)
       end
     end  # here ends each link for scraping
 

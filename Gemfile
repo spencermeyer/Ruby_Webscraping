@@ -26,6 +26,9 @@ gem 'useragent'
 gem 'newrelic_rpm'
 gem 'resque'
 gem 'will_paginate'
+gem 'mailgun', '~>0.8'
+gem 'httparty'
+gem 'rest-client'
 
 # Use jquery as the JavaScript library
 gem 'jquery-rails'
