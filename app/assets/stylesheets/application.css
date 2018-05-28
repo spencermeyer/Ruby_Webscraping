@@ -76,6 +76,9 @@
 .high_pos_finisher {
    background-color: #eeccff
 }
-
+.metadata-comment-missing_data{
+   background-image: linear-gradient(45deg, #ff4d4d 25%, transparent 25%, transparent 50%, #ff4d4d 50%, #ff4d4d 55%, transparent 75%, #fff);
+   background-size: 50px 50px;
+}
 
 

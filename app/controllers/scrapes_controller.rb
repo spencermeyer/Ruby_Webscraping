@@ -93,6 +93,7 @@ class ScrapesController < ApplicationController
         end # here ends the slink each
       rescue StandardError => e
         Rails.logger.debug "Failed one scrape, #{e}"
+        run = Run.find(run_identifier); run.metadata['comment']='Failed to get data'; run.save!
       end
     end  # here ends each link for scraping
 

@@ -9,5 +9,14 @@
 #
 
 class Run < ApplicationRecord
+  serialize :metadata, Hash
   has_many :results
+
+  def comment
+    metadata['comment']
+  end
+
+  def comment=(arg)
+    metadata['comment'] = arg
+  end
 end

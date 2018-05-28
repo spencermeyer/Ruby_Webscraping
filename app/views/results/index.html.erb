@@ -55,7 +55,13 @@
         <td colspan = "1" class="results"><%= Result.where(run_id: run.id, gender: 'M').eastleigh.count %></td>
         <td colspan = "1" class="results"><%= Result.where(run_id: run.id, gender: 'F').eastleigh.count %></td>
       </tr>
-  <% end %>    
+  <% end %>
+  <% if (run.metadata['comment'])%>
+    <tr class='metadata-comment-missing_data'>
+      <td colspan = '1'><%= run.run_identifier %></td>
+      <td colspan = '5'><%= run.metadata['comment']%><td>
+    </tr>
+  <% end %>
 <% end %>
       <tr>
         <td>TOTALS</td><td><%= Result.count %></td><td><%= Result.eastleigh.count %></td><td><%= Result.where(gender: 'M').eastleigh.count %></td><td><%= Result.where(gender: 'F').eastleigh.count %></td>
