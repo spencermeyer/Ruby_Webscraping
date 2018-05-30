@@ -11,6 +11,7 @@ class Alerter
     begin
       send_simple_message(run)
     rescue StandardError => e
+      Rails.logger.debug "alerter problem: #{e}"
     end
   end
 
