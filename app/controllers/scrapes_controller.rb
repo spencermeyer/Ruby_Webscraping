@@ -42,34 +42,12 @@ class ScrapesController < ApplicationController
     # GET THE DATA FROM THE INDIVIDUAL LINKS
     @data = []
     @links_for_scraping.each do | slink |   #This is the scrape for each individual link
-      LineProcessor.new(slink, Browserchoice::Browserchoices::ALIASES.sample).perform
+      LineProcessor.new(slink, OtherBrowsers::ALIASES.sample).process
     end
 
-    # now would be a good time to assign age grade positions.
-    @runs = Run.all   # change this to curret runs only   TODO
-    @runs.each do |run|
-      Rails.logger.info "ok lets assign AGE GRADES sort run #{run.run_identifier}"
-      @results_for_sorting = Result.where(run_id: run.id).order('age_grade DESC')
-      @results_for_sorting.each_with_index do |res, index|
-        res.age_grade_position = index+1
-        res.save
-      end
-    end
-    # and now we assign positions within an age category
-    @runs.each do |run|
-      Rails.logger.info "ok lets assign AGE CAT POS for run #{run.run_identifier}"
-      cats=[]
-      Result.all.each { |res| cats.push(res.age_cat) }
-      cats=cats.uniq
-      cats.each do |catz|
-        @results_for_sorting_by_age_cat = Result.where(run_id: run.id, age_cat: catz).order('time ASC')
-        @results_for_sorting_by_age_cat.each_with_index do |res, index|
-          res.age_cat_position = index +1
-          res.save
-        end
-      end
-    end
     Rails.logger.info "AWOOGA finished scraping at #{Time.now} and redirecting"
+    @results = Result.eastleigh_and_stalkees.all.order(run_id: :asc, pos: :asc)
+
     redirect_to :results unless request.nil?
   end
 

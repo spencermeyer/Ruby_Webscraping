@@ -138,6 +138,8 @@ To Do
 * use nginx to kill dodgy visits:
 * https://www.cyberciti.biz/faq/unix-linux-appleosx-bsd-nginx-block-user-agent/
 
+convert to environmental variables
+- mailgun key
 
 Deploy
 ------ 
@@ -148,7 +150,6 @@ Cronjobs
 10 06 * * 7 cd /home/deploy/apps/Rubyscrape/current;RAILS_ENV=production /home/deploy/.rvm/rubies/ruby-2.4.0/bin/rake collect_data:scrape;cd ~;echo $(date),'data_refresh'>>cronlog.log
 10 05 * * 7 cd /home/deploy/apps/Rubyscrape/current;RAILS_ENV=production /home/deploy/.rvm/rubies/ruby-2.4.0/bin/rake collect_data:scrape;cd ~;echo $(date),'data_refresh'>>cronlog.log
 10 20 * * 6 cd /home/deploy/apps/Rubyscrape/current;Rails_ENV=production /home/deploy..rv./rubies/ruby-2.4.0/bin/rake collect_data:clean; echo $(date),'cleaning' >> cronlog.log
-
 
 
 Nginx Config and Troubleshooting
@@ -180,7 +181,6 @@ Because I've been over and over the nginx config and there can't be anything wro
 
 https://certbot.eff.org/lets-encrypt/ubuntutrusty-nginx
 
-
 sudo apt-get install software-properties-common
 sudo add-apt-repository ppa:certbot/certbot
 sudo apt-get update
@@ -199,4 +199,13 @@ TCP Dump
 sudo tcpdump -i eth0 port 443     # here port 80 captures and port 443 does not.  : it's not nginx its the machine ?
 
 BUT when I go to the machine directly via the ip address on port 443 tcp dump logs stuff on port 443.
+
+
+DNS
+---
+why is my A record 85.233.160.22  ?    Set it to 46.101.17.87  2/6/2018  Takes 24-48 hours to come into effect  :(
+
+Look here:   https://www.names.co.uk/support/1292-namesco_dns_settings.html
+Good explanation: https://www.wired.com/2010/02/set_up_a_dns_name_server/
+
 

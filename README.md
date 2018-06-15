@@ -13,6 +13,10 @@ I initially tried Heroku to host this.  However the app times out because it has
 
 For testing, I set up a Sinatra server (hosted in a different Git repository) to serve up test assets in development and test modes, and I'm using the 'vcr' gem to replay it in test mode.
 
+The app is database heavy and takes time to do the scraping.
+To optimise this I've:
+1) collected all the data in a massive hash and then saved it all in one db transaction at the end instead of individual transactions.  I do various age grade and age category positions allocations on the hash before saving, this is MUCH faster than using active record.
+
 Deployment.
 -----------
 I've written a separate document for my Digital Ocean machine build log, it took a long time to get this right.
@@ -22,10 +26,11 @@ which is really convenient.
 
 Things to do next.
 ------------------
-* lots more styling.
-* make it more robust for http fails.
-* make it send emails for upcoming milestones.
-* make a cron job for scraping so that the results are all ready for the user to see.
+1 lots more styling.
+2 make it more robust for http fails.
+3 make it send emails for upcoming milestones.
+4 make a cron job for scraping so that the results are all ready for the user to see.
+5 Make it collect data much more efficiently.
 
 Tech Stack
 ----------
