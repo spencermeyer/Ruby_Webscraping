@@ -19,6 +19,8 @@ RSpec.describe ScrapesController, type: :controller do
         eastleigh_run=Run.where('run_identifier':'eastleigh').first
         expect(Result.where({'age_cat':'VW50-54', 'club':'Eastleigh RC', run_id: eastleigh_run.id}).last.parkrunner).to eq('Alison MEARS')
         expect(Result.where('parkrunner': 'Alison MEARS').first.age_cat_position).to eq(13)
+        expect(Result.where(run_id: eastleigh_run.id, age_cat: 'VW50-54').count).to eq(13)
+        expect(Result.where(run_id: eastleigh_run.id, age_cat: 'VW50-54', age_cat_position: 1).first.parkrunner).to eq("Karen BOLTON")
       end
     end
   end
