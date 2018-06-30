@@ -1,7 +1,6 @@
 # config valid only for current version of Capistrano
 lock "3.7.2"
 
-#server '46.101.39.233', port: 3000, roles: [:web, :app, :db], primary: true
 server '46.101.17.87', roles: [:web, :app, :db], primary: true
 
 #set :repo_url, "git@github.com:spencermeyer/Ruby_Webscraping.git"
@@ -35,10 +34,8 @@ set :puma_init_active_record, true  # Change to false when not using ActiveRecor
 # set :branch,        :master
 # set :format,        :pretty
 # set :log_level,     :debug
-set :keep_releases, 5
+set :keep_releases, 2
 
-# # the following is a trial
-# see https://www.varvet.com/blog/handle-secret-credentials-in-ruby-on-rails/
 namespace :config do
   desc "Symlink application config files."
   task :symlink do
@@ -75,26 +72,38 @@ namespace :deploy do
     end
   end
 
-   desc 'Initial Deploy'
-    task :initial do
-      on roles(:app) do
-        before 'deploy:restart', 'puma:start'
-        invoke 'deploy'
-      end
+  desc 'Initial Deploy'
+  task :initial do
+    on roles(:app) do
+      before 'deploy:restart', 'puma:start'
+      invoke 'deploy'
     end
-
-    desc 'Restart application'
-    task :restart do
-      on roles(:app), in: :sequence, wait: 5 do
-        invoke 'puma:restart'
-      end
-    end
-
-    before :starting,     :check_revision
-    after  :finishing,    :compile_assets
-    after  :finishing,    :cleanup
-    after  :finishing,    :restart
   end
+
+  desc 'Restart application'
+  task :restart do
+    on roles(:app), in: :sequence, wait: 5 do
+      invoke 'puma:restart'
+    end
+  end
+
+  desc 'Start a worker'
+  task :start_a_resque_worker do
+    on roles :app do
+      execute "cd #{deploy_to}/current/; echo 'resque cap ran 2' > BLAH.md"
+      # execute "cd #{deploy_to}/current/; RAILS_ENV=production BACKGROUND=yes QUEUE=* bundle exec rake environment resque:work"
+
+      #  RAILS_ENV=production BACKGROUND=yes QUEUE=* bundle exec rake environment resque:work ##WORKS COMMAND LINE
+      execute "cd #{deploy_to}/current/ && RAILS_ENV=#{fetch(:stage)} BACKGROUND=yes QUEUE=* /home/deploy/.rvm/gems/ruby-2.4.0/bin/bundle exec rake resque:work"
+    end
+  end
+
+  before :starting,     :check_revision
+  after  :finishing,    :compile_assets
+  after  :finishing,    :cleanup
+  after  :finishing,    :restart
+  after  :finishing,    :start_a_resque_worker
+end
 
   # ps aux | grep puma    # Get puma pid
   # kill -s SIGUSR2 pid   # Restart puma

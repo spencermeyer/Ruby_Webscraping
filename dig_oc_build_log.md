@@ -128,19 +128,15 @@ sudo apt-get install sendmail
 To Do
 -----
 * Optimise as per the conclusion in the guide.
-* Resque jobs are not being carried out, find out why.
-* write a job for clearing out old visits data.
 * rake task to clear out old visits
 
 * use resqueue to kill runs where there are no data for. (get it working, at the moment the job just sits in resque)
+* Now succeeded but cannot get capistrano to start up a resque worker.  Started manually - how long will it stay up?
+
 * make emails
 
 * use nginx to kill dodgy visits:
 * https://www.cyberciti.biz/faq/unix-linux-appleosx-bsd-nginx-block-user-agent/
-
-convert to environmental variables
-- mailgun key
-
 
 
 Deploy
@@ -152,10 +148,6 @@ Cronjobs
 10 06 * * 7 cd /home/deploy/apps/Rubyscrape/current;RAILS_ENV=production /home/deploy/.rvm/rubies/ruby-2.4.0/bin/rake collect_data:scrape;cd ~;echo $(date),'data_refresh'>>cronlog.log
 10 05 * * 7 cd /home/deploy/apps/Rubyscrape/current;RAILS_ENV=production /home/deploy/.rvm/rubies/ruby-2.4.0/bin/rake collect_data:scrape;cd ~;echo $(date),'data_refresh'>>cronlog.log
 10 20 * * 6 cd /home/deploy/apps/Rubyscrape/current;Rails_ENV=production /home/deploy..rv./rubies/ruby-2.4.0/bin/rake collect_data:clean; echo $(date),'cleaning' >> cronlog.log
-
-
-
-
 
 
 
