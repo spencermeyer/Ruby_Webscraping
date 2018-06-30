@@ -90,11 +90,11 @@ namespace :deploy do
   desc 'Start a worker'
   task :start_a_resque_worker do
     on roles :app do
-      execute "cd #{deploy_to}/current/; echo 'resque cap ran 2' > BLAH.md"
+      #execute "cd #{deploy_to}/current/; echo 'resque cap ran 2' > BLAH.md"
       # execute "cd #{deploy_to}/current/; RAILS_ENV=production BACKGROUND=yes QUEUE=* bundle exec rake environment resque:work"
 
       #  RAILS_ENV=production BACKGROUND=yes QUEUE=* bundle exec rake environment resque:work ##WORKS COMMAND LINE
-      execute "cd #{deploy_to}/current/ && RAILS_ENV=#{fetch(:stage)} BACKGROUND=yes QUEUE=* /home/deploy/.rvm/gems/ruby-2.4.0/bin/bundle exec rake resque:work"
+      #  execute "cd #{deploy_to}/current/ && RAILS_ENV=#{fetch(:stage)} BACKGROUND=yes QUEUE=* /home/deploy/.rvm/gems/ruby-2.4.0/bin/bundle exec rake resque:work"
     end
   end
 
