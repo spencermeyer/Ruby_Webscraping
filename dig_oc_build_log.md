@@ -172,6 +172,8 @@ https://t37.net/a-poodle-proof-bulletproof-nginx-ssl-configuration.html
 hostname
 park-collector-rails
 
+When I finally got the redirection of non ssl traffic to ssl, I had a bit of trouble with www, here is the best description of the problem and solution:  https://www.digitalocean.com/community/tutorials/how-to-redirect-www-to-non-www-with-nginx-on-centos-7  
+
 Let's Try Certbot
 -----------------
 Because I've been over and over the nginx config and there can't be anything wrong with it :(
