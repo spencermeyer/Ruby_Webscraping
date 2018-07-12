@@ -2,6 +2,8 @@ class MilestonesController < ApplicationController
   before_action :set_milestone, only: [:show, :edit, :update, :destroy]
   before_action :user_is_admin?
 
+  protect_from_forgery except: :destroy    # todo - remove this and solve the CSRF error
+
   # GET /milestones
   # GET /milestones.json
   def index
