@@ -13,4 +13,11 @@ namespace :collect_data do
       run.destroy! unless (Result.where(run_id: run.id).any? || Milestone.where(run_id: run.id).any?)
     end
   end
+
+  desc 'CleanMilestones'
+  task clean_milestones: :environment do
+    Milestone.all.each do |ms|
+      ms.clean
+    end
+  end
 end

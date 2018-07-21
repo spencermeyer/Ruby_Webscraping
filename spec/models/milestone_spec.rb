@@ -25,7 +25,16 @@
 require 'rails_helper'
 
 RSpec.describe Milestone, type: :model do
-  skip 'nothing to rest in the milestones model yet' do
-    pending "add some examples to (or delete) #{__FILE__}"
+  # skip 'nothing to rest in the milestones model yet' do
+    # pending "add some examples to (or delete) #{__FILE__}"
+  # end
+
+  describe '.clean' do
+    subject {described_class.new(id: 2, parkrunner: 'elvis PRESLEY', total:56)}
+    it 'cleans runs that are not updated' do
+      allow(subject).to receive(:get_total_runs_from_online).and_return(57)
+      expect(subject).to be_valid
+      subject.clean
+    end
   end
 end
