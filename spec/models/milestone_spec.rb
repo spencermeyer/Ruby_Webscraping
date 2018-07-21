@@ -34,7 +34,15 @@ RSpec.describe Milestone, type: :model do
     it 'cleans runs that are not updated' do
       allow(subject).to receive(:get_total_runs_from_online).and_return(57)
       expect(subject).to be_valid
+      expect(subject).to receive(:destroy)
       subject.clean
     end
+
+    it 'does not clean milestones that correct' do
+      allow(subject).to receive(:get_total_runs_from_online).and_return(56)
+      expect(subject).to be_valid
+      expect(subject).not_to receive(:destroy)
+      subject.clean
+    end    
   end
 end
