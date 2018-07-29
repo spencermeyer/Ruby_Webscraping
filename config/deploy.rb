@@ -87,6 +87,13 @@ namespace :deploy do
     end
   end
 
+  desc 'Stop Puma'
+  task :stop do
+    on roles(:app), in: :sequence, wait: 5 do
+      invoke 'puma:stop'
+    end
+  end
+
   desc 'Start a worker'
   task :start_a_resque_worker do
     on roles :app do
