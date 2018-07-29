@@ -1,6 +1,7 @@
 class ScrapesController < ApplicationController
   #before_action :set_scrape, only: [:show, :edit, :update, :destroy]
   include ScrapesHelper
+  #require 'lib/scrapes/browserchoice.rb'
 
   # protect_from_forgery except: :index   # todo - remove this and sort the csrf error.
 
@@ -26,7 +27,8 @@ class ScrapesController < ApplicationController
     Rails.logger.debug "Scraping in mode #{Rails.env}"
     Rails.logger.debug "Source is #{scrape_index_source}"
     agent = Mechanize.new
-    agent.user_agent_alias = OtherBrowsers::ALIASES.sample  #use a random alias :)
+    #agent.user_agent_alias = OtherBrowsers::ALIASES.sample  #use a random alias :)
+    agent.user_agent_alias = 'Linux Firefox'
 
     begin
       doc = agent.get(scrape_index_source)
