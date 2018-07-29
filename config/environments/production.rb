@@ -1,8 +1,6 @@
 Rails.application.configure do
   # Settings specified here will take precedence over those in config/application.rb.
 
-  config.action_controller.default_url_options = { host: 'https://parkcollectoronrails.co.uk' }
-
   config.action_dispatch.default_headers = {
     'X-Frame-Options' => 'ALLOW-FROM parkcollectoronrails.co.uk'
   }   # this is needed or it will not show inside the iframe.

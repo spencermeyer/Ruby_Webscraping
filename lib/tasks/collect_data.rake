@@ -2,7 +2,7 @@ namespace :collect_data do
   desc "TODO"
   task scrape: :environment do
     app = ActionDispatch::Integration::Session.new(Rails.application)
-    Rails.logger.info "RakeTaskCollectData awooga"
+    Rails.logger.info "RakeTaskCollectData Performing"
     ScrapesController.new.clear_all_data
     ScrapesController.new.index
   end
