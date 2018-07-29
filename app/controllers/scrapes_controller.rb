@@ -47,7 +47,8 @@ class ScrapesController < ApplicationController
     # GET THE DATA FROM THE INDIVIDUAL LINKS
     @data = []
     @links_for_scraping.each do | slink |   #This is the scrape for each individual link
-      LineProcessor.new(slink, OtherBrowsers::ALIASES.sample).perform
+      # LineProcessor.new(slink, OtherBrowsers::ALIASES.sample).perform
+      LineProcessor.new(slink, 'Linux Firefox').perform
     end
 
     # now would be a good time to assign age grade positions.
