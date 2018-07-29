@@ -1,7 +1,6 @@
 class ScrapesController < ApplicationController
-  #before_action :set_scrape, only: [:show, :edit, :update, :destroy]
   include ScrapesHelper
-  #require 'lib/scrapes/browserchoice.rb'
+  require "#{Rails.root}/lib/scrapes/browserchoice"
 
   # protect_from_forgery except: :index   # todo - remove this and sort the csrf error.
 
@@ -9,8 +8,6 @@ class ScrapesController < ApplicationController
   after_action :add_clear_old_runs_to_resque
 
   def index
-    Rails.logger.info "AWOOGA start scrape at #{Time.now}"
-    #SET STUFF UP
     require 'open-uri'
     require 'mechanize'
 
@@ -24,17 +21,14 @@ class ScrapesController < ApplicationController
     end
 
     # START TO GET THE INDEX PAGE
-    Rails.logger.debug "Scraping in mode #{Rails.env}"
-    Rails.logger.debug "Source is #{scrape_index_source}"
+    Rails.logger.debug "Scraping in mode #{Rails.env}, Source is #{scrape_index_source} Time is #{Time.now}"
     agent = Mechanize.new
-    #agent.user_agent_alias = OtherBrowsers::ALIASES.sample  #use a random alias :)
-    agent.user_agent_alias = 'Linux Firefox'
+    agent.user_agent_alias = Browserchoice::Browserchoices::ALIASES.sample  #use a random alias :)
 
     begin
       doc = agent.get(scrape_index_source)
     rescue StandardError => e
       Rails.logger.debug "Error in scraping source, #{e}"
-      Rails.logger.debug "Error in scraping source #{response.code}"
     end
 
     mech_links_for_scraping = doc.xpath('//a[contains(text(),"View full results")]') unless !doc
@@ -47,8 +41,7 @@ class ScrapesController < ApplicationController
     # GET THE DATA FROM THE INDIVIDUAL LINKS
     @data = []
     @links_for_scraping.each do | slink |   #This is the scrape for each individual link
-      # LineProcessor.new(slink, OtherBrowsers::ALIASES.sample).perform
-      LineProcessor.new(slink, 'Linux Firefox').perform
+      LineProcessor.new(slink, Browserchoice::Browserchoices::ALIASES.sample).perform
     end
 
     # now would be a good time to assign age grade positions.
@@ -57,7 +50,6 @@ class ScrapesController < ApplicationController
       Rails.logger.info "ok lets assign AGE GRADES sort run #{run.run_identifier}"
       @results_for_sorting = Result.where(run_id: run.id).order('age_grade DESC')
       @results_for_sorting.each_with_index do |res, index|
-        #puts "SORTED: #{res.age_grade}, #{res.parkrunner}, #{res.pos}, #{res.run_id}, #{index+1}"
         res.age_grade_position = index+1
         res.save
       end
@@ -76,8 +68,7 @@ class ScrapesController < ApplicationController
         end
       end
     end
-    Rails.logger.info "AWOOGA finished scraping at #{Time.now}"
-    Rails.logger.info "AWOOGA about to redirect"
+    Rails.logger.info "AWOOGA finished scraping at #{Time.now} and redirecting"
     redirect_to :results unless request.nil?
   end
 
@@ -91,10 +82,6 @@ class ScrapesController < ApplicationController
 
     def add_clear_old_runs_to_resque
       Resque.enqueue(UnusedRuns)
-    end
-
-    def set_scrape
-      @scrape = Scrape.find(params[:id])
     end
 
     # Never trust parameters from the scary internet, only allow the white list through.

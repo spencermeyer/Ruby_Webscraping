@@ -6,21 +6,4 @@ module ApplicationHelper
     seconds = seconds < 10 ? "0#{seconds}" : seconds 
     "#{hours > 0 ? hours.to_s+':' : ''}#{minutes}:#{seconds}"
   end
-
-  class OtherBrowsers
-    ALIASES = 
-      [
-        'Linux Firefox',
-        'Linux Mozilla',
-        'Mac Firefox',
-        'Mac Mozilla',
-        'Mac Safari',
-        'Mac Safari',
-        'Windows IE 10',
-        'Windows IE 11',
-        'Windows Edge',
-        'Windows Mozilla',
-        'Windows Firefox',
-      ]
-  end
 end
