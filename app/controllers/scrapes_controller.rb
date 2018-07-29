@@ -2,7 +2,7 @@ class ScrapesController < ApplicationController
   #before_action :set_scrape, only: [:show, :edit, :update, :destroy]
   include ScrapesHelper
 
-  protect_from_forgery except: :index   # todo - remove this and sort the csrf error.
+  # protect_from_forgery except: :index   # todo - remove this and sort the csrf error.
 
   before_action :clear_all_data
   after_action :add_clear_old_runs_to_resque
