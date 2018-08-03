@@ -75,7 +75,9 @@ class ScrapesController < ApplicationController
   private
     def clear_all_data
       Rails.logger.debug "CLEARING ALL DATA"
-      Run.last.touch(:updated_at) unless !Run.any?
+      last_run = Run.last
+      last_run.updated_at = Time.now unless !last_run
+      last_run.save! unless !last_run
       Result.delete_all
       ActiveRecord::Base.connection.execute("TRUNCATE results RESTART IDENTITY")
     end

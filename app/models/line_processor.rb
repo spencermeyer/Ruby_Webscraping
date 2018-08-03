@@ -55,10 +55,10 @@ class LineProcessor
           end # rescue block
         end # here ends the slink each
         Rails.logger.debug "LP: Success one scrape"
-        run = Run.find(run_identifier); run.metadata['comment']=nil; run.save!
+        run = Run.find(run_identifier.id); run.metadata['comment']=nil; run.save!
       rescue StandardError => e
         Rails.logger.debug "LP: Failed one scrape, #{e}"
-        run = Run.find(run_identifier); run.metadata['comment']='Failed to get data'; run.save!
+        run = Run.find(run_identifier.id); run.metadata['comment']='Failed to get data'; run.save!
         Alerter.perform(run_identifier.run_identifier)
       end
     end  # here ends each link for scraping
