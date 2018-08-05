@@ -10,11 +10,11 @@
     <h2 class="age-data-warning">Data is old, refresh it!</h2>
   <% end %>
 <% end %>
-# <% if current_user && current_user.admin? %>
+<% if true || current_user && current_user.admin? %>
   <button id='update', class='btn-info' ><%= link_to "Update", controller: 'scrapes', action: 'index', class: 'btn', id: 'update-link' %></button>
-# <% else %>
+<% else %>
   <!-- <button id='update-logged-out', class='btn', data-toggle="tooltip" title="Hooray!" data-placement="right" ><%= link_to "Update", class: 'btn', id: 'update-link' %></button> -->
-# <% end %>
+<% end %>
 
 <button><%= link_to "Order By Age Grade", controller: 'results', action: 'index', :class=>'btn', :title=>'foo', :order => 'age' %></button>
 <button><%= link_to "Order By Age Grade - Top 12s Only", controller: 'results', action: 'index', :class=>'btn', :title=>'foo', :order => 'a12' %></button>
