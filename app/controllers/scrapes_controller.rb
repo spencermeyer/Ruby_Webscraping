@@ -72,7 +72,7 @@ class ScrapesController < ApplicationController
     redirect_to :results unless request.nil?
   end
 
-  private
+  # private  # rake task cannot do private :(
     def clear_all_data
       Rails.logger.debug "CLEARING ALL DATA"
       last_run = Run.last
