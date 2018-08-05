@@ -6,21 +6,25 @@ class Alerter
 
   @queue = :email_alert
 
-  def self.perform(run)
-    Rails.logger.debug "Hello from the alerter, the problem is:#{run}"
+  def initialize(message)
+    @message = message
+  end
+
+  def self.perform(message)
+    Rails.logger.debug "Alerter will send #{message}"
     begin
-      send_simple_message(run)
+      send_simple_message(message)
     rescue StandardError => e
       Rails.logger.debug "alerter problem: #{e}"
     end
   end
 
-  def self.send_simple_message(result)
+  def self.send_simple_message(message_text)
     RestClient.post "https://api:key-#{ENV['MAILGUNAPIKEY']}"\
     "#{ENV['MAILGUNAPIROUTE']}",
     :from => "ParkCollectorAlerter #{ENV['MAILGUNPOSTMASTER']}",
     :to => "#{ENV['PARKCOLLECTORMAILTARGET']}",
-    :subject => "ParkCollectorAlert for #{result}",
-    :text => "Park Collector Failed to get data for this run."
+    :subject => "ParkCollectorAlert",
+    :text => message_text
   end
 end
