@@ -4,7 +4,7 @@ ruby '2.4.0'
 gem 'mechanize'
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'pkg-config'   # might help nokogiri install.
-gem 'nokogiri'  # mechanize was resolved to 2.7.5, which depends on nokogiri (= 1.8.1)
+gem 'nokogiri', '~>1.8.4'   # mechanize was resolved to 2.7.5, which depends on nokogiri (= 1.8.1)
 gem 'rails', '~> 5.1.0'
 # Use mysql as the database for Active Record
 # gem 'mysql2', '>= 0.3.18', '< 0.5'
@@ -28,7 +28,8 @@ gem 'resque'
 gem 'resque-web'
 gem 'resque-scheduler-web'
 gem 'will_paginate'
-gem 'mailgun', '~>0.8'
+gem 'mailgun-ruby', '~> 1.1.10'
+# gem 'mailgun', '~>0.8'
 gem 'httparty'
 gem 'rest-client'
 

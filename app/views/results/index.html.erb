@@ -10,6 +10,11 @@
     <h2 class="age-data-warning">Data is old, refresh it!</h2>
   <% end %>
 <% end %>
+
+<div class='alert alert-danger'>
+  <%= flash[:message]   %>
+</div>
+
 <% if current_user && current_user.admin? %>
   <button id='update', class='btn-info' ><%= link_to "Update", controller: 'scrapes', action: 'index', class: 'btn', id: 'update-link' %></button>
 <% else %>

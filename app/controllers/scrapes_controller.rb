@@ -2,8 +2,6 @@ class ScrapesController < ApplicationController
   include ScrapesHelper
   require "#{Rails.root}/lib/scrapes/browserchoice"
 
-  # protect_from_forgery except: :index   # todo - remove this and sort the csrf error.
-
   before_action :clear_all_data
   after_action :add_clear_old_runs_to_resque
 
@@ -27,8 +25,11 @@ class ScrapesController < ApplicationController
 
     begin
       doc = agent.get(scrape_index_source)
+      flash[:message] = "Success getting index page at #{Time.now}"
     rescue StandardError => e
       Rails.logger.debug "Error in scraping source, #{e}"
+      Resque.enqueue(Alerter::MailGunAlerter, "Scrapes Controller Failed to get Source")
+      flash[:message] = "Could not get data: problem was #{e}"
     end
 
     mech_links_for_scraping = doc.xpath('//a[contains(text(),"View full results")]') unless !doc
