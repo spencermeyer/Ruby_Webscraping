@@ -4,18 +4,18 @@ class LineProcessor
     @browser = browser
   end
 
-  def process
+  def perform
     agent = Mechanize.new
     agent.user_agent_alias = @browser #use a random alias :)
-      # if (Rails.env.development? | Rails.env.test?)
-        # run_identifier = Run.find_or_create_by(run_identifier: @slink[@slink.index('4567')+5 .. @slink.index('/results')-1])
-        # Rails.logger.info "LP:Development The Link is: #{run_identifier.run_identifier} "
-      # else
+      if (Rails.env.development? | Rails.env.test?)
+        run_identifier = Run.find_or_create_by(run_identifier: @slink[@slink.index('4567')+5 .. @slink.index('/results')-1])
+        Rails.logger.info "LP:Development The Link is: #{run_identifier.run_identifier} "
+      else
         run_identifier = @slink[@slink.index('parkrun') .. @slink.index('/results')-1]
         run_identifier = run_identifier[run_identifier.index('/')+1..run_identifier.length]
         run_identifier = Run.find_or_create_by(run_identifier: run_identifier)
         Rails.logger.info "LP:Production The Link is: #{run_identifier.run_identifier} "
-      # end
+      end
       agent = Mechanize.new
       agent.user_agent_alias = @browser
 

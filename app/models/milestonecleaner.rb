@@ -12,7 +12,7 @@ class Milestonecleaner
 
   def get_total_runs_from_online
     agent = Mechanize.new
-    agent.user_agent_alias = ApplicationHelper::OtherBrowsers::ALIASES.sample
+    agent.user_agent_alias = Browserchoice::Browserchoices::ALIASES.sample
     begin
       doc = agent.get(athlete_online_link)
       string  = doc.xpath('//h2[contains(text(),"parkruns")]').text
