@@ -11,9 +11,9 @@
   <% end %>
 <% end %>
 
-<div class='alert alert-danger'>
-  <%= flash[:message]   %>
-</div>
+<% flash.each do |key, value| %>
+  <div class="alert alert-<%= key %>"><%= value %></div>
+<% end %>
 
 <% if current_user && current_user.admin? %>
   <button id='update', class='btn-info' ><%= link_to "Update", controller: 'scrapes', action: 'index', class: 'btn', id: 'update-link' %></button>

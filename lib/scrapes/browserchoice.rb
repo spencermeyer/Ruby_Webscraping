@@ -1,6 +1,6 @@
 module Browserchoice
   class Browserchoices
-    ALIASES = 
+    def self.random_alias 
       [
         'Linux Firefox',
         'Linux Mozilla',
@@ -13,6 +13,7 @@ module Browserchoice
         'Windows Edge',
         'Windows Mozilla',
         'Windows Firefox',
-      ]
+      ].sample
+    end
   end
 end

@@ -2,12 +2,9 @@ source 'http://rubygems.org'
 ruby '2.4.0'
 
 gem 'mechanize'
-# Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'pkg-config'   # might help nokogiri install.
 gem 'nokogiri', '~>1.8.4'   # mechanize was resolved to 2.7.5, which depends on nokogiri (= 1.8.1)
 gem 'rails', '~> 5.1.0'
-# Use mysql as the database for Active Record
-# gem 'mysql2', '>= 0.3.18', '< 0.5'
 gem 'pg' #  Heroku really wants pg not mysql :(
 # Use Puma as the app server
 gem 'puma', '~> 3.0'
@@ -26,10 +23,12 @@ gem 'useragent'
 gem 'newrelic_rpm'
 gem 'resque'
 gem 'resque-web'
+# gem 'resque-status'  # adds methods to get status
 gem 'resque-scheduler-web'
+gem 'resque-scheduler', '~> 4.3.1'
+gem 'resque-delayed', '~> 1.3.0'
 gem 'will_paginate'
 gem 'mailgun-ruby', '~> 1.1.10'
-# gem 'mailgun', '~>0.8'
 gem 'httparty'
 gem 'rest-client'
 
@@ -43,15 +42,13 @@ gem 'jbuilder', '~> 2.5'
 # gem 'redis', '~> 3.0'
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
-
-# Use Capistrano for deployment
-# gem 'capistrano-rails', group: :development
 gem 'listen', '~> 3.0.5'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug', platform: :mri
   gem 'pry-rails'
+  gem 'pry-byebug'  # changed from pry.
   gem 'annotate'
   gem 'vcr'
   gem 'webmock'
@@ -66,7 +63,6 @@ group :development do
   # Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
   gem 'spring'
   gem 'spring-watcher-listen', '~> 2.0.0'
-  gem 'pry'
   gem 'rspec-rails'
   gem 'capistrano', '~> 3.11.0',        require: false
   gem 'capistrano-rvm',                 require: false

@@ -36,4 +36,17 @@ class Alerter
 
   class MailChimpAlerter
   end
+
+  class Loggeronly
+    @queue = :loggeronly
+
+    def initialize(message)
+      @message = message
+    end
+
+    def self.perform(message)
+      Rails.logger.debug "FROM THE ALERTER #{message}"
+    end
+  end 
+
 end

@@ -7,8 +7,9 @@ class ScrapesController < ApplicationController
 
   def index
     SourceProcessor.perform
+    flash[:info] = "Queued Data Collection at #{Time.now} come back and refresh the page"
     @results = Result.eastleigh_and_stalkees.all.order(run_id: :asc, pos: :asc)
-    Rails.logger.info "AWOOGA finished scraping at #{Time.now} and redirecting"
+    Rails.logger.info "Finished scraping at #{Time.now} and redirecting"
     redirect_to :results unless request.nil?
   end
 

@@ -1,0 +1,17 @@
+Loggeronly:
+  cron: '16 * * * * *'
+  class: Alerter::Loggeronly
+  queue: loggeronly
+  args:
+    'testing rescue schedule this is the alerter logger min16'
+  description: 'Runs the perform method in Alerter::Loggeronly'
+ScrapeTheSource:
+  cron: '30 6 * * 7'
+  class: SourceProcessor
+  queue: sourceprocessing
+  description: 'Updates the results'
+# email_alert:
+#   every: 30s
+#   class: Alerter::MailGunAlerter
+#   args:
+#   description: Runs the perform method in Alerter::MailGunAlerter

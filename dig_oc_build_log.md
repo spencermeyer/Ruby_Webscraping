@@ -125,6 +125,13 @@ Install sendmail - for monitoring
 --------------------------------- 
 sudo apt-get install sendmail
 
+Starting up workers and delayed workers
+---------------------------------------
+The foreground commands are:
+
+`be rake resque_delayed:work`
+`bundle exec rake environment resque:work QUEUE='*'`
+
 To Do
 -----
 * Optimise as per the conclusion in the guide.
@@ -189,10 +196,9 @@ sudo apt-get install python-certbot-nginx
 This failed.  I think its because the certbot tried to go to parkcollectoronrails.co.uk for something.
 
 This actually worked:
-sudo certbot certonly --manual --preferred-challenges dns
+`sudo certbot certonly --manual --preferred-challenges dns`
 it requires a dns txt entry which I entered in at namesco config.
-
-Apparently all working.  But https just hangs.
+Needs renewing every 90 days:   simply run the above command again.
 
 TCP Dump
 --------
