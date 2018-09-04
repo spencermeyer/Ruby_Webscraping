@@ -13,9 +13,9 @@ RSpec.describe LineProcessor, type: :model do
   context 'it processes one set of real results' do
     it 'Processes the results for one url successfully' do
       VCR.use_cassette('scrape', record: :none) do  #record: :new_episodes :all :none
-        # expect(Run.first.run_identifier).to be('eastleigh')
         described_class.perform( {'args_hash' => {'slink' => "http://localhost:4567/eastleigh/results/weeklyresults/?runSeqNumber=347", 'browser' => 'Linux Firefox'}})
 
+        expect(Run.first.run_identifier).to eq('eastleigh')
         expect(Result.count).to eq(239)
         expect(Milestone.count).to eq(4)
 
