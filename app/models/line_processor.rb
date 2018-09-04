@@ -1,7 +1,7 @@
 class LineProcessor
   @queue = :line_processor
 
-  def self.queue
+  def self.queue  #TODO is this needed?
     :line_processor
   end
 
