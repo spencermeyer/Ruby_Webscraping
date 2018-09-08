@@ -54,6 +54,7 @@ group :development, :test do
   gem 'webmock'
   gem 'factory_girl_rails'
   gem 'awesome_print'
+  gem 'database_cleaner'
 end
 
 group :development do
