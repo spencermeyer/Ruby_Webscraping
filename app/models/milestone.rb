@@ -23,4 +23,7 @@
 #
 
 class Milestone < ApplicationRecord
+  def athlete_online_link
+    'http://www.parkrun.org.uk/results/athleteresultshistory/?athleteNumber=' + athlete_number
+  end
 end
