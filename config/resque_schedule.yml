@@ -10,6 +10,11 @@ ScrapeTheSource:
   class: SourceProcessor
   queue: sourceprocessing
   description: 'Updates the results'
+CleanTheMilestones:
+  cron: '30 7 * * 2'
+  class: MilestoneCleaner
+  queue: milestonecleaner
+  description: 'Cleans the milestones'
 # email_alert:
 #   every: 30s
 #   class: Alerter::MailGunAlerter
