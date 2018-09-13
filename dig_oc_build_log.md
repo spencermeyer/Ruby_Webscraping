@@ -129,8 +129,18 @@ Starting up workers and delayed workers
 ---------------------------------------
 The foreground commands are:
 
-`be rake resque_delayed:work`
 `bundle exec rake environment resque:work QUEUE='*'`
+`bundle exec rake resque_delayed:work`
+`bundle exec rake resque:scheduler`
+
+on the server 
+
+RAILS_ENV=production BACKGROUND=yes bundle exec rake resque:scheduler
+RAILS_ENV=production BACKGROUND=yes bundle exec rake resque_delayed:work &
+RAILS_ENV=production BACKGROUND=yes QUEUE=* bundle exec rake environment resque:work
+
+note the use of the trailing & which runs the command in the background and detaches the terminal.  It even reports back the PID :).  To find it again, do `ps -aux | grep resque` the three processes started above should be visible.
+
 
 To Do
 -----

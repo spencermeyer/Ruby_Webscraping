@@ -22,7 +22,7 @@ class Alerter
 
       parameters  = {
         :to      => ENV['PARKCOLLECTORMAILTARGET'],
-        :subject => 'An Alert from Alerter',
+        :subject => "An Alert: #{@message}",
         :text    => 'Alerter Alert!',
         :from    => 'postmaster@parkcollectoronrails.co.uk'
       }
@@ -45,7 +45,7 @@ class Alerter
     end
 
     def self.perform(message)
-      Rails.logger.debug "FROM THE ALERTER #{message}"
+      Rails.logger.debug "FROM THE ALERTER #{@message}"
     end
   end 
 

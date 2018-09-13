@@ -20,3 +20,8 @@ email_alert:
   class: Alerter::MailGunAlerter
   args:  'Hello from Alerter Mailgun'
   description: Runs the perform method in Alerter::MailGunAlerter
+visit_trimmer
+  cron: '30 7 * * 4'
+  class visit_trimmer
+  queue: visit_trimmer
+  description: 'Stop the visits table getting too big'
