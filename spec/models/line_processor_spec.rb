@@ -1,5 +1,4 @@
 require 'rails_helper'
-require 'rails_helper'
 include ScrapesHelper
 require "#{Rails.root}/lib/scrapes/browserchoice"
 
