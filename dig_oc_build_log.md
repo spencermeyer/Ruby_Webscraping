@@ -144,10 +144,9 @@ note the use of the trailing & which runs the command in the background and deta
 
 To Do
 -----
-* Optimise as per the conclusion in the guide.
-* rake task to clear out old visits
 
 * use resqueue to kill runs where there are no data for. (get it working, at the moment the job just sits in resque)
+
 * Now succeeded but cannot get capistrano to start up a resque worker.  Started manually - how long will it stay up?
 
 * make emails
@@ -216,12 +215,30 @@ sudo tcpdump -i eth0 port 443     # here port 80 captures and port 443 does not.
 
 BUT when I go to the machine directly via the ip address on port 443 tcp dump logs stuff on port 443.
 
-
 DNS
 ---
 why is my A record 85.233.160.22  ?    Set it to 46.101.17.87  2/6/2018  Takes 24-48 hours to come into effect  :(
 
 Look here:   https://www.names.co.uk/support/1292-namesco_dns_settings.html
 Good explanation: https://www.wired.com/2010/02/set_up_a_dns_name_server/
+
+
+Getting SendMail to Run
+-----------------------
+
+Set txt record as `v=spf1 a mx ip4:46.101.17.87 -all`
+run `sendmailconfig`
+
+echo "Subject: foobar" | sendmail -f 'bounces@parkcollectoronrails.co.uk' spencer_meyer@hotmail.com
+
+Received-SPF: PermError (protection.outlook.com: domain of
+parkcollectoronrails.co.uk used an invalid SPF mechanism)
+
+
+
+
+
+
+
 
 

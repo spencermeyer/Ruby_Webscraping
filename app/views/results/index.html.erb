@@ -100,7 +100,6 @@
       <% if result.pos && result.age_grade_position && result.age_grade && result.age_cat_position && result.total && result.gender_pos %>
         <% high_pos_finisher = (result.pos < 2)? 'high_pos_finisher' : 'normal_pos_finisher' %>
         <% high_age_pos_finisher = (result.age_grade_position < 13)? 'high_age_pos_finisher' : 'normal_age_pos_finisher' %>
-        <% note_class = (result.note == 'New PB!')? 'newpb' : 'note' %>
         <% age_class  = (result.age_grade.to_f > 70)? 'fast-age' : 'not-fast-age'%>
         <% age_cat_class = (result.age_cat_position == 1)? 'first-in-age-cat' : 'normal-age-cat' %>
         <% milestone_run_class = ([50, 100, 150, 200, 250, 300, 350, 400, 450, 500, 550, 600].include? result.total)? 'milestone-run' : 'not-milestone' %>
@@ -119,7 +118,7 @@
           <td><%= result.gender %></td>
           <td class="<%= gender_win_class + ' ' +  gender_pos_class %>"><%= result.gender_pos %></td>
           <td><%= result.club %></td>
-          <td class= "<%= note_class %>"><%= result.note %></td>
+          <td class= "<%= result.note_class %>"><%= result.note %></td>
           <td class="<%= milestone_run_class %>"><%= result.total %></td>
         </tr>
       <% end %>

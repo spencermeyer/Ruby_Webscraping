@@ -28,4 +28,18 @@ class Result < ApplicationRecord
   scope :stalkees, -> { where(parkrunner: @stalkees )}
   scope :eastleigh_and_stalkees, -> { where(club: 'Eastleigh RC').or where(parkrunner: @stalkees) }
   scope :top12s, -> { where("age_grade_position < ?", 13 )}
+
+  def note_class
+    note = self.note.chomp
+    closepb = false
+    if note.include?('PB stays at')
+      pb_in_seconds = self.note[-2..-1].to_i + ( 60 * self.note[-5..-4].to_i ) + ( 3600 * self.note[-8..-7].to_i) 
+      closepb = self.time - pb_in_seconds < 10
+    end
+
+    note.include?('First Timer!') ? 'notex' : \
+    note.include?('New PB!') ? 'newpb' : \
+    closepb ? 'close-pb' : 'note'
+  end
 end
+

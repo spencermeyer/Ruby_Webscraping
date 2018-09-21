@@ -29,6 +29,9 @@
  }
  .nopb {
  }
+ .close-pb {
+   background-color: #ffffb3;
+ }
  .fast-age {
    background-color: #ff6666;
  }

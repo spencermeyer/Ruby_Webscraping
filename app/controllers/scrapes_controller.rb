@@ -19,7 +19,6 @@ class ScrapesController < ApplicationController
       last_run = Run.last
       last_run.updated_at = Time.now unless !last_run
       last_run.save! unless !last_run
-      Result.delete_all
       ActiveRecord::Base.connection.execute("TRUNCATE results RESTART IDENTITY")
     end
 

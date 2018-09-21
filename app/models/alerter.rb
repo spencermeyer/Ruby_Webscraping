@@ -31,10 +31,18 @@ class Alerter
     end
   end
 
-  class SendGridAlerter
-  end
+  class LinuxSendMail
+    @queue = :email_alert_sendmail
 
-  class MailChimpAlerter
+    def initializs(message)
+      @message = message
+    end
+
+    def self.perform(message)
+      # `echo "Subject: 'Awooga' | sendmail #{ENV['PARKCOLLECTORMAILTARGET']} -f 'bounces@parkcollectoronrails.co.uk' " `
+      `echo "Subject: 'Awooga' | sendmail -f 'bounces@parkcollectoronrails.co.uk' spencer_meyer@hotmail.com" `
+      #   WIP
+    end
   end
 
   class Loggeronly
@@ -48,5 +56,4 @@ class Alerter
       Rails.logger.debug "FROM THE ALERTER #{@message}"
     end
   end 
-
 end
