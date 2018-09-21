@@ -17,7 +17,7 @@ namespace :collect_data do
 
   desc 'CleanMilestones'
   task clean_milestones: :environment do
-    Milestonecleaner.clean
+    Milestonecleaner.perform
     Rails.logger.info "RakeMilstonesCleangingTaskRunningAt #{Time.now}"
   end
 end
