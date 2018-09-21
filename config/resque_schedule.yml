@@ -22,6 +22,6 @@ email_alert:
   description: Runs the perform method in Alerter::MailGunAlerter
 visit_trimmer:
   cron: '30 7 * * 4'
-  class: visit_trimmer
+  class: VisitTrimmer
   queue: visit_trimmer
   description: 'Stop the visits table getting too big'
