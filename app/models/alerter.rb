@@ -40,7 +40,13 @@ class Alerter
 
     def self.perform(message)
       # `echo "Subject: 'Awooga' | sendmail #{ENV['PARKCOLLECTORMAILTARGET']} -f 'bounces@parkcollectoronrails.co.uk' " `
-      `echo "Subject: 'Awooga' | sendmail -f 'bounces@parkcollectoronrails.co.uk' spencer_meyer@hotmail.com" `
+      # `echo "Subject: Awooga" | sendmail -f 'bounces@parkcollectoronrails.co.uk' spencer_meyer@hotmail.com" `
+
+      `sendmail -t -i -f 'bounces@parkcollectoronrails.co.uk' spencer_meyer@hotmail.com << EOF`
+      `From: ParkAlerter`
+      `Subject: APA "#{meessage}"`
+      `EOF`
+
       #   WIP
     end
   end
@@ -55,5 +61,8 @@ class Alerter
     def self.perform(message)
       Rails.logger.debug "FROM THE ALERTER #{@message}"
     end
-  end 
+  end
+
+  class SlackAlerter
+  end
 end

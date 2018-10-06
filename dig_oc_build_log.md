@@ -100,12 +100,6 @@ based on this:  https://www.digitalocean.com/community/tutorials/how-to-create-a
 here's one using let's encrypt:
 https://www.digitalocean.com/community/tutorials/how-to-secure-nginx-with-let-s-encrypt-on-ubuntu-14-04
 
-
-mkdir /etc/nginx/ssl
-sudo openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout /etc/nginx/ssl/nginx.key -out /etc/nginx/ssl/nginx.crt
-
-THIS IS NOT WORKING MUST GET THIS WORKING...
-
 Set up IP Tables
 ----------------
 https://www.digitalocean.com/community/tutorials/how-to-set-up-a-firewall-using-iptables-on-ubuntu-14-04
@@ -145,7 +139,6 @@ note the use of the trailing & which runs the command in the background and deta
 To Do
 -----
 
-* use resqueue to kill runs where there are no data for. (get it working, at the moment the job just sits in resque)
 
 * Now succeeded but cannot get capistrano to start up a resque worker.  Started manually - how long will it stay up?
 
@@ -154,8 +147,8 @@ To Do
 * use nginx to kill dodgy visits:
 * https://www.cyberciti.biz/faq/unix-linux-appleosx-bsd-nginx-block-user-agent/
 
-convert to environmental variables
-- mailgun key
+
+
 
 Deploy
 ------ 
@@ -171,8 +164,6 @@ Cronjobs
 Nginx Config and Troubleshooting
 ................................
 
-Worked fine after I installed the ssl certificates, but not in ssl mode.
-
 https://blog.serverdensity.com/troubleshoot-nginx/
 sudo nginx -t                   - this passes OK.
 sudo service nginx configtest   - this passes ok
@@ -180,7 +171,7 @@ sudo service nginx status       - looks ok ?
 sudo nginx -T    ***************  :)
 curl -i https://127.0.0.1/nginx_status   at last an error that makes sense.
 
-put the ssl certs into /etc/nginx/nginx.conf.  didnt break anything.
+put the ssl certs into /etc/nginx/nginx.conf.  
 
 good stuff here:  https://stackoverflow.com/questions/8768946/
 
@@ -231,14 +222,15 @@ run `sendmailconfig`
 
 echo "Subject: foobar" | sendmail -f 'bounces@parkcollectoronrails.co.uk' spencer_meyer@hotmail.com
 
-Received-SPF: PermError (protection.outlook.com: domain of
-parkcollectoronrails.co.uk used an invalid SPF mechanism)
+is now spf pass    (v=spf1 a mx ip4:46.101.17.87 -all)
 
+dkim=none (message not
+signed) header.d=none;hotmail.com; dmarc=bestguesspass action=none
+header.from=parkcollectoronrails.co.uk;
 
+How to set up DKIM
+------------------
 
-
-
-
-
+https://philio.me/setting-up-dkim-with-sendmail-on-ubuntu-14-04/
 
 

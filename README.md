@@ -13,9 +13,10 @@ I initially tried Heroku to host this.  However the app times out because it has
 
 For testing, I set up a Sinatra server (hosted in a different Git repository) to serve up test assets in development and test modes, and I'm using the 'vcr' gem to replay it in test mode.
 
+When put into production, I found I was getting a connection refused when making too many requests too quickly,  I therefore broke the requests up into individual jobs which fire at 10 second intervals using Resque delayed job.  This has made is more reliable and of course it still collects data if one job fails.  I've got Resque-Schedule set up to do some database administration jobs for me in the background.
+
 The app is database heavy and takes time to do the scraping.
-To optimise this I've:
-1) collected all the data in a massive hash and then saved it all in one db transaction at the end instead of individual transactions.  I do various age grade and age category positions allocations on the hash before saving, this is MUCH faster than using active record.
+To optimise this I've collected all the data in a massive hash and then saved it all in one db transaction at the end instead of individual transactions.  I do various age grade and age category positions allocations on the hash before saving, this is MUCH faster than using active record saves individually.
 
 Deployment.
 -----------
@@ -29,8 +30,8 @@ Things to do next.
 1 lots more styling.
 2 make it more robust for http fails.
 3 make it send emails for upcoming milestones.
-4 make a cron job for scraping so that the results are all ready for the user to see.
-5 Make it collect data much more efficiently.
+4 make a React view consuming the json to sit alongside the existing rails view.
+5 extend the stalker feature to get the stalkees wherever they run.
 
 Tech Stack
 ----------
@@ -39,3 +40,5 @@ Tech Stack
 * Ruby 2.4.4  :)
 * posgresql
 * nginx
+* resque
+

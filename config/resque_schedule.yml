@@ -1,9 +1,9 @@
 Loggeronly:
-  cron: '0 */2 * * * *'
+  cron: '0 9 * * * *'
   class: Alerter::Loggeronly
   queue: loggeronly
   args:
-    'testing rescue schedule alerter logger every 2 hours'
+    'testing rescue schedule alerter logger once per day'
   description: 'Runs the perform method in Alerter::Loggeronly'
 ScrapeTheSource:
   cron: '30 6 * * 7'

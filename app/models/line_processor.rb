@@ -1,10 +1,6 @@
 class LineProcessor
   @queue = :line_processor
 
-  def self.queue  #TODO is this needed?
-    :line_processor
-  end
-
   def self.perform(hash)
     @slink = hash['args_hash']['slink']
     @browser = hash['args_hash']['browser']
@@ -26,7 +22,7 @@ class LineProcessor
       results = []
       slink_doc = agent.get(@slink)
       slink_doc.xpath('//tr').each do |row|
-        # begin
+        begin
           if row.children.length > 8  && row.children[0].children.text != '' && (!row.children[1].children.text.include? 'parkrunner')
             time_in_seconds = row.children[2].children.text.split(':')[-1].to_i + row.children[2].children.text.split(':')[-2].to_i*60  + row.children[2].children.text.split(':')[-3].to_i*3600
             result = {
@@ -52,67 +48,68 @@ class LineProcessor
                 result_to_clear.destroy if(result_to_clear)
             end
           end   # here ends each row operation
-        # rescue StandardError => e
-          # Rails.logger.log "LP: An individual scraping error occurred, #{e}, Run Was:?"
-        # end # rescue block
+        rescue StandardError => e
+          Rails.logger.log "LP: An individual scraping error occurred, #{e}, Run Was:?"
+        end # rescue block
         results.push(result) if result
       end # here ends the slink each
       Rails.logger.debug "LP: Success one scrape"
 
-        # Sort by age grade and allocate age grade positions
-        results = results.sort_by{|res| res[:age_grade]}.reverse!
-        results.each_with_index { |val, index| val[:age_grade_position] = index +1 }
+      # Sort by age grade and allocate age grade positions
+      results = results.sort_by{|res| res[:age_grade]}.reverse!
+      results.each_with_index { |val, index| val[:age_grade_position] = index +1 }
 
-        # Batch into age categories and allocate age cat positions
-        results = results.group_by{ |i| i[:age_cat] }
-        run = Run.find(run_identifier.id)   # DNC
-        results = results.each_pair { |k, v| assign_age_cat_pos_to_array_of_hashes(v) }
-        results = results.values.flatten
- 
-        Result.create(results)
-        run = Run.find(run_identifier.id); run.metadata['comment']=nil; run.save!
-      rescue StandardError => e
-        Rails.logger.debug "LP: Failed one scrape at #{Time.now}, #{e} #{e.backtrace}"
-        run = Run.find(run_identifier.id); run.metadata['comment']="Failed to get data, #{e}"; run.save!
-        # Resque.enqueue(Alerter::MailGunAlerter, "Line Processor Failed to get run data for this run:  #{run_identifier.run_identifier}")
-      end
+      # Batch into age categories and allocate age cat positions
+      results = results.group_by{ |i| i[:age_cat] }
+
+      results = results.each_pair { |k, v| assign_age_cat_pos_to_array_of_hashes(v) }
+      results = results.values.flatten
+
+      Result.create(results)
+      run = Run.find(run_identifier.id); run.metadata['comment']=nil; run.save!
+    rescue StandardError => e
+      Rails.logger.debug "LP: Failed one scrape at #{Time.now}, #{e} #{e.backtrace}"
+      run = Run.find(run_identifier.id); run.metadata['comment']="Failed to get data, #{e}"; run.save!
+      Resque.enqueue(Alerter::Loggeronly, "Line Processor Failed to get run data for this run:  #{run_identifier.run_identifier}")
     end
+  end  # end of perform method.
 
-    def self.assign_age_cat_pos_to_array_of_hashes(arry)
-      arry = arry.sort_by{ |elem| elem[:time] }
-      arry = arry.each_with_index { |val, index| val[:age_cat_position] = index + 1  }
-      arry
-    end
+  def self.assign_age_cat_pos_to_array_of_hashes(arry)
+    arry = arry.sort_by{ |elem| elem[:time] }
+    arry = arry.each_with_index { |val, index| val[:age_cat_position] = index + 1  }
+    arry.each { |elem| elem[:number_in_age_category] = arry.length }
+    arry
+  end
 
-    def self.get_runner_number_from_text(inputrow)
-      runnerstring = inputrow.children[1].children.text
-      if (runnerstring.include? 'Unknown')
-        return nil
+  def self.get_runner_number_from_text(inputrow)
+    runnerstring = inputrow.children[1].children.text
+    if (runnerstring.include? 'Unknown')
+      return nil
+    else
+      athletestring = inputrow.children[1].children[0].attributes['href'].try(:value)
+      if(athletestring)
+        athlete_number = athletestring[athletestring.index('ber=')+4, athletestring.length].to_i
+        return athlete_number
       else
-        athletestring = inputrow.children[1].children[0].attributes['href'].try(:value)
-        if(athletestring)
-          athlete_number = athletestring[athletestring.index('ber=')+4, athletestring.length].to_i
-          return athlete_number
-        else
-          return 'no_number'
-        end
+        return 'no_number'
       end
     end
+  end
 
-    def self.create_milestone_from_result_hash(result)
-      milestone = Milestone.where(parkrunner: result[:parkrunner], athlete_number: result[:athlete_number]).first_or_create do |milestone|
-        milestone.pos        = result[:pos]
-        milestone.time       = result[:time]
-        milestone.age_cat    = result[:age_cat]
-        milestone.age_grade  = result[:age_grade]
-        milestone.gender     = result[:gender]
-        milestone.gender_pos = result[:gender_pos]
-        milestone.club       = result[:club]
-        milestone.note       = result[:note]
-        milestone.total      = result[:total]
-        milestone.run_id     = result[:run_id]
-        milestone.run_id     = result[:run_id]
-      end
-      milestone.save!
+  def self.create_milestone_from_result_hash(result)
+    milestone = Milestone.where(parkrunner: result[:parkrunner], athlete_number: result[:athlete_number]).first_or_create do |milestone|
+      milestone.pos        = result[:pos]
+      milestone.time       = result[:time]
+      milestone.age_cat    = result[:age_cat]
+      milestone.age_grade  = result[:age_grade]
+      milestone.gender     = result[:gender]
+      milestone.gender_pos = result[:gender_pos]
+      milestone.club       = result[:club]
+      milestone.note       = result[:note]
+      milestone.total      = result[:total]
+      milestone.run_id     = result[:run_id]
+      milestone.run_id     = result[:run_id]
     end
+    milestone.save!
+  end
 end

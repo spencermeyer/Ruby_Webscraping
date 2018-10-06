@@ -4,7 +4,7 @@ class ResultsController < ApplicationController
   # GET /results
   # GET /results.json
   def index
-    record_vistor_information
+    # record_vistor_information
     if params[:order] == 'pos'
       @results = Result.eastleigh_and_stalkees.all.order(run_id: :asc, pos: :asc)
     elsif params[:order] == 'age'
@@ -82,10 +82,10 @@ class ResultsController < ApplicationController
     end
 
     # record vistor information
-    def record_vistor_information
-      if request.ip && request.user_agent
-        visit=Visit.new(ip_address: request.ip, browser: request.user_agent)
-        visit.save
-      end
-    end
+    # def record_vistor_information
+    #   if request.ip && request.user_agent
+    #     visit=Visit.new(ip_address: request.ip, browser: request.user_agent)
+    #     visit.save
+    #   end
+    # end
 end
