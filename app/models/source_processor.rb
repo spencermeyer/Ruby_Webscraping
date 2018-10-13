@@ -23,7 +23,7 @@ class SourceProcessor
       doc = agent.get(scrape_index_source)
     rescue StandardError => e
       Rails.logger.debug "Error in scraping source, #{e}"
-      Resque.enqueue(Alerter::MailGunAlerter, "Scrapes Controller Failed to get Source error: #{e}")
+      Resque.enqueue(Alerter::SlackAlerter, "Scrapes Failed to get Source error: #{e}")
     end
 
     mech_links_for_scraping = doc.xpath('//a[contains(text(),"View full results")]') unless !doc

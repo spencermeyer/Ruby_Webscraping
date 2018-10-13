@@ -70,7 +70,7 @@ class LineProcessor
     rescue StandardError => e
       Rails.logger.debug "LP: Failed one scrape at #{Time.now}, #{e} #{e.backtrace}"
       run = Run.find(run_identifier.id); run.metadata['comment']="Failed to get data, #{e}"; run.save!
-      Resque.enqueue(Alerter::Loggeronly, "Line Processor Failed to get run data for this run:  #{run_identifier.run_identifier}")
+      Resque.enqueue(Alerter::SlackAlerter, "Line Processor Failed to for:  #{run_identifier.run_identifier}")
     end
   end  # end of perform method.
 
