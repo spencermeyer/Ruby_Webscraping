@@ -44,7 +44,8 @@ class Alerter
       `From: ParkAlerter`
       `Subject: APA "#{meessage}"`
       `EOF`
-      #   WIPend
+      # WIP
+    end
   end
 
   class Loggeronly
