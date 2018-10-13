@@ -1,4 +1,4 @@
-source 'http://rubygems.org'
+source 'https://rubygems.org'
 ruby '2.4.0'
 
 gem 'mechanize'
@@ -31,6 +31,7 @@ gem 'will_paginate'
 gem 'mailgun-ruby', '~> 1.1.10'
 gem 'httparty'
 gem 'rest-client'
+gem 'slack-notifier'
 
 # Use jquery as the JavaScript library
 gem 'jquery-rails'

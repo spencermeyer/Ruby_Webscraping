@@ -40,15 +40,11 @@ class Alerter
 
     def self.perform(message)
       # `echo "Subject: 'Awooga' | sendmail #{ENV['PARKCOLLECTORMAILTARGET']} -f 'bounces@parkcollectoronrails.co.uk' " `
-      # `echo "Subject: Awooga" | sendmail -f 'bounces@parkcollectoronrails.co.uk' spencer_meyer@hotmail.com" `
-
-      `sendmail -t -i -f 'bounces@parkcollectoronrails.co.uk' spencer_meyer@hotmail.com << EOF`
+      `sendmail -t -i -f 'bounces@parkcollectoronrails.co.uk' target_insert_here@somewhere.com << EOF`
       `From: ParkAlerter`
       `Subject: APA "#{meessage}"`
       `EOF`
-
-      #   WIP
-    end
+      #   WIPend
   end
 
   class Loggeronly
@@ -64,5 +60,15 @@ class Alerter
   end
 
   class SlackAlerter
+    require 'slack-notifier'
+
+    def initialize(message)
+      @message = message
+    end
+
+    def perform    
+      notifier = Slack::Notifier.new(ENV['SLACK_WEBHOOK_URL'], channel: "#general")
+      notifier.ping text: "#{@message}"
+    end
   end
 end
