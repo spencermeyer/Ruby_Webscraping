@@ -1,6 +1,6 @@
 class ScrapesController < ApplicationController
   include ScrapesHelper
-  require "#{Rails.root}/lib/scrapes/browserchoice"
+  include Browserchoice
 
   before_action :clear_all_data
   after_action :add_clear_old_runs_to_resque
@@ -13,21 +13,20 @@ class ScrapesController < ApplicationController
     redirect_to :results unless request.nil?
   end
 
-  # private  # rake task cannot do private :(
-    def clear_all_data
-      Rails.logger.debug "CLEARING ALL DATA"
-      last_run = Run.last
-      last_run.updated_at = Time.now unless !last_run
-      last_run.save! unless !last_run
-      ActiveRecord::Base.connection.execute("TRUNCATE results RESTART IDENTITY")
-    end
+  def clear_all_data
+    Rails.logger.debug "CLEARING ALL DATA"
+    last_run = Run.last
+    last_run.updated_at = Time.now unless !last_run
+    last_run.save! unless !last_run
+    ActiveRecord::Base.connection.execute("TRUNCATE results RESTART IDENTITY")
+  end
 
-    def add_clear_old_runs_to_resque
-      Resque.enqueue(UnusedRuns)
-    end
+  def add_clear_old_runs_to_resque
+    Resque.enqueue(UnusedRuns)
+  end
 
-    # Never trust parameters from the scary internet, only allow the white list through.
-    def scrape_params
-      params.require(:scrape).permit(:nullfield)
-    end
+  # Never trust parameters from the scary internet, only allow the white list through.
+  def scrape_params
+    params.require(:scrape).permit(:nullfield)
+  end
 end

@@ -8,6 +8,7 @@
   <thead>
     <tr>
       <th class="table-header">Person to be stalked</th>
+      <th class="table-header">Athlete Number</th>
       <th class="table-header">Goto Link</th>
       <th class="table-header">Edit Link</th>
       <th class="table-header">Delete Link</th>
@@ -18,6 +19,7 @@
     <% @stalkees.each do |stalkee| %>
       <tr>
         <td><%= stalkee.parkrunner %></td>
+        <td><%= stalkee.athlete_number %></td>
         <td><%= link_to 'Show', stalkee %></td>
         <td><%= link_to 'Edit', edit_stalkee_path(stalkee) %></td>
         <td><%= link_to 'Destroy', stalkee, method: :delete, data: { confirm: 'Are you sure?' } %></td>

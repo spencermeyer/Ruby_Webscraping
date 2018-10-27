@@ -61,15 +61,16 @@ class Alerter
   end
 
   class SlackAlerter
+    @queue = :slack_alerter
     require 'slack-notifier'
 
     def initialize(message)
       @message = message
     end
 
-    def perform    
+    def self.perform(message)
       notifier = Slack::Notifier.new(ENV['SLACK_WEBHOOK_URL'], channel: "#general")
-      notifier.ping text: "#{@message}"
+      notifier.ping text: "#{message}"
     end
   end
 end

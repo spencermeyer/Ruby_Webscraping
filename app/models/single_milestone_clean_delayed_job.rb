@@ -1,5 +1,5 @@
 class SingleMileStoneCleanDelayedJob
-  require 'scrapes/browserchoice'
+  require 'browserchoice'
   @queue = :singlemilestonecleaner
  
   class SingleMilestoneCleanerDelayedJobError < StandardError; end

@@ -1,5 +1,6 @@
 class MilestoneCleaner
-  require 'scrapes/browserchoice'
+  include Browserchoice
+
   require 'single_milestone_clean_delayed_job'
   class MilestoneCleanerError < StandardError; end
 

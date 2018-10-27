@@ -50,5 +50,10 @@ class SourceProcessor
           message: "ALERTER DELAYED index is #{index}"
         )
     end
+    # add in stalkees sources
+    Resque.enqueue_at(
+      Time.now + (@links_for_scraping.length * 15).seconds + 10.seconds,
+      StalkeeProcessor
+    )
   end
 end
