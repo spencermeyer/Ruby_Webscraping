@@ -1,4 +1,12 @@
 class SourceProcessor
+  class JobAlreadyQueuedOrRunningError < StandardError;
+    def initialize(msg="job already running")
+      super
+    end
+  end
+
+  @queue = :source_processing
+
   include ScrapesHelper
   include Browserchoice
 
@@ -6,8 +14,11 @@ class SourceProcessor
     require 'open-uri'
     require 'mechanize'
 
+    raise JobAlreadyQueuedOrRunningError if job_already_running_or_queued?
+
     online_url_for_scrape = 'http://www.parkrun.com/results/consolidatedclub/?clubNum=1537'
-    local_url_for_scrape =  'http://localhost:4567/results_Consolidated_parkrun.html'
+    # local_url_for_scrape =  'http://localhost:4567/results_Consolidated_parkrun.html' # sometimes need this one.
+    local_url_for_scrape =  'http://127.0.0.1:4567/results_Consolidated_parkrun.html'
 
     if (Rails.env.development? | Rails.env.test?)
       scrape_index_source = local_url_for_scrape
@@ -21,6 +32,7 @@ class SourceProcessor
     agent.user_agent_alias = Browserchoice::Browserchoices.random_alias
     begin
       doc = agent.get(scrape_index_source)
+      Resque.enqueue(Alerter::MailGunAlerter, "Success getting Source for Parkcollector")
     rescue StandardError => e
       Rails.logger.debug "Error in scraping source, #{e}"
       Resque.enqueue(Alerter::SlackAlerter, "Scrapes Failed to get Source error: #{e}")
@@ -55,5 +67,28 @@ class SourceProcessor
       Time.now + (@links_for_scraping.length * 15).seconds + 10.seconds,
       StalkeeProcessor
     )
+
+  end
+
+  private
+
+  def self.job_already_running_or_queued?
+    job_already_queued? || job_already_running?
+  end
+
+  def self.job_already_running?
+    Resque.working.count { |worker| worker.job['payload']['class']==self.name  } > 1
+  end
+
+  def self.job_already_queued?
+    Resque.redis.lrange("queue:#{scheduled_queue_name}", 0, -1).any? { |job| Resque.decode(job)['class'] == self.name }
+  end
+
+  def self.scheduled_queue_name
+    resque_schedule[resque_schedule.keys.find { |k| resque_schedule[k]['class']==self.name }]['queue']
+  end
+
+  def self.resque_schedule
+    Resque.schedule
   end
 end

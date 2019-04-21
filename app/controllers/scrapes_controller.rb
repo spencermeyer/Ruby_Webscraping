@@ -6,7 +6,7 @@ class ScrapesController < ApplicationController
   after_action :add_clear_old_runs_to_resque
 
   def index
-    SourceProcessor.perform
+    Resque.enqueue(SourceProcessor)
     flash[:info] = "Queued Data Collection at #{Time.now} come back and refresh the page"
     @results = Result.eastleigh_and_stalkees.all.order(run_id: :asc, pos: :asc)
     Rails.logger.info "Finished scraping at #{Time.now} and redirecting"

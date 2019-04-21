@@ -25,7 +25,7 @@ class StalkeeIndividualProcessor
 
     if run_date && (Date.today - Date.parse(run_date).to_i) <= 6 || Rails.env=="development"
       Rails.logger.debug "ENQUEUEING A STALKEE LINE LINK IS: #{link}"
-      if !Run.any? { |run| run.run_identifier == get_run_identifier_from_link(link) && run.updated_at > Date.today -0.5 }
+      if !Run.any? { |run| run.run_identifier == get_run_identifier_from_link(link) && run.updated_at > (Date.today -0.5) }
         Resque.enqueue_at(
           Time.now + 5.seconds,
           LineProcessor,

@@ -127,11 +127,11 @@ The foreground commands are:
 `bundle exec rake resque_delayed:work`
 `bundle exec rake resque:scheduler`
 
-on the server 
+on the server
 
-RAILS_ENV=production BACKGROUND=yes bundle exec rake resque:scheduler
+RAILS_ENV=production BACKGROUND=yes bundle exec rake resque:scheduler &
 RAILS_ENV=production BACKGROUND=yes bundle exec rake resque_delayed:work &
-RAILS_ENV=production BACKGROUND=yes QUEUE=* bundle exec rake environment resque:work
+RAILS_ENV=production BACKGROUND=yes QUEUE=* bundle exec rake environment resque:work &
 
 note the use of the trailing & which runs the command in the background and detaches the terminal.  It even reports back the PID :).  To find it again, do `ps -aux | grep resque` the three processes started above should be visible.
 
@@ -198,7 +198,7 @@ This failed.  I think its because the certbot tried to go to parkcollectoronrail
 This actually worked:
 `sudo certbot certonly --manual --preferred-challenges dns`
 it requires a dns txt entry which I entered in at namesco config.
-Needs renewing every 90 days:   simply run the above command again.
+Needs renewing every 90 days:   simply run the above command again - have to install a string in the acme challenge in namesco each time, but update is instant.
 
 TCP Dump
 --------

@@ -27,11 +27,10 @@ which is really convenient.
 
 Things to do next.
 ------------------
-1 lots more styling.
-2 make it more robust for http fails.
-3 make it send emails for upcoming milestones.
-4 make a React view consuming the json to sit alongside the existing rails view.
-5 extend the stalker feature to get the stalkees wherever they run.
+1 make it send emails for upcoming milestones.
+2 make a React view consuming the json to sit alongside the existing rails view.
+3 extend the stalker feature to get the stalkees wherever they run.
+4 double collection problem ?  I only run one worker on prod.  Have just moved this over to resque only.  See if it still happens.
 
 Tech Stack
 ----------
@@ -41,4 +40,10 @@ Tech Stack
 * posgresql
 * nginx
 * resque
+
+
+Current Revision on the Server
+------------------------------
+acdef59d3df81df8d1a934e7bec24c00910d53bc  REVISION file gives the current version deployed.
+
 
