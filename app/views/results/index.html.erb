@@ -1,3 +1,14 @@
+<script>
+  console.log('awooga');
+  $(function(){
+    $('#results-table').tablesorter({
+      theme: 'blue'
+     });
+  })
+</script>
+<%= stylesheet_link_tag "theme.blue", media: "all" %>
+
+
 <p id="notice"><%= notice %></p>
 <% if user_signed_in? %>
   <h3 class='user-greeting'>Hello <%= current_user.name %></h3>
@@ -76,7 +87,7 @@
 
 <!-- the above table seems to have made the below table go bold ? -->
 
-<table class="table table-bordered table-hover">
+<table id='results-table' class="table table-bordered table-hover table tablesorter">
   <thead>
     <tr>
       <th class="table-header">Parkrun</th>

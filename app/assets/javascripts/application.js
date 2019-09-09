@@ -15,3 +15,4 @@
 //= require turbolinks
 //= require_tree .
 //= require icon_injector
+//= require jquery.tablesorter.min.js
