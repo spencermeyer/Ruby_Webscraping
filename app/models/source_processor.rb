@@ -17,8 +17,7 @@ class SourceProcessor
     raise JobAlreadyQueuedOrRunningError if job_already_running_or_queued?
 
     online_url_for_scrape = 'http://www.parkrun.com/results/consolidatedclub/?clubNum=1537'
-    # local_url_for_scrape =  'http://localhost:4567/results_Consolidated_parkrun.html' # sometimes need this one.
-    local_url_for_scrape =  'http://127.0.0.1:4567/results_Consolidated_parkrun.html'
+    local_url_for_scrape =  'http://127.0.0.1/results/consolidatedclub/index.html'
 
     if (Rails.env.development? | Rails.env.test?)
       scrape_index_source = local_url_for_scrape
@@ -27,15 +26,15 @@ class SourceProcessor
     end
 
     # START TO GET THE INDEX PAGE
-    Rails.logger.debug "Scraping in mode #{Rails.env}, Source is #{scrape_index_source} Time is #{Time.now}"
+    Rails.logger.debug "SP: Scraping in mode #{Rails.env}, Source is #{scrape_index_source} Time is #{Time.now}"
     agent = Mechanize.new
     agent.user_agent_alias = Browserchoice::Browserchoices.random_alias
     begin
       doc = agent.get(scrape_index_source)
-      Resque.enqueue(Alerter::MailGunAlerter, "Success getting Source for Parkcollector")
+      Resque.enqueue(Alerter::MailGunAlerter, "SP: Success getting Source for Parkcollector")
     rescue StandardError => e
-      Rails.logger.debug "Error in scraping source, #{e}"
-      Resque.enqueue(Alerter::SlackAlerter, "Scrapes Failed to get Source error: #{e}")
+      Rails.logger.debug "SP: Error in scraping source, #{e}"
+      Resque.enqueue(Alerter::SlackAlerter, "SP: Scrapes Failed to get Source error: #{e}")
     end
 
     mech_links_for_scraping = doc.xpath('//a[contains(text(),"View full results")]') unless !doc
@@ -48,7 +47,10 @@ class SourceProcessor
     # GET THE DATA FROM THE INDIVIDUAL LINKS
     @data = []
     @links_for_scraping.each_with_index do | slink, index |
-      slink.sub! 'localhost', '127.0.0.1' if Rails.env.development? || Rails.env.test?
+      # slink.sub! 'http://www.parkrun.org.uk', '127.0.0.1' if Rails.env.development? || Rails.env.test?
+      # slink.sub! 'runSeqNumber=', 'index.html?' if Rails.env.development? || Rails.env.test?
+      # DO NOT NEED TO DO THIS WITH HOSTS FILE TO GO LOCAL.  :)
+
       Resque.enqueue_at(
         Time.now + (index * 15).seconds,
         LineProcessor,

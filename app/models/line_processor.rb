@@ -3,41 +3,39 @@ class LineProcessor
 
   def self.perform(hash)
     @slink = hash['args_hash']['slink']
+    @slink.sub!('https', 'http') if (Rails.env.development? || Rails.env.test?)
     @browser = hash['args_hash']['browser']
 
     agent = Mechanize.new
     agent.user_agent_alias = @browser
 
-    if (Rails.env.development? | Rails.env.test?)
-      run_identifier = Run.find_or_create_by(run_identifier: @slink[@slink.index('4567')+5 .. @slink.index('/results')-1])
-      Rails.logger.info "LP:Development The Link is: #{@slink} The Run is: #{run_identifier.run_identifier}"
-    else
-      run_identifier = @slink[@slink.index('parkrun') .. @slink.index('/results')-1]
-      run_identifier = run_identifier[run_identifier.index('/')+1..run_identifier.length]
-      run_identifier = Run.find_or_create_by(run_identifier: run_identifier)
-      Rails.logger.info "LP:Production The Link is: #{@slink} "
-    end
+    run_identifier_text = @slink[@slink.index('parkrun') .. @slink.index('/results')-1]
+    run_identifier_name = run_identifier_text[run_identifier_text.index('/')+1..run_identifier_text.length]
+    run_identifier = Run.find_or_create_by(run_identifier: run_identifier_name)
+    Rails.logger.info "LP:#{Rails.env} The Link is: #{@slink}"
 
     begin
       results = []
       slink_doc = agent.get(@slink)
-      slink_doc.xpath('//tr').each do |row|
+      slink_doc.xpath('//tr[not(th)]').each do |row|
         begin
-          if row.children.length > 8  && row.children[0].children.text != '' && (!row.children[1].children.text.include? 'parkrunner')
-            time_in_seconds = row.children[2].children.text.split(':')[-1].to_i + row.children[2].children.text.split(':')[-2].to_i*60  + row.children[2].children.text.split(':')[-3].to_i*3600
+            next if row.children[1].css('div.compact').text=='Unknown'
+
+            time_string = row.children[5].css('div.compact').text
+            time_in_seconds = time_string.split(':')[-1].to_i + time_string.split(':')[-2].to_i*60  + time_string.split(':')[-3].to_i*3600
             result = {
               pos:            row.children[0].children.text.to_i,
-              parkrunner:     row.children[1].children.text,
+              parkrunner:     row.children[1].css('div.compact a').text,
               time:           time_in_seconds,
-              age_cat:        row.children[3].children.text,
-              age_grade:      row.children[4].children.text,
-              gender:         row.children[5].children.text,
-              gender_pos:     row.children[6].children.text,
-              club:           row.children[7].children.text,
-              note:           row.children[8].children.text,
-              total:          row.children[9].children.text.to_i,
+              age_cat:        row.children[3].css('div.compact').text,
+              age_grade:      row.children[3].css('div.detailed').text.split('%')[0] || nil,
+              gender:         row.children[2].css('div.compact').text.delete("\n")&.strip || nil,
+              gender_pos:     row.children[2].css('div.detailed').text.split('/')[0]&.to_i || nil,
+              club:           row.children[4].css('div.compact')&.text || nil,
+              note:           row.children[5].css('div.detailed')&.text || nil,
+              total:          row.children[1].css('div.detailed')&.text&.split("\n")[0]&.strip&.to_i || nil,
               run_id:         run_identifier.id,
-              athlete_number: get_runner_number_from_text(row) || nil
+              athlete_number: row.children[1].css('div.compact a')[0]&.attributes['href']&.value&.partition('athleteNumber=')&.last&.to_i || nil
               }
             if ([49, 99, 149, 199, 249, 299, 349, 399, 449, 499, 549, 599, 649].include? result[:total]) && (run_identifier.run_identifier.include? 'astleigh' or result[:club].include? 'astleigh')
               create_milestone_from_result_hash(result)
@@ -46,15 +44,15 @@ class LineProcessor
             elsif ([10, 50, 100, 200, 250, 300, 350, 400, 450, 500, 550, 600, 650].include? result[:total])
               result_to_clear = Milestone.find_by athlete_number: result[:athlete_number] if Milestone.exists?(:athlete_number => result[:athlete_number])
                 result_to_clear.destroy if(result_to_clear)
-            end
-          end   # here ends each row operation
+            end 
+            Rails.logger.debug "LPRR success one row for #{run_identifier_name} and "
+          # end   # here ends each row operation
         rescue StandardError => e
-          Rails.logger.log "LP: An individual scraping error occurred, #{e}, Run Was:?"
+          Rails.logger.debug "LPRN: An individual scraping error occurred error is: #{e.backtrace}, Run Was: #{run_identifier_name}?"
         end # rescue block
         results.push(result) if result
       end # here ends the slink each
-      Rails.logger.debug "LP: Success one scrape"
-
+      Rails.logger.debug "LP: Success one scrape for #{run_identifier_name}"
       # Sort by age grade and allocate age grade positions
       results = results.sort_by{|res| res[:age_grade]}.reverse!
       results.each_with_index { |val, index| val[:age_grade_position] = index +1 }
@@ -79,21 +77,6 @@ class LineProcessor
     arry = arry.each_with_index { |val, index| val[:age_cat_position] = index + 1  }
     arry.each { |elem| elem[:number_in_age_category] = arry.length }
     arry
-  end
-
-  def self.get_runner_number_from_text(inputrow)
-    runnerstring = inputrow.children[1].children.text
-    if (runnerstring.include? 'Unknown')
-      return nil
-    else
-      athletestring = inputrow.children[1].children[0].attributes['href'].try(:value)
-      if(athletestring)
-        athlete_number = athletestring[athletestring.index('ber=')+4, athletestring.length].to_i
-        return athlete_number
-      else
-        return 'no_number'
-      end
-    end
   end
 
   def self.create_milestone_from_result_hash(result)
