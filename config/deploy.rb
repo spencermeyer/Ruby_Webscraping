@@ -5,7 +5,7 @@ lock "3.11.0"
 server '46.101.17.87', roles: [:web, :app, :db], primary: true
 
 #set :repo_url, "git@github.com:spencermeyer/Ruby_Webscraping.git"
-set :repo_url, "git@bitbucket.org:spendiver/rubyscrapeinsecure.git"
+set :repo_url, "git@github.com:spencermeyer/Ruby_Webscraping.git"
 
 set :application, "Rubyscrape"
 set :user, 'deploy'
@@ -64,9 +64,9 @@ namespace :deploy do
   task :check_revision do
     on roles(:app) do
       #unless `git rev-parse HEAD` == `git rev-parse origin/master`
-      unless `git rev-parse HEAD` == `git rev-parse bitbucket/master`
+      unless `git rev-parse HEAD` == `git rev-parse origin/master`
         #puts "WARNING: HEAD is not the same as origin/master"
-        puts "WARNING: HEAD is not the same as bitbucket/master"
+        puts "WARNING: HEAD is not the same as origin/master"
         puts "Run `git push` to sync changes."
         exit
       end
