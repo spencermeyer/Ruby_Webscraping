@@ -16,6 +16,8 @@ class SourceProcessor
 
     raise JobAlreadyQueuedOrRunningError if job_already_running_or_queued?
 
+    Result.delete_all
+
     online_url_for_scrape = 'http://www.parkrun.com/results/consolidatedclub/?clubNum=1537'
     local_url_for_scrape =  'http://127.0.0.1/results/consolidatedclub/index.html'
 

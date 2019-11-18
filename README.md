@@ -32,6 +32,7 @@ Things to do next.
 3 extend the stalker feature to get the stalkees wherever they run.
 4 double collection problem ?  I only run one worker on prod.  Have just moved this over to resque only.  See if it still happens.
 5 upgrade ruby and gems because of security warnings.
+6 make a cron job to trim the log files.
 
 Tech Stack
 ----------
