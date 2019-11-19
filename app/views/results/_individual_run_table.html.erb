@@ -1,0 +1,42 @@
+<table class="table table-bordered table-hover table tablesorter results-table">
+  <thead>
+    <tr>
+      <th class="table-header">Parkrun</th>
+      <th class="table-header">Pos</th>
+      <th class="table-header">Parkrunner</th>
+      <th class="table-header">Time</th>
+      <th class="table-header">Age cat</th>
+      <th class="table-header">Age cat Pos</th>
+      <th class="table-header">Age grade</th>
+      <th class="table-header">AgeGradePos</th>
+      <th class="table-header">Gender</th>
+      <th class="table-header">Gender pos</th>
+      <th class="table-header">Club</th>
+      <th class="table-header">Note</th>
+      <th class="table-header">Total</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @results.where(run_id: run_id).each do |result| %>
+      <% if result.pos && result.age_grade_position && result.age_grade && result.age_cat_position && result.total && result.gender_pos %>
+
+        <tr>
+          <td><%= @runs.where(id: result.run_id).first.run_identifier  %></td>
+          <td class="<%= result.high_pos_finisher %>"><%= result.pos %></td>
+          <td><%= result.parkrunner %></td>
+          <td><%= convert_integer_time_to_hours_mins_seconds(result.time) %></td>
+          <td><%= result.age_cat %></td>
+          <td class="<%= result.age_cat_class %>"><%= result.age_cat_position %> &nbsp; of &nbsp; <%= result.number_in_age_category %></td>        
+          <td class="<%= result.age_class %>"><%= result.age_grade %></td>
+          <td class="<%= result.high_age_pos_finisher %>"><%= result.age_grade_position %></td>
+          <td><%= result.gender %></td>
+          <td class="<%= result.gender_win_class + ' ' +  result.gender_pos_class %>"><%= result.gender_pos %></td>
+          <td><%= result.club %></td>
+          <td class= "<%= result.note_class %>"><%= result.note %></td>
+          <td class="<%= result.milestone_run_class %>"><%= result.total %></td>
+        </tr>
+      <% end %>
+    <% end %>
+  </tbody>
+</table>

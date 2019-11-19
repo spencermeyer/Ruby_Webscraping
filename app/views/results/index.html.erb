@@ -1,13 +1,4 @@
-<script>
-  console.log('awooga');
-  $(function(){
-    $('#results-table').tablesorter({
-      theme: 'blue'
-     });
-  })
-</script>
 <%= stylesheet_link_tag "theme.blue", media: "all" %>
-
 
 <p id="notice"><%= notice %></p>
 <% if user_signed_in? %>
@@ -48,20 +39,13 @@
   <button><%= link_to "Stalker Feature", controller: 'stalkees', action: 'index', :class=>'btn' %></button>
 <% end %>
 
-<h2>This week there were results from:<h2>
-  <table class="table table-bordered table-hover">
-    <thead>
-      <th class="table-header">Parkrun</th>
-      <th class="table-header">Total Runners for Parkrun</th>
-      <th class="table-header">Total Male Runners for Parkrun</th>      
-      <th class="table-header">Total Female Runners for Parkrun</th>
-      <th class="table-header">Eastleigh Runners</th>
-      <th class="table-header">Eastleigh Men</th>
-      <th class="table-header">Eastleigh Women</th>
-    </thead>
-    <tbody>
+<h2>This week's results:<h2>
+
 <% @runs.each do |run| %>
+  <table class="table table-bordered table-hover">
+  <tbody>
   <% if(Result.where(run_id: run.id).eastleigh.count > 0)   %>
+      <%= render partial: "run_table_header" %>
       <tr>
         <td colspan = "1" class="results"><%= run.run_identifier %></td>
         <td colspan = "1" class="results"><%= Result.where(run_id: run.id).count  %></td>
@@ -71,62 +55,38 @@
         <td colspan = "1" class="results"><%= Result.where(run_id: run.id, gender: 'Male').eastleigh.count %></td>
         <td colspan = "1" class="results"><%= Result.where(run_id: run.id, gender: 'Female').eastleigh.count %></td>
       </tr>
+      <%= render partial: "individual_run_table", locals: {run_id: run.id} %>
   <% end %>
   <% if (run.metadata['comment'])%>
     <tr class='metadata-comment-missing_data'>
       <td colspan = '1'><%= run.run_identifier %></td>
       <td colspan = '5'><%= run.metadata['comment']%><td>
     </tr>
-  <% end %>
-<% end %>
-      <tr>
-        <td>TOTALS</td><td><%= Result.count %></td><td><%= Result.eastleigh.count %></td><td><%= Result.where(gender: 'M').eastleigh.count %></td><td><%= Result.where(gender: 'F').eastleigh.count %></td>
-      </tr>
     </tbody>
   </table>
-
-<!-- the above table seems to have made the below table go bold ? -->
-
-<table id='results-table' class="table table-bordered table-hover table tablesorter">
-  <thead>
-    <tr>
-      <th class="table-header">Parkrun</th>
-      <th class="table-header">Pos</th>
-      <th class="table-header">Parkrunner</th>
-      <th class="table-header">Time</th>
-      <th class="table-header">Age cat</th>
-      <th class="table-header">Age cat Pos</th>
-      <th class="table-header">Age grade</th>
-      <th class="table-header">AgeGradePos</th>
-      <th class="table-header">Gender</th>
-      <th class="table-header">Gender pos</th>
-      <th class="table-header">Club</th>
-      <th class="table-header">Note</th>
-      <th class="table-header">Total</th>
-    </tr>
-  </thead>
-
+  <% end %>
+<% end %>
+<table class='table table-bordered'>      
   <tbody>
-    <% @results.each do |result| %>
-      <% if result.pos && result.age_grade_position && result.age_grade && result.age_cat_position && result.total && result.gender_pos %>
-
-        <tr>
-          <td><%= @runs.where(id: result.run_id).first.run_identifier  %></td>
-          <td class="<%= result.high_pos_finisher %>"><%= result.pos %></td>
-          <td><%= result.parkrunner %></td>
-          <td><%= convert_integer_time_to_hours_mins_seconds(result.time) %></td>
-          <td><%= result.age_cat %></td>
-          <td class="<%= result.age_cat_class %>"><%= result.age_cat_position %> &nbsp; of &nbsp; <%= result.number_in_age_category %></td>        
-          <td class="<%= result.age_class %>"><%= result.age_grade %></td>
-          <td class="<%= result.high_age_pos_finisher %>"><%= result.age_grade_position %></td>
-          <td><%= result.gender %></td>
-          <td class="<%= result.gender_win_class + ' ' +  result.gender_pos_class %>"><%= result.gender_pos %></td>
-          <td><%= result.club %></td>
-          <td class= "<%= result.note_class %>"><%= result.note %></td>
-          <td class="<%= result.milestone_run_class %>"><%= result.total %></td>
-        </tr>
-      <% end %>
-    <% end %>
+      <th class="table-header">TOTAL ALL RUNS ALL CLUBS</th>
+      <th class="table-header">TOTAL EASTLEIGH</th>
+      <th class="table-header">TOTAL EASTLEIGH MALE</th>
+      <th class="table-header">TOTAL EASTLEIGH FEMALE</th>
+      <tr>
+        <td><%= Result.count %></td>
+        <td><%= Result.eastleigh.count %></td>
+        <td><%= Result.where(gender: 'M').eastleigh.count %></td>
+        <td><%= Result.where(gender: 'F').eastleigh.count %></td>
+      </tr>
   </tbody>
 </table>
-<br>
+
+
+<script>
+  $(function(){
+    $('.results-table').each(
+      function(){ $(this).tablesorter({theme: 'blue'});
+       }
+      )
+  })
+</script>
