@@ -42,7 +42,7 @@
 <h2>This week's results:<h2>
 
 <% @runs.each do |run| %>
-  <table class="table table-bordered table-hover">
+  <table class="table table-bordered table-hover run-table">
   <tbody>
   <% if(Result.where(run_id: run.id).eastleigh.count > 0)   %>
       <%= render partial: "run_table_header" %>
