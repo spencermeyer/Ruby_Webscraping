@@ -60,9 +60,10 @@ class Result < ApplicationRecord
   def note_class
     note = self.note.chomp
     closepb = false
-    if note.include?('PB stays at')
-      pb_in_seconds = self.note[-2..-1].to_i + ( 60 * self.note[-5..-4].to_i ) + ( 3600 * self.note[-8..-7].to_i) 
-      closepb = self.time - pb_in_seconds < 10
+    if note.include?('PB') && !note.include?('New PB')
+      pb_time_array = note.gsub('PB', '').split(':').inject([]) { |memo, part| memo << part.to_i }
+      pb_in_seconds = pb_time_array[2] + ( 60 * pb_time_array[1]) + ( 3600 * pb_time_array[0])
+      closepb = time - pb_in_seconds < 5
     end
 
     note.include?('First Timer!') ? 'note' : \
