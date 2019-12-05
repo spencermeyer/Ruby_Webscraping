@@ -7,7 +7,7 @@ gem 'nokogiri', '~>1.10.4' # mechanize was resolved to 2.7.5, which depends on n
 gem 'rails', '~> 5.1.0'
 gem 'pg' #  Heroku really wants pg not mysql :(
 # Use Puma as the app server
-gem 'puma', '~> 3.0'
+gem 'puma', '~> 3.12'
 # Use SCSS for stylesheets
 gem 'sass-rails', '~> 5.0'
 # Use Uglifier as compressor for JavaScript assets
