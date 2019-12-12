@@ -18,7 +18,7 @@ gem 'coffee-rails', '~> 4.2'
 # gem 'therubyracer', platforms: :ruby
 # gem 'libv8', '~> 4.5', '>= 4.5.95.5'  # this the latest.
 # gem 'therubyracer', '~> 0.12.3'
-gem 'devise', '~> 4.4.3'
+gem 'devise', '~> 4.7.1'
 gem 'useragent'
 gem 'newrelic_rpm'
 gem 'resque'
