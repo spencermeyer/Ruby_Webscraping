@@ -24,17 +24,17 @@
         <tr>
           <td><%= @runs.where(id: result.run_id).first.run_identifier  %></td>
           <td class="<%= result&.high_pos_finisher %>"><%= result.pos %></td>
-          <td><%= result.parkrunner %></td>
-          <td><%= convert_integer_time_to_hours_mins_seconds(result.time) %></td>
-          <td><%= result.age_cat %></td>
-          <td class="<%= result&.age_cat_class %>"><%= result.age_cat_position %> &nbsp; of &nbsp; <%= result.number_in_age_category %></td>        
-          <td class="<%= result&.age_class %>"><%= result.age_grade %></td>
-          <td class="<%= result&.high_age_pos_finisher %>"><%= result.age_grade_position %></td>
-          <td><%= result.gender %></td>
-          <td class="<%= result&.gender_win_class + ' ' +  result&.gender_pos_class %>"><%= result.gender_pos %></td>
-          <td><%= result.club %></td>
-          <td class= "<%= result&.note_class %>"><%= result.note %></td>
-          <td class="<%= result&.milestone_run_class %>"><%= result.total %></td>
+          <td><%= result&.parkrunner %></td>
+          <td><%= convert_integer_time_to_hours_mins_seconds(result&.time) %></td>
+          <td><%= result&.age_cat %></td>
+          <td class="<%= result&.age_cat_class %>"><%= result&.age_cat_position %> &nbsp; of &nbsp; <%= result&.number_in_age_category %></td>        
+          <td class="<%= result&.age_class %>"><%= result&.age_grade %></td>
+          <td class="<%= result&.high_age_pos_finisher %>"><%= result&.age_grade_position %></td>
+          <td><%= result&.gender %></td>
+          <td class="<%= result&.gender_win_class || '' + ' ' +  result&.gender_pos_class || '' %>"><%= result&.gender_pos %></td>
+          <td><%= result&.club %></td>
+          <td class= "<%= result&.note_class %>"><%= result&.note %></td>
+          <td class="<%= result&.milestone_run_class %>"><%= result&.total %></td>
         </tr>
       <% end %>
     <% end %>
