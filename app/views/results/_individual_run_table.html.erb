@@ -19,8 +19,7 @@
 
   <tbody>
     <% @results.where(run_id: run_id).each do |result| %>
-      <% if result.pos && result.age_grade_position && result.age_grade && result.age_cat_position && result.total && result.gender_pos %>
-
+      <% if result && result.pos && result.age_grade_position && result.age_grade && result.age_cat_position && result.total && result.gender_pos %>
         <tr>
           <td><%= @runs.where(id: result.run_id).first.run_identifier  %></td>
           <td class="<%= result&.high_pos_finisher %>"><%= result.pos %></td>
