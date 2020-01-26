@@ -58,21 +58,21 @@ class Result < ApplicationRecord
   end
 
   def note_class
-    note = self.note.chomp
-    closepb = false
-    if note.include?('PB') && !note.include?('New PB')
-      pb_time_array = note.gsub('PB', '').split(':').inject([]) { |memo, part| memo << part.to_i }
-      pb_in_seconds = pb_time_array[2] + ( 60 * pb_time_array[1]) + ( 3600 * pb_time_array[0])
-      closepb = time - pb_in_seconds < 5
-    end
+    # note = self.note.chomp
+    # closepb = false
+    # if note.include?('PB') && !note.include?('New PB')
+    #   pb_time_array = note.gsub('PB', '').split(':').inject([]) { |memo, part| memo << part.to_i }
+    #   pb_in_seconds = pb_time_array[2] + ( 60 * pb_time_array[1]) + ( 3600 * pb_time_array[0])
+    #   closepb = time - pb_in_seconds < 5
+    # end
 
-    note.include?('First Timer!') ? 'note' : \
-    note.include?('New PB!') ? 'newpb' : \
-    closepb ? 'close-pb' : 'note'
+    # note.include?('First Timer!') ? 'note' : \
+    # note.include?('New PB!') ? 'newpb' : \
+    # closepb ? 'close-pb' : 'note'
+    ''
   end
 
   def populated_result?
     !pos.nil? && !age_grade_position.nil? && !age_grade.empty? && !age_cat_position.nil? && !total.nil? && !gender_pos.empty?
   end
 end
-
