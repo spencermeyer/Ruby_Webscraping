@@ -3,7 +3,7 @@ ruby '2.4.0'
 
 gem 'mechanize'
 gem 'pkg-config'   # might help nokogiri install.
-gem 'nokogiri', '~>1.10.4' # mechanize was resolved to 2.7.5, which depends on nokogiri (= 1.8.1)
+gem 'nokogiri', '~>1.10.8' # mechanize was resolved to 2.7.5, which depends on nokogiri (= 1.8.1)
 gem 'rails', '~> 5.1.0'
 gem 'pg' #  Heroku really wants pg not mysql :(
 # Use Puma as the app server
