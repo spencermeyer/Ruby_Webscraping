@@ -11,7 +11,7 @@ I started using Postgressql because MySQL was not accepted by Heroku, however du
 
 I initially tried Heroku to host this.  However the app times out because it has a lot to do before the view can be displayed - particularly a lot of http which are costly and unavoidable.  I was not able to alter the http timeout on Heroku so I went to hosting this on a Digital Ocean Droplet, which obviously alllows me to alter the timeout - and lets me learn about Capistrano, nginx, and all the ohther stuff that things like Heroku just does for you.
 
-For local testing, I am using a python server that serves a set of websites copied from parkrun so that I do not keep requesting them from parkrun, I simply alter my HOSTS file to redirect traffic to my local server for testing.  For test mode I'm using the 'vcr' gem to replay requests to parkrun.
+For local testing, I am using a python server that serves a set of websites copied from parkrun so that I do not keep requesting them from parkrun, I simply alter my HOSTS file (/etc/host) to redirect traffic to my local server for testing.  For test mode I'm using the 'vcr' gem to replay requests to parkrun.
 
 When put into production, I found I was getting a connection refused when making too many requests too quickly,  I therefore broke the requests up into individual jobs which fire at 10 second intervals using Resque delayed job.  This has made is more reliable and of course it still collects data if one job fails.  I've got Resque-Schedule set up to do some database administration jobs for me in the background.
 
