@@ -30,7 +30,8 @@ class SourceProcessor
     # START TO GET THE INDEX PAGE
     Rails.logger.debug "SP: Scraping in mode #{Rails.env}, Source is #{scrape_index_source} Time is #{Time.now}"
     agent = Mechanize.new
-    agent.user_agent_alias = Browserchoice::Browserchoices.random_alias
+    agent.user_agent_alias = Mechanize::AGENT_ALIASES.to_a.sample
+
     begin
       doc = agent.get(scrape_index_source)
       Resque.enqueue(Alerter::MailGunAlerter, "SP: Success getting Source for Parkcollector")
@@ -58,7 +59,7 @@ class SourceProcessor
         LineProcessor,
         args_hash: {
           slink: slink,
-          browser: Browserchoice::Browserchoices.random_alias}
+          browser: Mechanize::AGENT_ALIASES.to_a.sample }
         )
       Resque.enqueue_at(
         Time.now + (index * 10).seconds,

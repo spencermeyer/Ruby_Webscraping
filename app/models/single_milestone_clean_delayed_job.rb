@@ -14,7 +14,7 @@ class SingleMileStoneCleanDelayedJob
 
   def self.get_total_runs_from_online(ms_number)
     agent = Mechanize.new
-    agent.user_agent_alias = Browserchoice::Browserchoices.random_alias
+    agent.user_agent_alias = Mechanize::AGENT_ALIASES.to_a.sample
     begin
       doc = agent.get(athlete_online_link(ms_number))
       string  = doc.xpath('//h2[contains(text(),"parkruns")]').text
