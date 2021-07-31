@@ -30,7 +30,8 @@ class SourceProcessor
     # START TO GET THE INDEX PAGE
     Rails.logger.debug "SP: Scraping in mode #{Rails.env}, Source is #{scrape_index_source} Time is #{Time.now}"
     agent = Mechanize.new
-    agent.user_agent_alias = Mechanize::AGENT_ALIASES.to_a.sample
+    agent.user_agent_alias = Mechanize::AGENT_ALIASES.to_a.reject{|entry| entry[0]=='Mechanize' }.sample[0]
+
 
     begin
       doc = agent.get(scrape_index_source)
@@ -59,7 +60,7 @@ class SourceProcessor
         LineProcessor,
         args_hash: {
           slink: slink,
-          browser: Mechanize::AGENT_ALIASES.to_a.sample }
+          browser: Mechanize::AGENT_ALIASES.to_a.reject{|entry| entry[0]=='Mechanize' }.sample[0] }
         )
       Resque.enqueue_at(
         Time.now + (index * 10).seconds,
