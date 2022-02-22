@@ -95,7 +95,7 @@ namespace :deploy do
   task :start_workers do
     on roles(:app) do
       execute "cd #{current_path} && echo 'cap start resque' >> BLAH.md"
-      execute "cd #{current_path} && RAILS_ENV=production BACKGROUND=yes QUEUE=* bundle exec rake environment resque:work &"
+      execute "RAILS_ENV=production BACKGROUND=yes QUEUE=* bundle exec rake environment resque:work &"
       execute "cd #{current_path} && RAILS_ENV=production BACKGROUND=yes QUEUE=* bundle exec rake environment resque_delayed:work &"
       execute "cd #{current_path} && RAILS_ENV=production BACKGROUND=yes QUEUE=* bundle exec rake environment resque: scheduler &"
     end

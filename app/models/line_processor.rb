@@ -7,7 +7,7 @@ class LineProcessor
     @browser = hash['args_hash']['browser']
 
     agent = Mechanize.new
-    agent.user_agent_alias = @browser
+    agent.user_agent = @browser
 
     run_identifier_name = @slink.split('/results/weeklyresults')[0].split('/').last
     run_identifier = Run.find_or_create_by(run_identifier: run_identifier_name)
