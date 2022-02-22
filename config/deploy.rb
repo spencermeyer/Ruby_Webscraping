@@ -93,26 +93,19 @@ namespace :deploy do
 
   desc 'Start a worker'
   task :start_workers do
-    on roles :app do
-      within "#{current_path}" do
-        with rails_env: "#{fetch(:stage)}" do
-          execute "echo 'cap start resque' > BLAH.md"
-          execute "RAILS_ENV=production BACKGROUND=yes QUEUE=* bundle exec rake environment resque:work &"
-          execute "RAILS_ENV=production BACKGROUND=yes QUEUE=* bundle exec rake environment resque_delayed:work &"
-          execute "RAILS_ENV=production BACKGROUND=yes QUEUE=* bundle exec rake environment resque: scheduler &"
-        end
-      end
+    on roles(:app) do
+      execute "cd #{current_path} && echo 'cap start resque' >> BLAH.md"
+      execute "cd #{current_path} && RAILS_ENV=production BACKGROUND=yes QUEUE=* bundle exec rake environment resque:work &"
+      execute "cd #{current_path} && RAILS_ENV=production BACKGROUND=yes QUEUE=* bundle exec rake environment resque_delayed:work &"
+      execute "cd #{current_path} && RAILS_ENV=production BACKGROUND=yes QUEUE=* bundle exec rake environment resque: scheduler &"
     end
   end
 
   desc 'Stop Workers'
   task :stop_workers do
-    on_roles :app do
-      within "#{current_path}" do
-        with rails_env: "#{fetch(:stage)}" do
-          execute "ps -aux | grep resq | grep -v grep | awk '{print $2}' | xargs kill -9"
-        end
-      end
+    on roles(:app) do
+      execute "cd #{current_path} && echo 'cap stop resque' >> BLAH.md"
+      execute "ps -aux | grep resque | grep -v grep | awk '{print $2}' | xargs kill -9; exit 0"
     end
   end
 
