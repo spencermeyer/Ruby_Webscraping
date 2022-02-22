@@ -200,6 +200,8 @@ This actually worked:
 it requires a dns txt entry which I entered in at namesco config.
 Needs renewing every 90 days:   simply run the above command again - have to install a string in the acme challenge in namesco each time, but update is instant.
 
+Then:  `sudo service nginx restart`
+
 TCP Dump
 --------
 sudo tcpdump -i eth0 port 443     # here port 80 captures and port 443 does not.  : it's not nginx its the machine ?
@@ -234,3 +236,4 @@ How to set up DKIM
 https://philio.me/setting-up-dkim-with-sendmail-on-ubuntu-14-04/
 
 
+				

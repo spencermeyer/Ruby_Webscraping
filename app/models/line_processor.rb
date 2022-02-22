@@ -2,15 +2,14 @@ class LineProcessor
   @queue = :line_processor
 
   def self.perform(hash)
+    Resque.enqueue(Alerter::SlackAlerter, "Line Processor Starting for #{hash} ")
     @slink = hash['args_hash']['slink']
-    @slink.sub!('https', 'http') if (Rails.env.development? || Rails.env.test?)
     @browser = hash['args_hash']['browser']
 
     agent = Mechanize.new
     agent.user_agent_alias = @browser
 
-    run_identifier_text = @slink[@slink.index('parkrun') .. @slink.index('/results')-1]
-    run_identifier_name = run_identifier_text[run_identifier_text.index('/')+1..run_identifier_text.length]
+    run_identifier_name = @slink.split('/results/weeklyresults')[0].split('/').last
     run_identifier = Run.find_or_create_by(run_identifier: run_identifier_name)
     Rails.logger.info "LP:#{Rails.env} The Link is: #{@slink}"
 
@@ -24,18 +23,18 @@ class LineProcessor
             time_string = row.children[5].css('div.compact').text
             time_in_seconds = time_string.split(':')[-1].to_i + time_string.split(':')[-2].to_i*60  + time_string.split(':')[-3].to_i*3600
             result = {
-              pos:            row.children[0].children.text.to_i,
-              parkrunner:     row.children[1].css('div.compact a').text,
+              pos:            row.attributes['data-position'].value,
+              parkrunner:     row.attributes['data-name'].value,
               time:           time_in_seconds,
-              age_cat:        row.children[3].css('div.compact').text,
-              age_grade:      row.children[3].css('div.detailed').text.split('%')[0] || nil,
-              gender:         row.children[2].css('div.compact').text.delete("\n")&.strip || nil,
-              gender_pos:     row.children[2].css('div.detailed').text.split('/')[0]&.to_i || nil,
-              club:           row.children[4].css('div.compact')&.text || nil,
-              note:           row.children[5].css('div.detailed')&.text || nil,
-              total:          row.children[1].css('div.detailed')&.text&.split("\n")[0]&.strip&.to_i || nil,
+              age_cat:        row.attributes['data-agegroup'].value,
+              age_grade:      row.attributes['data-agegrade'].value   || nil,
+              gender:         row.attributes['data-gender'].value || nil,
+              gender_pos:     nil,
+              club:           row.attributes['data-club'].value || nil,
+              note:           row.attributes['data-achievement'].value || nil,
+              total:          row.attributes['data-runs'].value.to_i || nil,
               run_id:         run_identifier.id,
-              athlete_number: row.children[1].css('div.compact a')[0]&.attributes['href']&.value&.partition('athleteNumber=')&.last&.to_i || nil
+              athlete_number: row.css('.compact').css('a').first.attributes['href'].value.split('/').last.to_i || nil
               }
             if ([49, 99, 149, 199, 249, 299, 349, 399, 449, 499, 549, 599, 649].include? result[:total]) && (run_identifier.run_identifier.include? 'astleigh' or result[:club].include? 'astleigh')
               create_milestone_from_result_hash(result)

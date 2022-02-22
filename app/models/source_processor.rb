@@ -19,7 +19,7 @@ class SourceProcessor
     Result.delete_all
 
     online_url_for_scrape = 'http://www.parkrun.com/results/consolidatedclub/?clubNum=1537'
-    local_url_for_scrape =  'http://127.0.0.1/results/consolidatedclub/index.html'
+    local_url_for_scrape =  'http://www.parkrun.org.uk/Consolidated%20club.html'
 
     if (Rails.env.development? | Rails.env.test?)
       scrape_index_source = local_url_for_scrape
@@ -31,7 +31,6 @@ class SourceProcessor
     Rails.logger.debug "SP: Scraping in mode #{Rails.env}, Source is #{scrape_index_source} Time is #{Time.now}"
     agent = Mechanize.new
     agent.user_agent_alias = Mechanize::AGENT_ALIASES.to_a.reject{|entry| entry[0]=='Mechanize' }.sample[0]
-
 
     begin
       doc = agent.get(scrape_index_source)
@@ -47,13 +46,12 @@ class SourceProcessor
     mech_links_for_scraping.each do |link|
       @links_for_scraping.push(link.attributes['href'].value)
     end
-
+    
     # GET THE DATA FROM THE INDIVIDUAL LINKS
     @data = []
     @links_for_scraping.each_with_index do | slink, index |
-      # slink.sub! 'http://www.parkrun.org.uk', '127.0.0.1' if Rails.env.development? || Rails.env.test?
-      # slink.sub! 'runSeqNumber=', 'index.html?' if Rails.env.development? || Rails.env.test?
-      # DO NOT NEED TO DO THIS WITH HOSTS FILE TO GO LOCAL.  :)
+      slink.sub! 'https://www.parkrun.org.uk', 'http://www.parkrun.org.uk' if Rails.env.development? || Rails.env.test?
+      # USE HOSTS FILE TO SEND www.parkrun.org.uk to LOCAL.  :)
 
       Resque.enqueue_at(
         Time.now + (index * 15).seconds,
@@ -62,6 +60,9 @@ class SourceProcessor
           slink: slink,
           browser: Mechanize::AGENT_ALIASES.to_a.reject{|entry| entry[0]=='Mechanize' }.sample[0] }
         )
+
+      Resque.enqueue(Alerter::SlackAlerter, "Try to queue up  #{slink}")
+
       Resque.enqueue_at(
         Time.now + (index * 10).seconds,
         Alerter::Loggeronly,
