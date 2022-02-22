@@ -1,15 +1,12 @@
 # config valid only for current version of Capistrano
-# lock "3.7.2"
 lock "3.11.0"
 
 server '46.101.17.87', roles: [:web, :app, :db], primary: true
 
-#set :repo_url, "git@github.com:spencermeyer/Ruby_Webscraping.git"
 set :repo_url, "git@github.com:spencermeyer/Ruby_Webscraping.git"
 
 set :application, "Rubyscrape"
 set :user, 'deploy'
-#set :user, 'root'
 
 set :puma_threads,    [4, 16]
 set :puma_workers,    0
@@ -63,7 +60,6 @@ namespace :deploy do
   desc "Make sure local git is in sync with remote."
   task :check_revision do
     on roles(:app) do
-      #unless `git rev-parse HEAD` == `git rev-parse origin/master`
       unless `git rev-parse HEAD` == `git rev-parse origin/master`
         #puts "WARNING: HEAD is not the same as origin/master"
         puts "WARNING: HEAD is not the same as origin/master"
@@ -96,26 +92,38 @@ namespace :deploy do
   end
 
   desc 'Start a worker'
-  task :start_a_resque_worker do
+  task :start_workers do
     on roles :app do
-      #execute "cd #{deploy_to}/current/; echo 'resque cap ran 2' > BLAH.md"
-      # execute "cd #{deploy_to}/current/; RAILS_ENV=production BACKGROUND=yes QUEUE=* bundle exec rake environment resque:work"
+      within "#{current_path}" do
+        with rails_env: "#{fetch(:stage)}" do
+          execute "echo 'cap start resque' > BLAH.md"
+          execute "RAILS_ENV=production BACKGROUND=yes QUEUE=* bundle exec rake environment resque:work &"
+          execute "RAILS_ENV=production BACKGROUND=yes QUEUE=* bundle exec rake environment resque_delayed:work &"
+          execute "RAILS_ENV=production BACKGROUND=yes QUEUE=* bundle exec rake environment resque: scheduler &"
+        end
+      end
+    end
+  end
 
-      #  RAILS_ENV=production BACKGROUND=yes QUEUE=* bundle exec rake environment resque:work ##WORKS COMMAND LINE
-      #  execute "cd #{deploy_to}/current/ && RAILS_ENV=#{fetch(:stage)} BACKGROUND=yes QUEUE=* /home/deploy/.rvm/gems/ruby-2.4.0/bin/bundle exec rake resque:work"
+  desc 'Stop Workers'
+  task :stop_workers do
+    on_roles :app do
+      within "#{current_path}" do
+        with rails_env: "#{fetch(:stage)}" do
+          execute "ps -aux | grep resq | grep -v grep | awk '{print $2}' | xargs kill -9"
+        end
+      end
     end
   end
 
   before :starting,     :check_revision
+  before :starting,     :stop_workers
   after  :finishing,    :compile_assets
   after  :finishing,    :cleanup
   after  :finishing,    :restart
-  after  :finishing,    :start_a_resque_worker
+  after  :finishing,    :start_workers
 end
 
-  # ps aux | grep puma    # Get puma pid
-  # kill -s SIGUSR2 pid   # Restart puma
-  # kill -s SIGTERM pid   # Stop puma
 
 # Default branch is :master
 # ask :branch, `git rev-parse --abbrev-ref HEAD`.chomp

@@ -138,16 +138,12 @@ note the use of the trailing & which runs the command in the background and deta
 
 To Do
 -----
-
-
-* Now succeeded but cannot get capistrano to start up a resque worker.  Started manually - how long will it stay up?
+* Now succeeded but cannot get capistrano to start up a resque worker.  Started manually.
 
 * make emails
 
 * use nginx to kill dodgy visits:
 * https://www.cyberciti.biz/faq/unix-linux-appleosx-bsd-nginx-block-user-agent/
-
-
 
 
 Deploy

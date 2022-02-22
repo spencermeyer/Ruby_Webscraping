@@ -18,7 +18,7 @@ class SourceProcessor
 
     Result.delete_all
 
-    online_url_for_scrape = 'http://www.parkrun.com/results/consolidatedclub/?clubNum=1537'
+    online_url_for_scrape = 'https://www.parkrun.com/results/consolidatedclub/?clubNum=1537'
     local_url_for_scrape =  'http://www.parkrun.org.uk/Consolidated%20club.html'
 
     if (Rails.env.development? | Rails.env.test?)
